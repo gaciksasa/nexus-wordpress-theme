@@ -13,12 +13,18 @@ html.nexus-dark {
 	--nexus-bg-subtle:      #1e293b;
 	--nexus-bg-muted:       #162032;
 	--nexus-surface:        #1e293b;
+	--nexus-body-color:     #cbd5e1;    // overrides default dark body color
+	--nexus-body-bg:        #0f172a;
+	--nexus-color-light:    #1e293b;    // hover bg in dark mode
+	--nexus-color-white:    #1e293b;    // surfaces (cards, header, etc.)
 	--nexus-text-color:     #cbd5e1;
 	--nexus-text-secondary: #94a3b8;
 	--nexus-text-muted:     #64748b;
 	--nexus-heading-color:  #f1f5f9;
 	--nexus-border-color:   rgba(148 163 184 / 12%);
 	--nexus-border-hover:   rgba(148 163 184 / 25%);
+	--nexus-link-color:     #93c5fd;
+	--nexus-link-hover:     #60a5fa;
 
 	// ---- Header ----
 	--nexus-header-bg:      #0f172a;
