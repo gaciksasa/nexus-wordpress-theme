@@ -236,8 +236,6 @@
 	// Dark Mode Toggle
 	// =========================================================================
 	function initDarkMode() {
-		if ( ! data.options || ! data.options.darkMode ) return;
-
 		const toggle = document.querySelector( '.nexus-header__dark-toggle' );
 		if ( ! toggle ) return;
 

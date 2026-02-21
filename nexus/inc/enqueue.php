@@ -43,15 +43,13 @@ function nexus_enqueue_assets() {
 	// RTL support.
 	wp_style_add_data( 'nexus-main', 'rtl', 'replace' );
 
-	// Dark mode stylesheet (deferred via JS swap).
-	if ( nexus_option( 'nexus_dark_mode_enabled', false ) ) {
-		wp_enqueue_style(
-			'nexus-dark-mode',
-			NEXUS_ASSETS_URI . '/css/nexus-dark-mode' . $suffix . '.css',
-			array( 'nexus-main' ),
-			$version
-		);
-	}
+	// Dark mode stylesheet — always loaded since toggle is always in header.
+	wp_enqueue_style(
+		'nexus-dark-mode',
+		NEXUS_ASSETS_URI . '/css/nexus-dark-mode' . $suffix . '.css',
+		array( 'nexus-main' ),
+		$version
+	);
 
 	// WooCommerce styles (only when WC is active).
 	if ( class_exists( 'WooCommerce' ) ) {
@@ -93,19 +91,17 @@ function nexus_enqueue_assets() {
 		)
 	);
 
-	// Dark mode toggle.
-	if ( nexus_option( 'nexus_dark_mode_enabled', false ) ) {
-		wp_enqueue_script(
-			'nexus-dark-mode',
-			NEXUS_ASSETS_URI . '/js/nexus-dark-mode' . $suffix . '.js',
-			array(),
-			$version,
-			array(
-				'in_footer' => false, // Load in head to prevent FOUC.
-				'strategy'  => 'inline',
-			)
-		);
-	}
+	// Dark mode FOUC prevention — always loaded in head.
+	wp_enqueue_script(
+		'nexus-dark-mode',
+		NEXUS_ASSETS_URI . '/js/nexus-dark-mode' . $suffix . '.js',
+		array(),
+		$version,
+		array(
+			'in_footer' => false, // Load in head to prevent FOUC.
+			'strategy'  => 'inline',
+		)
+	);
 
 	// Swiper.js (conditional).
 	if ( nexus_page_has_slider() ) {
@@ -219,9 +215,6 @@ add_action( 'wp_enqueue_scripts', 'nexus_output_critical_css', 20 );
  * Must load before any CSS is applied.
  */
 function nexus_inline_dark_mode_script() {
-	if ( ! nexus_option( 'nexus_dark_mode_enabled', false ) ) {
-		return;
-	}
 	?>
 	<script>
 	(function() {

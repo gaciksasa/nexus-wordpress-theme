@@ -96,6 +96,7 @@
     height: 40px;
     border-radius: var(--nexus-border-radius);
     color: var(--nexus-body-color);
+    cursor: pointer;
     @include transition(background-color, color);
 
     &:hover {
@@ -103,9 +104,22 @@
       color: var(--nexus-color-primary);
     }
 
-    .nexus-icon {
+    .nexus-icon,
+    svg {
       width: 20px;
       height: 20px;
+      pointer-events: none;
+    }
+  }
+
+  // Dark mode toggle — show sun in light mode, moon in dark mode
+  &__dark-toggle {
+    .nexus-dark-toggle__icon--moon { display: none; }
+    .nexus-dark-toggle__icon--sun  { display: block; }
+
+    .nexus-dark & {
+      .nexus-dark-toggle__icon--sun  { display: none; }
+      .nexus-dark-toggle__icon--moon { display: block; }
     }
   }
 

@@ -11,9 +11,13 @@ yarn-error.log
 .vite/
 dist/
 
-# Composer
+# Composer (PHP vendor dir only)
 vendor/
 composer.lock
+
+# Keep bundled JS/CSS vendor libraries (Swiper, Isotope, etc.)
+!assets/js/vendor/
+!assets/css/vendor/
 
 # PHP CodeSniffer cache
 .phpcs-cache
