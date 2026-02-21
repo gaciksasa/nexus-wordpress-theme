@@ -1,0 +1,32 @@
+{
+  "name": "nexus-theme",
+  "version": "1.0.0",
+  "description": "Nexus - Premium WordPress Multi-Purpose Theme",
+  "private": true,
+  "scripts": {
+    "dev": "vite build --watch",
+    "build": "vite build",
+    "build:prod": "NODE_ENV=production vite build",
+    "lint:css": "stylelint 'nexus/assets/scss/**/*.scss' --fix",
+    "lint:js": "eslint 'nexus/assets/js/**/*.js' --fix",
+    "lint:php": "composer run phpcs",
+    "pot": "wp-pot --src 'nexus/**/*.php' --dest 'nexus/languages/nexus.pot' --domain 'nexus'",
+    "zip": "node scripts/zip.js"
+  },
+  "devDependencies": {
+    "@wordpress/eslint-plugin": "^20.0.0",
+    "autoprefixer": "^10.4.16",
+    "cssnano": "^6.0.1",
+    "eslint": "^8.55.0",
+    "postcss": "^8.4.32",
+    "sass": "^1.69.5",
+    "stylelint": "^16.0.2",
+    "stylelint-config-sass-guidelines": "^11.0.0",
+    "stylelint-scss": "^6.3.0",
+    "vite": "^5.0.6",
+    "wp-pot": "^1.4.6"
+  },
+  "dependencies": {
+    "swiper": "^11.0.5"
+  }
+}

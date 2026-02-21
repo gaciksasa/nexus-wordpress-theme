@@ -1,0 +1,129 @@
+// =============================================================================
+// Nexus Theme - SCSS Variables
+// =============================================================================
+
+// Colors
+// ---------
+$color-primary:   #1a1a2e;
+$color-secondary: #e94560;
+$color-dark:      #0f3460;
+$color-dark-alt:  #16213e;
+$color-light:     #f8f9fa;
+$color-white:     #ffffff;
+$color-black:     #000000;
+$color-muted:     #6c757d;
+$color-success:   #28a745;
+$color-danger:    #dc3545;
+$color-warning:   #ffc107;
+$color-info:      #17a2b8;
+
+// Body
+$body-color:      #1a1a2e;
+$body-bg:         #ffffff;
+$link-color:      $color-primary;
+$link-hover:      $color-secondary;
+
+// CSS Custom Properties (synced with Kirki Customizer)
+:root {
+  --nexus-color-primary:   #{$color-primary};
+  --nexus-color-secondary: #{$color-secondary};
+  --nexus-color-dark:      #{$color-dark};
+  --nexus-color-light:     #{$color-light};
+  --nexus-color-white:     #{$color-white};
+  --nexus-color-muted:     #{$color-muted};
+  --nexus-body-color:      #{$body-color};
+  --nexus-body-bg:         #{$body-bg};
+  --nexus-link-color:      #{$link-color};
+  --nexus-link-hover:      #{$link-hover};
+
+  // Typography
+  --nexus-font-body:       'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --nexus-font-heading:    'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --nexus-font-size-base:  1rem;
+  --nexus-line-height:     1.6;
+
+  // Spacing
+  --nexus-spacing-xs:      0.25rem;
+  --nexus-spacing-sm:      0.5rem;
+  --nexus-spacing-md:      1rem;
+  --nexus-spacing-lg:      1.5rem;
+  --nexus-spacing-xl:      2rem;
+  --nexus-spacing-2xl:     3rem;
+  --nexus-spacing-3xl:     4rem;
+  --nexus-spacing-4xl:     6rem;
+
+  // Border
+  --nexus-border-radius:       6px;
+  --nexus-border-radius-sm:    4px;
+  --nexus-border-radius-lg:    12px;
+  --nexus-border-radius-pill:  50rem;
+  --nexus-border-color:        #e9ecef;
+  --nexus-border-width:        1px;
+
+  // Shadows
+  --nexus-shadow-sm:     0 1px 3px rgba(0, 0, 0, 0.08);
+  --nexus-shadow-md:     0 4px 12px rgba(0, 0, 0, 0.1);
+  --nexus-shadow-lg:     0 8px 24px rgba(0, 0, 0, 0.12);
+  --nexus-shadow-xl:     0 20px 60px rgba(0, 0, 0, 0.15);
+
+  // Transitions
+  --nexus-transition:      all 0.3s ease;
+  --nexus-transition-fast: all 0.15s ease;
+
+  // Layout
+  --nexus-container-max:   1200px;
+  --nexus-container-padding: 1.5rem;
+  --nexus-header-height:   80px;
+
+  // Admin bar compensation
+  --nexus-admin-bar-height: 0px;
+}
+
+// Grid
+// ----
+$grid-columns:   12;
+$grid-gutter:    30px;
+
+// Breakpoints
+// -----------
+$breakpoints: (
+  'xs':   0,
+  'sm':   576px,
+  'md':   768px,
+  'lg':   992px,
+  'xl':   1200px,
+  'xxl':  1400px,
+);
+
+// Typography
+// ----------
+$font-family-body:    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+$font-family-heading: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+$font-size-base:      1rem;
+$line-height-base:    1.6;
+$font-weight-normal:  400;
+$font-weight-medium:  500;
+$font-weight-semi:    600;
+$font-weight-bold:    700;
+$font-weight-extra:   800;
+
+$font-sizes: (
+  'tiny':     0.75rem,
+  'small':    0.875rem,
+  'normal':   1rem,
+  'medium':   1.125rem,
+  'large':    1.25rem,
+  'x-large':  1.5rem,
+  'xx-large': 2rem,
+  'huge':     2.5rem,
+  'gigantic': 3.5rem,
+);
+
+// Z-index layers
+// --------------
+$z-dropdown:    100;
+$z-sticky:      200;
+$z-fixed:       300;
+$z-modal:       400;
+$z-overlay:     500;
+$z-preloader:   600;

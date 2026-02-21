@@ -1,0 +1,235 @@
+/*
+ * Nexus Theme - RTL (Right-to-Left) Stylesheet
+ *
+ * Loaded automatically by WordPress when RTL language is active.
+ * Overrides directional properties from style.css using logical
+ * CSS properties where possible — minimal overrides needed.
+ *
+ * @package Nexus
+ */
+
+/* ============================================================
+   Table of Contents:
+   1. Base
+   2. Header
+   3. Navigation
+   4. Content / Blog
+   5. WooCommerce
+   6. Elementor Widgets
+   7. Sidebar / Widgets
+   8. Footer
+   9. Components
+   ============================================================ */
+
+/* 1. Base
+============================================================ */
+body {
+	direction: rtl;
+	unicode-bidi: embed;
+}
+
+/* 2. Header
+============================================================ */
+.nexus-header__inner {
+	flex-direction: row-reverse;
+}
+
+.nexus-header__logo {
+	margin-inline-start: 0;
+	margin-inline-end: auto;
+}
+
+.nexus-header__actions {
+	flex-direction: row-reverse;
+}
+
+/* 3. Navigation
+============================================================ */
+.nexus-nav__menu {
+	flex-direction: row-reverse;
+}
+
+.nexus-menu-item--has-dropdown > .nexus-dropdown {
+	left: auto;
+	right: 0;
+}
+
+.nexus-menu-item .nexus-dropdown-arrow {
+	transform: rotate(180deg);
+}
+
+.nexus-menu-item--mega .nexus-mega-menu {
+	left: auto;
+	right: 0;
+}
+
+/* Mobile nav */
+.nexus-mobile-nav {
+	left: auto;
+	right: 0;
+	transform: translateX(100%);
+}
+
+.nexus-mobile-nav.is-open {
+	transform: translateX(0);
+}
+
+/* 4. Content / Blog
+============================================================ */
+.nexus-post-card__meta {
+	flex-direction: row-reverse;
+}
+
+.nexus-post-card__more {
+	flex-direction: row-reverse;
+}
+
+.nexus-author-bio {
+	direction: rtl;
+}
+
+/* Blockquote border */
+.entry-content blockquote {
+	border-inline-start: none;
+	border-inline-end: 4px solid var(--nexus-primary);
+	border-radius: var(--nexus-border-radius) 0 0 var(--nexus-border-radius);
+	padding-inline-start: 1.5rem;
+	padding-inline-end: 2rem;
+}
+
+/* 5. WooCommerce
+============================================================ */
+.nexus-offcanvas-cart {
+	right: auto;
+	left: 0;
+	transform: translateX(-100%);
+}
+
+.nexus-offcanvas-cart.is-open {
+	transform: translateX(0);
+}
+
+.nexus-mini-cart__remove {
+	float: left;
+}
+
+.nexus-mini-cart__product-img {
+	float: right;
+	margin-inline-start: 0.75rem;
+	margin-inline-end: 0;
+}
+
+.product .onsale {
+	left: auto;
+	right: 0.75rem;
+}
+
+.woocommerce-checkout .form-row label {
+	text-align: right;
+}
+
+/* 6. Elementor Widgets
+============================================================ */
+.nexus-icon-box.layout-inline {
+	flex-direction: row-reverse;
+}
+
+.nexus-service-card.nexus-services--icon-left {
+	flex-direction: row-reverse;
+}
+
+.nexus-services--border .nexus-service-card {
+	border-inline-start: none;
+	border-inline-end: 3px solid var(--nexus-primary);
+	border-radius: var(--nexus-border-radius-lg) 0 0 var(--nexus-border-radius-lg);
+}
+
+.nexus-team-member__social {
+	flex-direction: row-reverse;
+}
+
+.nexus-portfolio-filter {
+	flex-direction: row-reverse;
+}
+
+.nexus-testimonial-card__author {
+	flex-direction: row-reverse;
+}
+
+.nexus-cta-banner--left-right .nexus-cta-banner__inner {
+	flex-direction: row-reverse;
+}
+
+/* 7. Sidebar / Widgets
+============================================================ */
+.nexus-sidebar {
+	direction: rtl;
+}
+
+.widget ul li a::before {
+	transform: scaleX(-1);
+}
+
+/* 8. Footer
+============================================================ */
+.nexus-footer__widgets {
+	direction: rtl;
+}
+
+.nexus-footer__bottom-inner {
+	flex-direction: row-reverse;
+}
+
+.nexus-footer__social {
+	flex-direction: row-reverse;
+}
+
+.nexus-footer__newsletter .newsletter-form {
+	flex-direction: row-reverse;
+}
+
+/* 9. Components
+============================================================ */
+/* Back to top */
+.nexus-back-to-top {
+	right: auto;
+	left: 1.5rem;
+}
+
+/* Breadcrumb */
+.nexus-breadcrumb {
+	direction: rtl;
+}
+
+/* Service card border accent */
+.nexus-service-card--border-left {
+	border-inline-start: none;
+	border-inline-end: 3px solid var(--nexus-primary);
+}
+
+/* Pricing table badge */
+.nexus-pricing-table__badge {
+	right: auto;
+	left: 1rem;
+}
+
+/* Post meta separator */
+.nexus-post-meta {
+	flex-direction: row-reverse;
+}
+
+/* WC shop controls */
+.nexus-shop-controls__meta {
+	margin-inline-start: 0;
+	margin-inline-end: auto;
+}
+
+/* Search popup */
+.nexus-search-popup__form {
+	flex-direction: row-reverse;
+}
+
+/* Top bar */
+.nexus-top-bar__inner {
+	flex-direction: row-reverse;
+}

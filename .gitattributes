@@ -1,0 +1,17 @@
+# Normalize line endings to LF on commit (cross-platform safety)
+* text=auto eol=lf
+
+# Binary files — no conversions
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.webp binary
+*.woff binary
+*.woff2 binary
+*.eot binary
+*.ttf binary
+*.otf binary
+*.zip binary
+*.pot linguist-language=Text

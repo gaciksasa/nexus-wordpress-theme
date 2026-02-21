@@ -1,0 +1,189 @@
+// =============================================================================
+// Nexus Theme - SCSS Mixins
+// =============================================================================
+
+@use 'variables' as *;
+@use 'sass:map';
+@use 'sass:list';
+@use 'sass:math';
+
+// Breakpoints
+// -----------
+@mixin respond-above($breakpoint) {
+  $bp: map.get($breakpoints, $breakpoint);
+  @if $bp {
+    @media (min-width: #{$bp}) { @content; }
+  } @else {
+    @media (min-width: #{$breakpoint}) { @content; }
+  }
+}
+
+@mixin respond-below($breakpoint) {
+  $bp: map.get($breakpoints, $breakpoint);
+  @if $bp {
+    @media (max-width: #{$bp - 0.02px}) { @content; }
+  } @else {
+    @media (max-width: #{$breakpoint}) { @content; }
+  }
+}
+
+@mixin respond-between($lower, $upper) {
+  $bp-lower: map.get($breakpoints, $lower);
+  $bp-upper: map.get($breakpoints, $upper);
+  @media (min-width: #{$bp-lower}) and (max-width: #{$bp-upper - 0.02px}) { @content; }
+}
+
+// Layout
+// ------
+@mixin container {
+  width: 100%;
+  max-width: var(--nexus-container-max);
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: var(--nexus-container-padding);
+  padding-left: var(--nexus-container-padding);
+}
+
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin absolute-fill {
+  position: absolute;
+  inset: 0;
+}
+
+// Typography
+// ----------
+@mixin truncate($lines: 1) {
+  @if $lines == 1 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  } @else {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: $lines;
+  }
+}
+
+@mixin fluid-type($min-size, $max-size, $min-vw: 320px, $max-vw: 1200px) {
+  font-size: clamp(
+    #{$min-size},
+    calc(#{$min-size} + (#{strip-unit($max-size - $min-size)}) * ((100vw - #{$min-vw}) / #{strip-unit($max-vw - $min-vw)})),
+    #{$max-size}
+  );
+}
+
+@function strip-unit($number) {
+  @return math.div($number, $number * 0 + 1);
+}
+
+// Visual
+// ------
+@mixin overlay($color: rgba(0, 0, 0, 0.5)) {
+  &::before {
+    content: '';
+    @include absolute-fill;
+    background: $color;
+    z-index: 1;
+  }
+}
+
+@mixin glass-morphism($blur: 10px, $bg: rgba(255, 255, 255, 0.1)) {
+  background: $bg;
+  backdrop-filter: blur(#{$blur});
+  -webkit-backdrop-filter: blur(#{$blur});
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+@mixin aspect-ratio($width, $height) {
+  aspect-ratio: #{$width} / #{$height};
+}
+
+// Transitions
+// -----------
+@mixin transition($props...) {
+  $transitions: ();
+  @each $prop in $props {
+    $transitions: list.append($transitions, $prop 0.3s ease, comma);
+  }
+  transition: $transitions;
+}
+
+// Accessibility
+// -------------
+@mixin visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+@mixin focus-ring($color: var(--nexus-color-primary), $offset: 2px) {
+  &:focus-visible {
+    outline: 2px solid $color;
+    outline-offset: $offset;
+  }
+  &:focus:not(:focus-visible) {
+    outline: none;
+  }
+}
+
+// Button
+// ------
+@mixin button-reset {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  text-decoration: none;
+  appearance: none;
+}
+
+@mixin button($bg: var(--nexus-color-primary), $color: #fff, $hover-bg: var(--nexus-color-secondary)) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75em 1.75em;
+  font-family: var(--nexus-font-body);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.5;
+  color: $color;
+  background-color: $bg;
+  border: 2px solid transparent;
+  border-radius: var(--nexus-border-radius);
+  cursor: pointer;
+  text-decoration: none;
+  @include transition(background-color, border-color, color, box-shadow);
+
+  &:hover,
+  &:focus-visible {
+    background-color: $hover-bg;
+    color: #fff;
+    text-decoration: none;
+  }
+
+  @include focus-ring;
+}

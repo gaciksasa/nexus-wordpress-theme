@@ -1,0 +1,187 @@
+// =============================================================================
+// Dark Mode
+// =============================================================================
+// Applied via .nexus-dark class on <html>. Overrides CSS custom properties
+// defined in _variables.scss so no component-level changes are needed.
+// =============================================================================
+
+html.nexus-dark {
+	color-scheme: dark;
+
+	// ---- Core colors ----
+	--nexus-bg:             #0f172a;
+	--nexus-bg-subtle:      #1e293b;
+	--nexus-bg-muted:       #162032;
+	--nexus-surface:        #1e293b;
+	--nexus-text-color:     #cbd5e1;
+	--nexus-text-secondary: #94a3b8;
+	--nexus-text-muted:     #64748b;
+	--nexus-heading-color:  #f1f5f9;
+	--nexus-border-color:   rgba(148 163 184 / 12%);
+	--nexus-border-hover:   rgba(148 163 184 / 25%);
+
+	// ---- Header ----
+	--nexus-header-bg:      #0f172a;
+	--nexus-header-border:  rgba(148 163 184 / 10%);
+	--nexus-header-shadow:  0 1px 20px rgba(0 0 0 / 0.4);
+
+	// ---- Footer ----
+	--nexus-footer-bg:      #020617;
+	--nexus-footer-text:    rgba(148 163 184 / 0.8);
+
+	// ---- Shadows ----
+	--nexus-shadow-sm:      0 1px 3px rgba(0 0 0 / 0.4);
+	--nexus-shadow-md:      0 4px 12px rgba(0 0 0 / 0.5);
+	--nexus-shadow-lg:      0 8px 24px rgba(0 0 0 / 0.6);
+	--nexus-shadow-xl:      0 20px 48px rgba(0 0 0 / 0.7);
+
+	// ---- Component overrides ----
+	.nexus-post-card,
+	.nexus-testimonial-card,
+	.nexus-service-card,
+	.nexus-pricing-table,
+	.nexus-team-member__info,
+	.nexus-product-card {
+		background-color: var(--nexus-surface);
+		border-color: var(--nexus-border-color);
+	}
+
+	.nexus-author-bio {
+		background-color: var(--nexus-bg-subtle);
+	}
+
+	// ---- Inputs ----
+	input,
+	textarea,
+	select {
+		background-color: var(--nexus-bg-subtle);
+		border-color: var(--nexus-border-color);
+		color: var(--nexus-text-color);
+
+		&::placeholder {
+			color: var(--nexus-text-muted);
+		}
+	}
+
+	// ---- Code blocks ----
+	code {
+		background-color: #1e293b;
+		border-color: var(--nexus-border-color);
+	}
+
+	// ---- Scrollbar (Webkit) ----
+	::-webkit-scrollbar {
+		width: 8px;
+	}
+
+	::-webkit-scrollbar-track {
+		background: var(--nexus-bg-subtle);
+	}
+
+	::-webkit-scrollbar-thumb {
+		background: #334155;
+		border-radius: 4px;
+
+		&:hover {
+			background: #475569;
+		}
+	}
+
+	// ---- Off-canvas cart ----
+	.nexus-offcanvas-cart {
+		background-color: var(--nexus-surface);
+		border-inline-start: 1px solid var(--nexus-border-color);
+	}
+
+	// ---- WooCommerce ----
+	.shop_table {
+		th { background-color: var(--nexus-bg-subtle); }
+
+		tr:nth-child(even) td {
+			background-color: rgba(255 255 255 / 0.02);
+		}
+	}
+
+	.woocommerce-message,
+	.woocommerce-info {
+		background-color: rgba(var(--nexus-primary-rgb), 0.1);
+	}
+
+	.woocommerce-error {
+		background-color: rgba(239 68 68 / 0.1);
+	}
+
+	// ---- Mega menu ----
+	.nexus-dropdown,
+	.nexus-mega-menu {
+		background-color: var(--nexus-surface);
+		border-color: var(--nexus-border-color);
+		box-shadow: var(--nexus-shadow-xl);
+	}
+
+	// ---- Portfolio overlay ----
+	.nexus-portfolio-item__info {
+		background-color: var(--nexus-surface);
+	}
+
+	// ---- Back to top ----
+	.nexus-back-to-top {
+		background-color: var(--nexus-primary);
+	}
+
+	// ---- Preloader ----
+	.nexus-preloader {
+		background-color: var(--nexus-bg);
+	}
+
+	// ---- Search popup ----
+	.nexus-search-popup {
+		background-color: rgba(15 23 42 / 0.97);
+	}
+
+	// ---- Comment form ----
+	.comment-form input,
+	.comment-form textarea {
+		background-color: var(--nexus-bg-subtle);
+		border-color: var(--nexus-border-color);
+		color: var(--nexus-text-color);
+	}
+
+	// ---- Pagination ----
+	.nexus-pagination a,
+	.nexus-pagination span {
+		background-color: var(--nexus-bg-subtle);
+		border-color: var(--nexus-border-color);
+		color: var(--nexus-text-color);
+
+		&:hover,
+		&.current {
+			background-color: var(--nexus-primary);
+			border-color: var(--nexus-primary);
+			color: #fff;
+		}
+	}
+
+	// ---- Widgets sidebar ----
+	.widget {
+		background-color: var(--nexus-surface);
+		border-color: var(--nexus-border-color);
+	}
+
+	// ---- Elementor widget card backgrounds ----
+	.elementor-widget-container {
+		color: var(--nexus-text-color);
+	}
+
+	// ---- Dark mode toggle icon ----
+	.nexus-dark-mode-toggle {
+		.icon-moon { display: none; }
+		.icon-sun  { display: inline-flex; }
+	}
+}
+
+// ---- Default (light) toggle state ----
+.nexus-dark-mode-toggle {
+	.icon-sun { display: none; }
+	.icon-moon { display: inline-flex; }
+}

@@ -1,0 +1,21 @@
+# Build dependencies
+node_modules/
+vendor/
+
+# Build artifacts (regenerated via npm run build)
+# Uncomment the line below if you want to exclude compiled assets:
+# nexus/assets/css/*.min.css
+# nexus/assets/js/*.min.js
+
+# Local testing & IDE
+.claude/
+lighthouse-report*.json
+.DS_Store
+Thumbs.db
+*.log
+
+# Composer
+# composer.lock is included for reproducible builds
+
+# WordPress local install (not part of theme)
+wp-config.php

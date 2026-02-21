@@ -1,0 +1,147 @@
+// =============================================================================
+// Nexus Theme - Button Components
+// =============================================================================
+
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+.nexus-btn {
+  @include button;
+
+  // Primary
+  &--primary {
+    background-color: var(--nexus-color-primary);
+    color: #fff;
+    border-color: var(--nexus-color-primary);
+
+    &:hover, &:focus-visible {
+      background-color: var(--nexus-color-secondary);
+      border-color: var(--nexus-color-secondary);
+      color: #fff;
+    }
+  }
+
+  // Secondary
+  &--secondary {
+    background-color: var(--nexus-color-secondary);
+    color: #fff;
+    border-color: var(--nexus-color-secondary);
+
+    &:hover, &:focus-visible {
+      background-color: var(--nexus-color-primary);
+      border-color: var(--nexus-color-primary);
+      color: #fff;
+    }
+  }
+
+  // Outline
+  &--outline {
+    background: transparent;
+    color: var(--nexus-color-primary);
+    border-color: var(--nexus-color-primary);
+
+    &:hover, &:focus-visible {
+      background: var(--nexus-color-primary);
+      color: #fff;
+    }
+  }
+
+  // Outline white (on dark backgrounds)
+  &--outline-white {
+    background: transparent;
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.7);
+
+    &:hover, &:focus-visible {
+      background: #fff;
+      color: var(--nexus-color-primary);
+      border-color: #fff;
+    }
+  }
+
+  // Ghost
+  &--ghost {
+    background: transparent;
+    color: var(--nexus-body-color);
+    border-color: transparent;
+
+    &:hover, &:focus-visible {
+      background: var(--nexus-color-light);
+      color: var(--nexus-color-primary);
+    }
+  }
+
+  // Sizes
+  &--sm {
+    padding: 0.5em 1.25em;
+    font-size: 0.875rem;
+  }
+
+  &--lg {
+    padding: 1em 2.5em;
+    font-size: 1.125rem;
+  }
+
+  // Icon button
+  &--icon {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border-radius: 50%;
+
+    .nexus-icon {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  // Pill shape
+  &--pill {
+    border-radius: var(--nexus-border-radius-pill);
+  }
+
+  // Full width
+  &--block {
+    display: flex;
+    width: 100%;
+  }
+
+  // Loading state
+  &.is-loading {
+    pointer-events: none;
+    opacity: 0.75;
+
+    &::after {
+      content: '';
+      display: inline-block;
+      width: 1em;
+      height: 1em;
+      margin-left: 0.5em;
+      border: 2px solid currentColor;
+      border-right-color: transparent;
+      border-radius: 50%;
+      animation: nexus-spin 0.6s linear infinite;
+    }
+  }
+}
+
+@keyframes nexus-spin {
+  to { transform: rotate(360deg); }
+}
+
+// WordPress alignment for buttons
+.wp-block-button {
+  &.nexus-btn--primary .wp-block-button__link {
+    background-color: var(--nexus-color-primary);
+    border-color: var(--nexus-color-primary);
+    border-radius: var(--nexus-border-radius);
+    padding: 0.75em 1.75em;
+    font-weight: 600;
+    @include transition(background-color, border-color);
+
+    &:hover {
+      background-color: var(--nexus-color-secondary);
+      border-color: var(--nexus-color-secondary);
+    }
+  }
+}

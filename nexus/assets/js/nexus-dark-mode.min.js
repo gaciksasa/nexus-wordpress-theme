@@ -1,0 +1,1 @@
+(function(){try{var e=localStorage.getItem("nexusDarkMode");(e==="dark"||!e&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches)&&document.documentElement.classList.add("nexus-dark")}catch{}})();

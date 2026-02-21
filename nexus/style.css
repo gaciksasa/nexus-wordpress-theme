@@ -1,0 +1,45 @@
+/*
+Theme Name: Nexus
+Theme URI: https://nexustheme.com
+Author: ThemeAuthor
+Author URI: https://themeauthor.com
+Description: Nexus is a premium multi-purpose WordPress theme built for performance and flexibility. Supports Elementor, Gutenberg FSE, WooCommerce, dark mode, and ships with 15+ professionally designed demo sites for diverse industries.
+Version: 1.0.0
+Requires at least: 6.3
+Tested up to: 6.7
+Requires PHP: 8.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: nexus
+Tags: custom-background, custom-logo, custom-menu, featured-images, footer-widgets, full-width-template, right-sidebar, left-sidebar, block-styles, editor-style, full-site-editing, style-variations, template-editing, threaded-comments, translation-ready, wide-blocks, accessibility-ready, e-commerce, portfolio, blog
+
+This theme, like WordPress, is licensed under the GPL.
+Use it to make something cool, have fun, and share what you've learned with others.
+*/
+
+/*--------------------------------------------------------------
+>>> TABLE OF CONTENTS:
+----------------------------------------------------------------
+# Generic
+    - Normalize
+    - Box sizing
+# Base
+    - Typography
+    - Elements
+    - Links
+    - Forms
+# Layouts
+# Components
+    - Navigation
+    - Posts and pages
+    - Comments
+    - Widgets
+    - Media
+    - Captions
+    - Galleries
+# Plugins
+    - Jetpack infinite scroll
+# Utilities
+    - Accessibility
+    - Alignments
+--------------------------------------------------------------*/

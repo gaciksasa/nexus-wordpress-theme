@@ -1,0 +1,207 @@
+// =============================================================================
+// Nexus Theme - CSS Reset / Normalize
+// =============================================================================
+
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+// Box sizing
+// ----------
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+// Root
+// ----
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+// Body
+// ----
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--nexus-font-body);
+  font-size: var(--nexus-font-size-base);
+  line-height: var(--nexus-line-height);
+  color: var(--nexus-body-color);
+  background-color: var(--nexus-body-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+// Typography
+// ----------
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 0;
+  margin-bottom: 0.5em;
+  font-family: var(--nexus-font-heading);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--nexus-body-color);
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+ul, ol {
+  padding-left: 1.5rem;
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+ul ul, ol ol, ul ol, ol ul {
+  margin-bottom: 0;
+}
+
+// Links
+// -----
+a {
+  color: var(--nexus-link-color);
+  text-decoration: underline;
+  @include transition(color);
+
+  &:hover {
+    color: var(--nexus-link-hover);
+  }
+}
+
+// Images & media
+// --------------
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+// Forms
+// -----
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+}
+
+button {
+  width: auto;
+}
+
+// Tables
+// ------
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+// Blockquote
+// ----------
+blockquote {
+  margin: 1.5rem 0;
+  padding: 1rem 1.5rem;
+  border-left: 4px solid var(--nexus-color-primary);
+  font-style: italic;
+  background: var(--nexus-color-light);
+  border-radius: 0 var(--nexus-border-radius) var(--nexus-border-radius) 0;
+
+  cite {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 600;
+  }
+}
+
+// Code
+// ----
+code, kbd, samp, pre {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.875em;
+}
+
+pre {
+  overflow: auto;
+  padding: 1rem;
+  background: #f1f3f5;
+  border-radius: var(--nexus-border-radius);
+}
+
+// HR
+// --
+hr {
+  margin: 2rem 0;
+  border: 0;
+  border-top: 1px solid var(--nexus-border-color);
+}
+
+// Focus management
+// ----------------
+:focus-visible {
+  outline: 2px solid var(--nexus-color-primary);
+  outline-offset: 2px;
+}
+
+// Skip link
+// ---------
+.nexus-skip-link {
+  @include visually-hidden;
+
+  &:focus {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    z-index: 9999;
+    width: auto;
+    height: auto;
+    padding: 0.5rem 1rem;
+    background: var(--nexus-color-primary);
+    color: #fff;
+    text-decoration: none;
+    border-radius: var(--nexus-border-radius);
+    clip: auto;
+    overflow: visible;
+    white-space: normal;
+  }
+}
+
+// Screen reader text
+// ------------------
+.screen-reader-text {
+  @include visually-hidden;
+
+  &:focus {
+    position: fixed;
+    top: 6px;
+    left: 6px;
+    z-index: 9999;
+    width: auto;
+    height: auto;
+    padding: 0.5rem 1rem;
+    background: var(--nexus-color-primary);
+    color: #fff;
+    border-radius: var(--nexus-border-radius);
+    clip: auto;
+    overflow: visible;
+    white-space: normal;
+  }
+}

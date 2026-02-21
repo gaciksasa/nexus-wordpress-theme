@@ -1,0 +1,51 @@
+# Node
+node_modules/
+npm-debug.log*
+yarn-error.log
+
+# Build output (tracked separately for distribution)
+# assets/css/*.min.css
+# assets/js/*.min.js
+
+# Vite
+.vite/
+dist/
+
+# Composer
+vendor/
+composer.lock
+
+# PHP CodeSniffer cache
+.phpcs-cache
+.php-cs-fixer.cache
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+*.sublime-project
+*.sublime-workspace
+
+# Logs
+*.log
+
+# Environment
+.env
+.env.local
+
+# Package manager locks (keep package-lock.json for reproducible builds)
+yarn.lock
+
+# Demo XML (auto-generated; kept in demos/ with LFS if needed)
+# demos/*/content.xml
+
+# Temp
+*.tmp
+*.bak
+*.orig

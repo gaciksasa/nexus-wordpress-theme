@@ -1,0 +1,139 @@
+// =============================================================================
+// Nexus Theme - Custom 12-Column Grid System
+// Uses CSS Grid + Flexbox, no Bootstrap dependency.
+// =============================================================================
+
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+@use 'sass:math';
+
+// Container
+// ---------
+.nexus-container {
+  @include container;
+}
+
+.nexus-container--narrow {
+  @include container;
+  max-width: 780px;
+}
+
+.nexus-container--wide {
+  @include container;
+  max-width: 1400px;
+}
+
+// Row
+// ---
+.nexus-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: calc(#{$grid-gutter} / -2);
+  margin-left: calc(#{$grid-gutter} / -2);
+}
+
+// Columns
+// -------
+@mixin col-base {
+  flex: 0 0 100%;
+  max-width: 100%;
+  padding-right: calc(#{$grid-gutter} / 2);
+  padding-left: calc(#{$grid-gutter} / 2);
+}
+
+@for $i from 1 through 12 {
+  .nexus-col-#{$i} {
+    @include col-base;
+  }
+}
+
+// Responsive columns per breakpoint
+@each $bp-name, $bp-value in $breakpoints {
+  @if $bp-value > 0 {
+    @include respond-above($bp-name) {
+      @for $i from 1 through 12 {
+        .nexus-col-#{$bp-name}-#{$i} {
+          @include col-base;
+          flex: 0 0 math.percentage(math.div($i, 12));
+          max-width: math.percentage(math.div($i, 12));
+        }
+      }
+
+      .nexus-col-#{$bp-name}-auto {
+        @include col-base;
+        flex: 1 1 0;
+        max-width: 100%;
+      }
+    }
+  }
+}
+
+// Auto grid using CSS Grid (more powerful for layouts)
+// -----------------------------------------------------
+.nexus-grid {
+  display: grid;
+  gap: var(--nexus-grid-gap, #{$grid-gutter});
+
+  &--cols-2 { grid-template-columns: repeat(2, 1fr); }
+  &--cols-3 { grid-template-columns: repeat(3, 1fr); }
+  &--cols-4 { grid-template-columns: repeat(4, 1fr); }
+  &--cols-5 { grid-template-columns: repeat(5, 1fr); }
+
+  // Responsive auto-fit grids
+  &--auto-sm  { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+  &--auto-md  { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+  &--auto-lg  { grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); }
+
+  // Collapse to 1 column on mobile
+  @include respond-below(md) {
+    &--cols-2,
+    &--cols-3,
+    &--cols-4,
+    &--cols-5 {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @include respond-between(md, lg) {
+    &--cols-3,
+    &--cols-4,
+    &--cols-5 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+}
+
+// Content layout with sidebar
+// ---------------------------
+.nexus-content-area {
+  display: grid;
+  gap: var(--nexus-grid-gap, #{$grid-gutter});
+
+  &.nexus-layout--right-sidebar {
+    grid-template-columns: 1fr 300px;
+
+    @include respond-below(lg) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &.nexus-layout--left-sidebar {
+    grid-template-columns: 300px 1fr;
+
+    @include respond-below(lg) {
+      grid-template-columns: 1fr;
+
+      .nexus-sidebar {
+        order: -1;
+      }
+    }
+  }
+
+  &.nexus-layout--full-width {
+    grid-template-columns: 1fr;
+  }
+}
+
+.nexus-primary {
+  min-width: 0; // Prevent overflow in grid
+}

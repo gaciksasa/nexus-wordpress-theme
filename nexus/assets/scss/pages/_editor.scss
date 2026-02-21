@@ -1,0 +1,179 @@
+// =============================================================================
+// Gutenberg / Block Editor Styles
+// Loaded in wp-admin for the block editor via enqueue_block_editor_assets.
+// =============================================================================
+
+.editor-styles-wrapper {
+
+	// ---- Typography ----
+	font-family: var(--nexus-font-body, 'Inter', sans-serif);
+	font-size: 1rem;
+	line-height: 1.75;
+	color: #1e293b;
+
+	h1, h2, h3, h4, h5, h6 {
+		font-family: var(--nexus-font-heading, 'Poppins', sans-serif);
+		font-weight: 700;
+		line-height: 1.25;
+		color: #0f172a;
+		margin-block: 1.5rem 0.75rem;
+	}
+
+	h1 { font-size: clamp(2rem, 4vw, 3rem); }
+	h2 { font-size: clamp(1.5rem, 3vw, 2.25rem); }
+	h3 { font-size: clamp(1.25rem, 2.5vw, 1.75rem); }
+	h4 { font-size: 1.25rem; }
+	h5 { font-size: 1.125rem; }
+	h6 { font-size: 1rem; }
+
+	p {
+		margin-block-end: 1.25rem;
+	}
+
+	a {
+		color: var(--nexus-primary, #6366f1);
+		text-decoration: underline;
+	}
+
+	// ---- Blockquote ----
+	blockquote {
+		border-inline-start: 4px solid var(--nexus-primary, #6366f1);
+		padding: 1.25rem 1.5rem 1.25rem 2rem;
+		margin-inline: 0;
+		background-color: #f8fafc;
+		border-radius: 0 0.5rem 0.5rem 0;
+		font-style: italic;
+		font-size: 1.125rem;
+
+		p { margin: 0; }
+
+		cite {
+			display: block;
+			font-size: 0.875rem;
+			font-style: normal;
+			color: #64748b;
+			margin-block-start: 0.75rem;
+		}
+	}
+
+	// ---- Code ----
+	code {
+		background-color: #f1f5f9;
+		border: 1px solid #e2e8f0;
+		border-radius: 4px;
+		padding: 0.1em 0.4em;
+		font-size: 0.875em;
+	}
+
+	pre {
+		background-color: #0f172a;
+		color: #e2e8f0;
+		padding: 1.5rem;
+		border-radius: 0.5rem;
+		overflow-x: auto;
+
+		code {
+			background: none;
+			border: none;
+			padding: 0;
+			color: inherit;
+		}
+	}
+
+	// ---- Lists ----
+	ul, ol {
+		padding-inline-start: 1.5rem;
+		margin-block-end: 1.25rem;
+
+		li { margin-block-end: 0.35rem; }
+	}
+
+	// ---- Tables ----
+	table {
+		width: 100%;
+		border-collapse: collapse;
+		margin-block-end: 1.5rem;
+
+		th, td {
+			padding: 0.75rem 1rem;
+			border: 1px solid #e2e8f0;
+			text-align: start;
+		}
+
+		th {
+			background-color: #f8fafc;
+			font-weight: 700;
+		}
+	}
+
+	// ---- Images ----
+	img {
+		max-width: 100%;
+		height: auto;
+		border-radius: 0.5rem;
+	}
+
+	// ---- Separators ----
+	hr {
+		border: none;
+		border-block-start: 1px solid #e2e8f0;
+		margin-block: 2rem;
+	}
+
+	// ---- Buttons (core/button block) ----
+	.wp-block-button__link {
+		border-radius: 0.5rem;
+		font-weight: 600;
+		padding: 0.75rem 1.75rem;
+		font-size: 0.9375rem;
+		transition: filter 0.2s ease;
+
+		&:hover {
+			filter: brightness(1.1);
+		}
+	}
+
+	// ---- Cover block ----
+	.wp-block-cover {
+		border-radius: 0.75rem;
+		overflow: hidden;
+	}
+
+	// ---- Group block background ----
+	.wp-block-group {
+		padding: 2rem;
+		border-radius: 0.75rem;
+	}
+
+	// ---- Nexus custom block styles ----
+
+	// Button styles registered in theme.json
+	.is-style-nexus-outline {
+		background-color: transparent !important;
+		border: 2px solid currentColor !important;
+		color: var(--nexus-primary, #6366f1);
+	}
+
+	.is-style-nexus-ghost {
+		background-color: transparent !important;
+		color: var(--nexus-primary, #6366f1) !important;
+		padding-inline: 0 !important;
+		text-decoration: underline;
+	}
+
+	// Heading accent style
+	h2.is-style-nexus-underline,
+	h3.is-style-nexus-underline {
+		padding-block-end: 0.5rem;
+		border-block-end: 3px solid var(--nexus-primary, #6366f1);
+		display: inline-block;
+	}
+
+	// Card group
+	.is-style-nexus-card {
+		background-color: #fff;
+		border: 1px solid #e2e8f0;
+		border-radius: 0.75rem;
+		box-shadow: 0 4px 12px rgba(0 0 0 / 0.06);
+	}
+}

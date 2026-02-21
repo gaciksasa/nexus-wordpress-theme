@@ -1,0 +1,19 @@
+/*
+Theme Name: Nexus Child
+Theme URI: https://nexustheme.com
+Author: ThemeAuthor
+Author URI: https://themeauthor.com
+Description: Child theme for the Nexus theme. Use this to make customizations that will survive theme updates.
+Version: 1.0.0
+Template: nexus
+Requires at least: 6.3
+Requires PHP: 8.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: nexus-child
+*/
+
+/*
+ * Add your custom CSS below.
+ * All styles here will override the parent theme styles.
+ */

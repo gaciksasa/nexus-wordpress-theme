@@ -1,0 +1,464 @@
+// =============================================================================
+// Nexus Theme - Header Styles
+// =============================================================================
+
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+.nexus-header {
+  position: relative;
+  z-index: $z-sticky;
+  width: 100%;
+  background-color: var(--nexus-color-white);
+  border-bottom: 1px solid var(--nexus-border-color);
+  @include transition(background-color, box-shadow);
+
+  // Sticky header
+  &.is-sticky {
+    position: sticky;
+    top: var(--nexus-admin-bar-height);
+    box-shadow: var(--nexus-shadow-md);
+  }
+
+  // Transparent header
+  &--transparent {
+    position: absolute;
+    top: var(--nexus-admin-bar-height);
+    left: 0;
+    right: 0;
+    background: transparent;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+
+    .nexus-nav a {
+      color: #fff;
+
+      &:hover {
+        color: var(--nexus-color-secondary);
+      }
+    }
+
+    &.is-sticky {
+      position: fixed;
+      background: var(--nexus-color-primary);
+    }
+  }
+
+  // Header main row
+  &__main {
+    height: var(--nexus-header-height);
+  }
+
+  &__inner {
+    @include flex-between;
+    height: 100%;
+  }
+
+  // Logo
+  &__logo {
+    flex-shrink: 0;
+
+    a {
+      display: block;
+      text-decoration: none;
+    }
+
+    img {
+      height: 44px;
+      width: auto;
+    }
+  }
+
+  .nexus-logo-text {
+    font-family: var(--nexus-font-heading);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--nexus-color-primary);
+    text-decoration: none;
+  }
+
+  // Actions
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-shrink: 0;
+  }
+
+  &__search-toggle,
+  &__dark-toggle,
+  &__cart {
+    @include button-reset;
+    @include focus-ring;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--nexus-border-radius);
+    color: var(--nexus-body-color);
+    @include transition(background-color, color);
+
+    &:hover {
+      background: var(--nexus-color-light);
+      color: var(--nexus-color-primary);
+    }
+
+    .nexus-icon {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  &__cart {
+    position: relative;
+  }
+
+  // Cart count badge
+  .nexus-cart-count {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 4px;
+    background: var(--nexus-color-secondary);
+    color: #fff;
+    font-size: 0.625rem;
+    font-weight: 700;
+    line-height: 18px;
+    text-align: center;
+    border-radius: 50rem;
+  }
+}
+
+// Top bar
+// -------
+.nexus-topbar {
+  background: var(--nexus-color-primary);
+  color: rgba(255, 255, 255, 0.8);
+  padding: 0.5rem 0;
+  font-size: 0.875rem;
+
+  &__inner {
+    @include flex-between;
+    gap: 1rem;
+  }
+
+  &__right {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+
+    &:hover {
+      color: #fff;
+    }
+  }
+
+  .nexus-topbar__menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 1rem;
+  }
+}
+
+// Hamburger button
+// ----------------
+.nexus-hamburger {
+  @include button-reset;
+  @include focus-ring;
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 36px;
+  height: 24px;
+  padding: 2px 0;
+  cursor: pointer;
+
+  @include respond-below(lg) {
+    display: flex;
+  }
+
+  &__bar {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: var(--nexus-body-color);
+    border-radius: 2px;
+    @include transition(transform, opacity);
+  }
+
+  &[aria-expanded="true"] {
+    .nexus-hamburger__bar:nth-child(1) {
+      transform: translateY(11px) rotate(45deg);
+    }
+    .nexus-hamburger__bar:nth-child(2) {
+      opacity: 0;
+    }
+    .nexus-hamburger__bar:nth-child(3) {
+      transform: translateY(-11px) rotate(-45deg);
+    }
+  }
+}
+
+// Mobile navigation drawer
+// ------------------------
+.nexus-mobile-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: $z-overlay;
+  width: 320px;
+  max-width: 90vw;
+  background: var(--nexus-color-white);
+  box-shadow: var(--nexus-shadow-xl);
+  overflow-y: auto;
+  transform: translateX(-100%);
+  @include transition(transform);
+
+  &.is-open {
+    transform: translateX(0);
+  }
+
+  &[hidden] {
+    display: block; // Override native hidden to allow CSS transitions
+    visibility: hidden;
+  }
+
+  &__header {
+    @include flex-between;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--nexus-border-color);
+
+    img {
+      height: 36px;
+      width: auto;
+    }
+  }
+
+  &__close {
+    @include button-reset;
+    @include focus-ring;
+    width: 36px;
+    height: 36px;
+    @include flex-center;
+    border-radius: var(--nexus-border-radius);
+
+    &:hover {
+      background: var(--nexus-color-light);
+    }
+  }
+
+  &__body {
+    padding: 1rem 0;
+  }
+
+  &__footer {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid var(--nexus-border-color);
+  }
+
+  &__cart {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: var(--nexus-body-color);
+  }
+
+  &__overlay {
+    position: fixed;
+    inset: 0;
+    z-index: $z-fixed;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    @include transition(opacity);
+
+    &.is-visible {
+      opacity: 1;
+    }
+  }
+}
+
+// Search popup
+// ------------
+.nexus-search-popup {
+  position: fixed;
+  inset: 0;
+  z-index: $z-modal;
+  @include flex-center;
+  background: rgba(0, 0, 0, 0.85);
+  opacity: 0;
+  pointer-events: none;
+  @include transition(opacity);
+
+  &.is-open {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  &[hidden] {
+    display: flex;
+    visibility: hidden;
+  }
+
+  &__inner {
+    width: 100%;
+    max-width: 640px;
+    padding: 2rem;
+    position: relative;
+  }
+
+  &__close {
+    @include button-reset;
+    @include focus-ring;
+    position: absolute;
+    top: 0;
+    right: 2rem;
+    color: #fff;
+    font-size: 1.5rem;
+
+    &:hover {
+      color: var(--nexus-color-secondary);
+    }
+  }
+}
+
+// Navigation
+// ----------
+.nexus-nav {
+  @include respond-below(lg) {
+    display: none;
+  }
+
+  &--primary {
+    .nexus-menu {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 0;
+    }
+
+    .nexus-menu-item > a {
+      display: flex;
+      align-items: center;
+      gap: 0.375rem;
+      padding: 0 1rem;
+      height: var(--nexus-header-height);
+      font-size: 0.9375rem;
+      font-weight: 500;
+      color: var(--nexus-body-color);
+      text-decoration: none;
+      @include transition(color);
+      @include focus-ring;
+
+      &:hover {
+        color: var(--nexus-color-secondary);
+      }
+    }
+
+    .nexus-menu-item.current-menu-item > a,
+    .nexus-menu-item.current-menu-ancestor > a {
+      color: var(--nexus-color-secondary);
+    }
+
+    .nexus-dropdown-arrow {
+      display: flex;
+      @include transition(transform);
+
+      .nexus-icon {
+        width: 14px;
+        height: 14px;
+      }
+    }
+  }
+}
+
+// Dropdown menu
+// -------------
+.nexus-menu-item--has-dropdown {
+  position: relative;
+
+  > .nexus-dropdown {
+    position: absolute;
+    top: calc(var(--nexus-header-height) - 4px);
+    left: 0;
+    z-index: $z-dropdown;
+    min-width: 220px;
+    list-style: none;
+    padding: 0.5rem 0;
+    margin: 0;
+    background: var(--nexus-color-white);
+    border-radius: var(--nexus-border-radius-lg);
+    box-shadow: var(--nexus-shadow-lg);
+    border: 1px solid var(--nexus-border-color);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    @include transition(opacity, visibility, transform);
+  }
+
+  &:hover > .nexus-dropdown,
+  &:focus-within > .nexus-dropdown,
+  > a[aria-expanded="true"] + .nexus-dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  &:hover > a .nexus-dropdown-arrow {
+    transform: rotate(180deg);
+  }
+
+  .nexus-dropdown a {
+    display: block;
+    padding: 0.6rem 1.25rem;
+    font-size: 0.9rem;
+    color: var(--nexus-body-color);
+    text-decoration: none;
+    @include transition(background-color, color);
+
+    &:hover {
+      background: var(--nexus-color-light);
+      color: var(--nexus-color-secondary);
+    }
+  }
+}
+
+// Title bar
+// ---------
+.nexus-title-bar {
+  padding: 3rem 0;
+  background: var(--nexus-color-light);
+  background-size: cover;
+  background-position: center;
+  position: relative;
+
+  &__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    @include respond-below(md) {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  &__title {
+    margin: 0;
+    font-size: 1.75rem;
+    font-weight: 700;
+  }
+}

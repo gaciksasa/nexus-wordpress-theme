@@ -1,0 +1,106 @@
+// =============================================================================
+// Base Typography
+// =============================================================================
+
+body {
+	font-family: var(--nexus-font-body);
+	font-size: var(--nexus-font-size-base);
+	font-weight: 400;
+	line-height: var(--nexus-line-height-base);
+	color: var(--nexus-text-color);
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: var(--nexus-font-heading);
+	font-weight: 700;
+	line-height: 1.25;
+	color: var(--nexus-heading-color);
+	margin-block: 0 0.75em;
+}
+
+h1 { font-size: var(--nexus-font-size-4xl); }
+h2 { font-size: var(--nexus-font-size-3xl); }
+h3 { font-size: var(--nexus-font-size-2xl); }
+h4 { font-size: var(--nexus-font-size-xl); }
+h5 { font-size: var(--nexus-font-size-lg); }
+h6 { font-size: var(--nexus-font-size-base); }
+
+p {
+	margin-block: 0 1em;
+}
+
+a {
+	color: var(--nexus-link-color);
+	text-decoration: none;
+	transition: color var(--nexus-transition-fast);
+
+	&:hover {
+		color: var(--nexus-link-hover);
+	}
+}
+
+strong, b { font-weight: 700; }
+em, i     { font-style: italic; }
+
+small { font-size: 0.875em; }
+
+abbr[title] {
+	text-decoration: underline dotted;
+	cursor: help;
+}
+
+mark {
+	background-color: rgba(var(--nexus-primary-rgb), 0.2);
+	padding: 0.1em 0.2em;
+}
+
+blockquote {
+	margin-inline: 0;
+	padding: 1.25rem 1.5rem 1.25rem 2rem;
+	border-inline-start: 4px solid var(--nexus-primary);
+	background-color: var(--nexus-bg-subtle);
+	border-radius: 0 var(--nexus-border-radius) var(--nexus-border-radius) 0;
+	font-size: 1.0625rem;
+	font-style: italic;
+	color: var(--nexus-heading-color);
+
+	p:last-child { margin: 0; }
+
+	cite {
+		display: block;
+		font-size: 0.875rem;
+		font-style: normal;
+		color: var(--nexus-text-muted);
+		margin-block-start: 0.75rem;
+
+		&::before { content: '\2014\00a0'; }
+	}
+}
+
+code {
+	background-color: var(--nexus-bg-subtle);
+	border: 1px solid var(--nexus-border-color);
+	border-radius: var(--nexus-border-radius-sm);
+	padding: 0.1em 0.4em;
+	font-size: 0.875em;
+	font-family: 'Fira Code', 'Cascadia Code', monospace;
+}
+
+pre {
+	background-color: #0f172a;
+	color: #e2e8f0;
+	padding: 1.5rem;
+	border-radius: var(--nexus-border-radius);
+	overflow-x: auto;
+	margin-block-end: 1.5rem;
+
+	code {
+		background: none;
+		border: none;
+		padding: 0;
+		color: inherit;
+		font-size: 0.9em;
+	}
+}

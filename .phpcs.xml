@@ -1,0 +1,120 @@
+<?xml version="1.0"?>
+<ruleset name="Nexus Theme Coding Standards">
+    <description>PHP_CodeSniffer ruleset for the Nexus WordPress theme.</description>
+
+    <!-- What to scan -->
+    <file>nexus</file>
+    <file>nexus-child</file>
+
+    <!-- What to ignore -->
+    <exclude-pattern>nexus/assets/*</exclude-pattern>
+    <exclude-pattern>nexus/demos/*</exclude-pattern>
+    <exclude-pattern>nexus/inc/plugins/class-tgm-plugin-activation.php</exclude-pattern>
+    <exclude-pattern>nexus/inc/demo-importer/class-nexus-merlin.php</exclude-pattern>
+    <exclude-pattern>vendor/*</exclude-pattern>
+    <exclude-pattern>node_modules/*</exclude-pattern>
+    <exclude-pattern>*.min.js</exclude-pattern>
+
+    <!-- Args -->
+    <arg value="sp"/>    <!-- Show sniff codes -->
+    <arg name="colors"/> <!-- Use colors in output -->
+    <arg name="extensions" value="php"/>
+    <arg name="parallel" value="8"/>
+
+    <!-- Use WordPress coding standards -->
+    <rule ref="WordPress"/>
+
+    <rule ref="WordPress-Core"/>
+    <rule ref="WordPress-Docs"/>
+    <rule ref="WordPress-Extra"/>
+
+    <!-- Minimum PHP version -->
+    <config name="minimum_supported_wp_version" value="6.3"/>
+    <config name="testVersion" value="8.0-"/>
+
+    <!-- Text domain check -->
+    <rule ref="WordPress.WP.I18n">
+        <properties>
+            <property name="text_domain" type="array">
+                <element value="nexus"/>
+            </property>
+        </properties>
+    </rule>
+
+    <!-- Prefix check — all functions/classes/globals must use nexus_ prefix -->
+    <rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+        <properties>
+            <property name="prefixes" type="array">
+                <element value="nexus"/>
+                <element value="Nexus"/>
+                <element value="NEXUS"/>
+            </property>
+        </properties>
+    </rule>
+
+    <!-- Allow PSR-4 class file names (ClassName.php) -->
+    <rule ref="WordPress.Files.FileName">
+        <properties>
+            <property name="strict_class_file_names" value="false"/>
+        </properties>
+    </rule>
+
+    <!-- Allow short array syntax [] -->
+    <rule ref="Generic.Arrays.DisallowShortArraySyntax">
+        <severity>0</severity>
+    </rule>
+
+    <!-- Exclude some overly strict rules for theme development -->
+    <rule ref="WordPress.Security.EscapeOutput">
+        <properties>
+            <!-- nexus_icon() returns escaped SVG — OK to output directly -->
+            <property name="customAutoEscapedFunctions" type="array">
+                <element value="nexus_icon"/>
+            </property>
+        </properties>
+    </rule>
+
+    <!--
+        WooCommerce template overrides must use WC's own hook names and variables
+        (e.g. woocommerce_before_mini_cart, $cart_item_key).
+        They also intentionally use 'woocommerce' text domain for strings that
+        WooCommerce itself owns. Applying nexus_ prefix rules here would break WC.
+    -->
+    <rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+        <exclude-pattern>nexus/woocommerce/*</exclude-pattern>
+    </rule>
+    <rule ref="WordPress.WP.I18n.TextDomainMismatch">
+        <exclude-pattern>nexus/woocommerce/*</exclude-pattern>
+    </rule>
+
+    <!--
+        Walker class must call apply_filters() with WP core hook names
+        (nav_menu_css_class, the_title, walker_nav_menu_start_el, etc.).
+        These are not theme-defined hooks; they are part of the Walker_Nav_Menu API.
+    -->
+    <rule ref="WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound">
+        <exclude-pattern>nexus/inc/walker-nav.php</exclude-pattern>
+    </rule>
+
+    <!--
+        Elementor widget interface methods (get_name, get_title, get_icon,
+        get_categories, get_keywords, register_controls, render) are mandatory
+        overrides of the Elementor\Widget_Base abstract class. Doc comments on
+        these one-liner return methods add noise without value.
+    -->
+    <rule ref="Squiz.Commenting.FunctionComment.Missing">
+        <exclude-pattern>nexus/inc/elementor/widgets/*</exclude-pattern>
+    </rule>
+    <rule ref="Squiz.Commenting.FunctionComment.MissingParamTag">
+        <exclude-pattern>nexus/inc/elementor/widgets/*</exclude-pattern>
+    </rule>
+
+    <!--
+        walker-nav.php contains both the Nexus_Walker_Nav_Menu class and the
+        nexus_nav_fallback() function that serves as its fallback callback.
+        Separating them would split tightly-coupled code with no benefit.
+    -->
+    <rule ref="Universal.Files.SeparateFunctionsFromOO.Mixed">
+        <exclude-pattern>nexus/inc/walker-nav.php</exclude-pattern>
+    </rule>
+</ruleset>

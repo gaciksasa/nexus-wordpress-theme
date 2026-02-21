@@ -1,0 +1,251 @@
+// =============================================================================
+// Footer
+// =============================================================================
+
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+.nexus-footer {
+	background-color: var(--nexus-footer-bg, #0f172a);
+	color: var(--nexus-footer-text, rgba(255 255 255 / 70%));
+	font-size: 0.9375rem;
+
+	// -------------------------------------------------------------------------
+	// Widgets area
+	// -------------------------------------------------------------------------
+	&__widgets {
+		padding-block: clamp(3rem, 6vw, 5rem);
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		gap: 2.5rem;
+
+		@include respond-below(lg) {
+			grid-template-columns: repeat(2, 1fr);
+		}
+
+		@include respond-below(sm) {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	// -------------------------------------------------------------------------
+	// Widget
+	// -------------------------------------------------------------------------
+	.widget {
+		&-title {
+			font-size: 1rem;
+			font-weight: 600;
+			color: #fff;
+			margin-block-end: 1.25rem;
+			text-transform: uppercase;
+			letter-spacing: 0.05em;
+
+			&::after {
+				content: '';
+				display: block;
+				width: 2rem;
+				height: 2px;
+				background-color: var(--nexus-primary);
+				margin-block-start: 0.5rem;
+			}
+		}
+
+		a {
+			color: inherit;
+			text-decoration: none;
+			transition: color var(--nexus-transition-fast);
+
+			&:hover {
+				color: var(--nexus-primary);
+			}
+		}
+
+		ul {
+			list-style: none;
+			padding: 0;
+			margin: 0;
+
+			li {
+				padding-block: 0.35rem;
+				border-block-end: 1px solid rgba(255 255 255 / 6%);
+
+				&:last-child {
+					border-block-end: none;
+				}
+
+				a {
+					display: flex;
+					align-items: center;
+					gap: 0.5rem;
+
+					&::before {
+						content: '›';
+						color: var(--nexus-primary);
+						font-weight: 700;
+					}
+				}
+			}
+		}
+
+		p {
+			line-height: 1.75;
+			margin-block-end: 0.75rem;
+		}
+	}
+
+	// -------------------------------------------------------------------------
+	// Logo area in footer
+	// -------------------------------------------------------------------------
+	&__logo {
+		max-width: 160px;
+		margin-block-end: 1rem;
+
+		img {
+			filter: brightness(0) invert(1);
+		}
+	}
+
+	// -------------------------------------------------------------------------
+	// Social icons
+	// -------------------------------------------------------------------------
+	&__social {
+		display: flex;
+		gap: 0.625rem;
+		margin-block-start: 1.25rem;
+
+		a {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			width: 2.25rem;
+			height: 2.25rem;
+			border-radius: 50%;
+			background-color: rgba(255 255 255 / 8%);
+			color: rgba(255 255 255 / 70%);
+			font-size: 1rem;
+			transition: background-color var(--nexus-transition-fast), color var(--nexus-transition-fast);
+
+			&:hover {
+				background-color: var(--nexus-primary);
+				color: #fff;
+			}
+		}
+	}
+
+	// -------------------------------------------------------------------------
+	// Newsletter widget inside footer
+	// -------------------------------------------------------------------------
+	&__newsletter {
+		.newsletter-form {
+			display: flex;
+			margin-block-start: 0.75rem;
+			border-radius: var(--nexus-border-radius);
+			overflow: hidden;
+
+			input[type="email"] {
+				flex: 1;
+				padding: 0.625rem 1rem;
+				border: none;
+				background-color: rgba(255 255 255 / 10%);
+				color: #fff;
+				font-size: 0.875rem;
+
+				&::placeholder {
+					color: rgba(255 255 255 / 50%);
+				}
+
+				&:focus {
+					outline: none;
+					background-color: rgba(255 255 255 / 15%);
+				}
+			}
+
+			button {
+				padding: 0.625rem 1rem;
+				background-color: var(--nexus-primary);
+				border: none;
+				color: #fff;
+				cursor: pointer;
+				font-size: 0.875rem;
+				font-weight: 600;
+				transition: background-color var(--nexus-transition-fast);
+				white-space: nowrap;
+
+				&:hover {
+					background-color: var(--nexus-primary-dark);
+				}
+			}
+		}
+	}
+
+	// -------------------------------------------------------------------------
+	// Bottom bar
+	// -------------------------------------------------------------------------
+	&__bottom {
+		border-block-start: 1px solid rgba(255 255 255 / 8%);
+		padding-block: 1.25rem;
+	}
+
+	&__bottom-inner {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+		flex-wrap: wrap;
+
+		@include respond-below(sm) {
+			flex-direction: column;
+			text-align: center;
+		}
+	}
+
+	&__copyright {
+		font-size: 0.875rem;
+
+		a {
+			color: var(--nexus-primary);
+
+			&:hover {
+				text-decoration: underline;
+			}
+		}
+	}
+
+	&__bottom-links {
+		display: flex;
+		gap: 1.25rem;
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		font-size: 0.875rem;
+
+		a {
+			color: inherit;
+			text-decoration: none;
+			transition: color var(--nexus-transition-fast);
+
+			&:hover {
+				color: var(--nexus-primary);
+			}
+		}
+	}
+
+	// -------------------------------------------------------------------------
+	// Minimal footer variant
+	// -------------------------------------------------------------------------
+	&--minimal {
+		.nexus-footer__widgets {
+			display: none;
+		}
+
+		.nexus-footer__bottom {
+			border-block-start: none;
+			padding-block: 1.5rem;
+			text-align: center;
+
+			.nexus-footer__bottom-inner {
+				justify-content: center;
+			}
+		}
+	}
+}
