@@ -29,10 +29,28 @@
     background: transparent;
     border-bottom: 1px solid rgba(255, 255, 255, 0.15);
 
-    .nexus-nav a {
-      color: #fff;
-      &:hover { color: var(--nexus-color-secondary); }
+    // Logo text — white
+    .nexus-logo-text {
+      color: rgba(255 255 255 / 0.95);
+      a { color: inherit; }
     }
+
+    // Nav links — white
+    .nexus-nav a,
+    .wp-block-navigation-item__content {
+      color: rgba(255 255 255 / 0.9) !important;
+      &:hover { color: #fff !important; }
+    }
+
+    // Action icons — white
+    .nexus-header__dark-toggle,
+    .nexus-header__search-toggle,
+    .nexus-header__cart {
+      color: rgba(255 255 255 / 0.85);
+      &:hover { background: rgba(255 255 255 / 0.12); color: #fff; }
+    }
+
+    .nexus-hamburger__bar { background: #fff; }
 
     &.is-sticky {
       position: fixed;
@@ -92,8 +110,22 @@
   }
 
   // Header main row
+  // FSE renders nexus-header__main with is-layout-flow (block), so we force flex here.
   &__main {
     height: var(--nexus-header-height);
+    display: flex;
+    align-items: stretch;
+
+    // The nexus-container block inside the FSE header group
+    > .nexus-container {
+      flex: 1;
+      height: 100%;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      flex-wrap: nowrap !important;
+      gap: 1.5rem;
+    }
   }
 
   &__inner {
@@ -122,6 +154,9 @@
     font-weight: 700;
     color: var(--nexus-color-primary);
     text-decoration: none;
+
+    // Prevent global <a> color from overriding the logo text color
+    a { color: inherit; text-decoration: none; }
   }
 
   // Actions

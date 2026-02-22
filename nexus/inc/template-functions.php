@@ -163,7 +163,9 @@ function nexus_search_form( $args = array() ) {
  * @return array Modified body classes.
  */
 function nexus_transparent_header_body_class( array $classes ): array {
-	if ( is_front_page() || nexus_page_has_slider() ) {
+	// Transparent header is opt-in via Customizer — disabled by default.
+	// To re-enable: set nexus_transparent_header option to true via Kirki.
+	if ( nexus_option( 'nexus_transparent_header', false ) ) {
 		$classes[] = 'nexus-transparent-header';
 	}
 	return $classes;
