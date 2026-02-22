@@ -7,7 +7,7 @@
 
 ?>
 
-<article id="post-<?php the_ID(); ?>" <?php post_class( 'nexus-post nexus-post--single' ); ?>>
+<article id="post-<?php the_ID(); ?>" <?php post_class( array( 'nexus-post', 'nexus-post--single', 'nexus-single-post' ) ); ?>>
 
 	<header class="nexus-post__header">
 
@@ -60,10 +60,15 @@
 		if ( $nexus_tags_list ) :
 			?>
 			<div class="nexus-post__tags">
-				<span class="nexus-post__tags-label"><?php esc_html_e( 'Tagged:', 'nexus' ); ?></span>
+				<span class="nexus-post__tags-label">
+					<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+					<?php esc_html_e( 'Tags:', 'nexus' ); ?>
+				</span>
 				<?php echo $nexus_tags_list; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 			</div>
 		<?php endif; ?>
+
+		<?php get_template_part( 'template-parts/post/post-share' ); ?>
 
 		<?php get_template_part( 'template-parts/post/post-author-bio' ); ?>
 

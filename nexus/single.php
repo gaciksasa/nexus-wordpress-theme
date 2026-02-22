@@ -10,6 +10,10 @@
 get_header();
 ?>
 
+<div id="nexus-reading-progress" role="progressbar" aria-label="<?php esc_attr_e( 'Reading progress', 'nexus' ); ?>" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+	<div class="nexus-reading-progress__fill"></div>
+</div>
+
 <main id="nexus-primary-content" class="nexus-main">
 	<div class="nexus-container">
 		<?php if ( nexus_has_sidebar() ) : ?>

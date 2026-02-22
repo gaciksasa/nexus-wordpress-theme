@@ -23,6 +23,7 @@
 		initBackToTop();
 		initPreloader();
 		initDarkMode();
+		initReadingProgress();
 	}
 
 	// =========================================================================
@@ -257,6 +258,29 @@
 		toggle.addEventListener( 'click', () => {
 			setDark( ! isDark() );
 		} );
+	}
+
+	// =========================================================================
+	// Reading Progress Bar
+	// =========================================================================
+	function initReadingProgress() {
+		const bar = document.getElementById( 'nexus-reading-progress' );
+		if ( ! bar ) return;
+
+		const fill = bar.querySelector( '.nexus-reading-progress__fill' );
+		if ( ! fill ) return;
+
+		const update = () => {
+			const scrollTop  = window.scrollY || window.pageYOffset;
+			const docHeight  = document.documentElement.scrollHeight - window.innerHeight;
+			const progress   = docHeight > 0 ? ( scrollTop / docHeight ) * 100 : 0;
+			const clamped    = Math.min( 100, Math.max( 0, progress ) );
+			fill.style.width = clamped + '%';
+			bar.setAttribute( 'aria-valuenow', Math.round( clamped ) );
+		};
+
+		window.addEventListener( 'scroll', update, { passive: true } );
+		update();
 	}
 
 } )();
