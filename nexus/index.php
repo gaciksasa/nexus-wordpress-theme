@@ -29,12 +29,17 @@ get_header();
 				</header>
 			<?php endif; ?>
 
+			<?php $nexus_blog_style = nexus_option( 'nexus_blog_style', 'grid' ); ?>
+			<div class="nexus-blog-grid nexus-blog--<?php echo esc_attr( $nexus_blog_style ); ?>">
+
 			<?php
 			while ( have_posts() ) :
 				the_post();
 				?>
 				<?php get_template_part( 'template-parts/content/content', get_post_type() ); ?>
 			<?php endwhile; ?>
+
+			</div><!-- .nexus-blog-grid -->
 
 			<?php
 			the_posts_pagination(

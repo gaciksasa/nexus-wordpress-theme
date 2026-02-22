@@ -430,10 +430,82 @@
 }
 
 // -------------------------------------------------------------------------
+// List layout (single-column horizontal cards)
+// -------------------------------------------------------------------------
+.nexus-blog--list {
+	grid-template-columns: 1fr;
+
+	.nexus-post-card {
+		flex-direction: row;
+		align-items: stretch;
+
+		.nexus-post-card__thumb {
+			width: 280px;
+			flex-shrink: 0;
+			aspect-ratio: unset;
+		}
+
+		.nexus-post-card__body {
+			flex: 1;
+			padding: 1.75rem;
+		}
+
+		.nexus-post-card__title {
+			font-size: 1.25rem;
+		}
+
+		.nexus-post-card__excerpt {
+			@include truncate(4);
+		}
+	}
+
+	@include respond-below(md) {
+		.nexus-post-card {
+			flex-direction: column;
+
+			.nexus-post-card__thumb {
+				width: 100%;
+				aspect-ratio: 16/10;
+			}
+		}
+	}
+}
+
+// -------------------------------------------------------------------------
+// Masonry layout (CSS column-count approach)
+// -------------------------------------------------------------------------
+.nexus-blog--masonry {
+	display: block;
+	column-count: 3;
+	column-gap: 1.875rem;
+
+	.nexus-post-card {
+		break-inside: avoid;
+		margin-block-end: 1.875rem;
+		display: flex; // keep flex-direction: column from base
+	}
+
+	@include respond-below(lg) {
+		column-count: 2;
+	}
+
+	@include respond-below(sm) {
+		column-count: 1;
+	}
+}
+
+// -------------------------------------------------------------------------
 // Single post layout
 // -------------------------------------------------------------------------
 .nexus-single-post {
 	max-width: 800px;
+	margin-inline: auto;
+	width: 100%;
+}
+
+// In sidebar layouts the column already controls the width — remove the cap.
+.nexus-primary .nexus-single-post {
+	max-width: none;
 }
 
 // Post header
