@@ -116,7 +116,10 @@ function nexus_get_header_style() {
  * @return string Layout: 'default' | 'full-width' | 'left-sidebar' | 'right-sidebar' | 'no-sidebar'.
  */
 function nexus_get_layout() {
-	$page_layout    = nexus_meta( '_nexus_page_layout' );
+	// Use get_queried_object_id() so layout is resolved correctly even before
+	// the_post() runs (e.g. when nexus_has_sidebar() is called in single.php).
+	$post_id        = is_singular() ? get_queried_object_id() : get_the_ID();
+	$page_layout    = nexus_meta( '_nexus_page_layout', $post_id );
 	$default_layout = nexus_option( 'nexus_default_layout', 'right-sidebar' );
 
 	if ( $page_layout && 'default' !== $page_layout ) {
