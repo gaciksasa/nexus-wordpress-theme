@@ -319,7 +319,7 @@ class Nexus_Widget_Hero_Slider extends \Elementor\Widget_Base {
 
 		<div
 			id="<?php echo esc_attr( $widget_id ); ?>"
-			class="nexus-hero-slider swiper"
+			class="nexus-hero-slider swiper content-<?php echo esc_attr( $align ); ?>"
 			data-loop="<?php echo esc_attr( $loop ); ?>"
 			<?php echo $autoplay; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 		>

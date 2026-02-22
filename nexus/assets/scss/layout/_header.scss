@@ -11,7 +11,7 @@
   width: 100%;
   background-color: var(--nexus-color-white);
   border-bottom: 1px solid var(--nexus-border-color);
-  @include transition(background-color, box-shadow);
+  transition: background-color 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
 
   // Sticky header
   &.is-sticky {
@@ -20,7 +20,7 @@
     box-shadow: var(--nexus-shadow-md);
   }
 
-  // Transparent header
+  // Transparent header (overlays hero section)
   &--transparent {
     position: absolute;
     top: var(--nexus-admin-bar-height);
@@ -31,15 +31,63 @@
 
     .nexus-nav a {
       color: #fff;
-
-      &:hover {
-        color: var(--nexus-color-secondary);
-      }
+      &:hover { color: var(--nexus-color-secondary); }
     }
 
     &.is-sticky {
       position: fixed;
-      background: var(--nexus-color-primary);
+      background: rgba(15, 15, 30, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom-color: rgba(255 255 255 / 0.08);
+      box-shadow: 0 4px 32px rgba(0 0 0 / 0.2);
+    }
+  }
+
+  // Body class variant — applied via PHP on pages with hero slider
+  .nexus-transparent-header & {
+    position: absolute;
+    top: var(--nexus-admin-bar-height);
+    left: 0;
+    right: 0;
+    background: transparent;
+    border-bottom-color: rgba(255 255 255 / 0.12);
+
+    .nexus-logo-text {
+      color: #fff;
+    }
+
+    .nexus-menu-item > a {
+      color: rgba(255 255 255 / 0.9);
+
+      &:hover { color: #fff; }
+    }
+
+    .nexus-menu-item.current-menu-item > a,
+    .nexus-menu-item.current-menu-ancestor > a {
+      color: var(--nexus-color-secondary);
+    }
+
+    &__search-toggle,
+    &__dark-toggle,
+    &__cart {
+      color: rgba(255 255 255 / 0.85);
+
+      &:hover {
+        background: rgba(255 255 255 / 0.12);
+        color: #fff;
+      }
+    }
+
+    .nexus-hamburger__bar {
+      background: #fff;
+    }
+
+    &.is-sticky {
+      position: fixed;
+      background: rgba(15, 15, 30, 0.94);
+      backdrop-filter: blur(14px);
+      border-bottom-color: rgba(255 255 255 / 0.08);
+      box-shadow: 0 4px 32px rgba(0 0 0 / 0.25);
     }
   }
 

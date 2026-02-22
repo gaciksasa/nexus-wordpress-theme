@@ -32,11 +32,19 @@ function nexus_enqueue_assets() {
 		null // No version — URL is stable.
 	);
 
+	// Remix Icons icon font (bundled locally).
+	wp_enqueue_style(
+		'nexus-remixicon',
+		NEXUS_ASSETS_URI . '/css/vendor/remixicon.min.css',
+		array(),
+		'4.6.0'
+	);
+
 	// Main stylesheet.
 	wp_enqueue_style(
 		'nexus-main',
 		NEXUS_ASSETS_URI . '/css/nexus-main' . $suffix . '.css',
-		array( 'nexus-google-fonts' ),
+		array( 'nexus-google-fonts', 'nexus-remixicon' ),
 		$version
 	);
 

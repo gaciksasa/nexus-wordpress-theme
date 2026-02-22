@@ -219,7 +219,7 @@ class Nexus_Widget_Icon_Box extends \Elementor\Widget_Base {
 			array(
 				'label'     => esc_html__( 'Color', 'nexus' ),
 				'type'      => \Elementor\Controls_Manager::COLOR,
-				'default'   => '#1a1a2e',
+				'default'   => '',
 				'selectors' => array(
 					'{{WRAPPER}} .nexus-icon-box__icon' => 'color: {{VALUE}};',
 					'{{WRAPPER}} .nexus-icon-box__icon svg' => 'fill: {{VALUE}};',

@@ -155,6 +155,21 @@ function nexus_search_form( $args = array() ) {
  *
  * @param int $max_pages Maximum number of pages.
  */
+/**
+ * Adds 'nexus-transparent-header' body class on pages with a hero slider.
+ * This triggers the CSS transparent-header overlay pattern.
+ *
+ * @param array $classes Existing body classes.
+ * @return array Modified body classes.
+ */
+function nexus_transparent_header_body_class( array $classes ): array {
+	if ( is_front_page() || nexus_page_has_slider() ) {
+		$classes[] = 'nexus-transparent-header';
+	}
+	return $classes;
+}
+add_filter( 'body_class', 'nexus_transparent_header_body_class' );
+
 function nexus_load_more_button( $max_pages = 0 ) {
 	global $wp_query;
 	$max = ! empty( $max_pages ) ? $max_pages : $wp_query->max_num_pages;
