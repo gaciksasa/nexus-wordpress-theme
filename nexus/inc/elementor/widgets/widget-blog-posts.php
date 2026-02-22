@@ -381,64 +381,91 @@ class Nexus_Widget_Blog_Posts extends \Elementor\Widget_Base {
 			return;
 		}
 
-		$grid_class = 'nexus-blog-grid nexus-blog--' . esc_attr( $layout ) . ' nexus-blog--' . esc_attr( $card_style );
+		$grid_class = 'nexus-blog-grid nexus-blog--' . esc_attr( $layout );
 		?>
 
 		<div class="<?php echo esc_attr( $grid_class ); ?>">
 			<?php
+			$nexus_post_index = 0;
 			while ( $query->have_posts() ) :
 				$query->the_post();
-				?>
-				<?php
+
 				$excerpt = '';
 				if ( $show_excerpt ) {
 					$excerpt = wp_trim_words( get_the_excerpt(), absint( $settings['excerpt_length'] ), '&hellip;' );
 				}
+
+				// Reading time (avg 200 wpm).
+				$nexus_word_count   = str_word_count( wp_strip_all_tags( get_post_field( 'post_content', get_the_ID() ) ) );
+				$nexus_reading_time = max( 1, (int) ceil( $nexus_word_count / 200 ) );
+
+				// Featured variant: first card gets a wider span class.
+				$card_class = 'nexus-post-card';
+				if ( 'featured' === $layout && 0 === $nexus_post_index ) {
+					$card_class .= ' nexus-post-card--featured';
+				}
 				?>
 
-				<article class="nexus-post-card" itemscope itemtype="https://schema.org/BlogPosting">
+				<article class="<?php echo esc_attr( $card_class ); ?>" itemscope itemtype="https://schema.org/BlogPosting">
 
 					<?php if ( $show_image && has_post_thumbnail() ) : ?>
+						<?php
+						$cats    = get_the_category();
+						$cat     = ! empty( $cats ) ? $cats[0] : null;
+						?>
 						<a href="<?php the_permalink(); ?>" class="nexus-post-card__thumb" tabindex="-1" aria-hidden="true">
 							<?php the_post_thumbnail( 'nexus-thumbnail', array( 'loading' => 'lazy' ) ); ?>
+
+							<?php if ( $show_cat && $cat ) : ?>
+								<a
+									href="<?php echo esc_url( get_category_link( $cat->term_id ) ); ?>"
+									class="nexus-post-card__cat-badge"
+									tabindex="0"
+								>
+									<?php echo esc_html( $cat->name ); ?>
+								</a>
+							<?php endif; ?>
+
+							<span class="nexus-post-card__time">
+								<?php
+								echo esc_html(
+									/* translators: %d = number of minutes */
+									sprintf( __( '%d min', 'nexus' ), $nexus_reading_time )
+								);
+								?>
+							</span>
+
+							<span class="nexus-post-card__img-overlay" aria-hidden="true"></span>
 						</a>
 					<?php endif; ?>
 
 					<div class="nexus-post-card__body">
 
-						<?php if ( $show_cat ) : ?>
-							<div class="nexus-post-card__cats">
-								<?php
-								$cats = get_the_category();
-								if ( $cats ) {
-									$cat = $cats[0];
-									echo '<a href="' . esc_url( get_category_link( $cat->term_id ) ) . '" class="nexus-post-card__cat">' . esc_html( $cat->name ) . '</a>';
-								}
-								?>
+						<?php if ( $show_date || $show_author ) : ?>
+							<div class="nexus-post-card__meta">
+								<?php if ( $show_date ) : ?>
+									<time class="nexus-post-card__date" datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>" itemprop="datePublished">
+										<?php echo esc_html( get_the_date( 'M j, Y' ) ); ?>
+									</time>
+								<?php endif; ?>
+
+								<?php if ( $show_date && $show_author ) : ?>
+									<span class="nexus-post-card__sep" aria-hidden="true">&middot;</span>
+								<?php endif; ?>
+
+								<?php if ( $show_author ) : ?>
+									<span class="nexus-post-card__author" itemprop="author" itemscope itemtype="https://schema.org/Person">
+										<a href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>" itemprop="url">
+											<span itemprop="name"><?php the_author(); ?></span>
+										</a>
+									</span>
+								<?php endif; ?>
 							</div>
 						<?php endif; ?>
 
 						<h3 class="nexus-post-card__title" itemprop="headline">
 							<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
 						</h3>
-
-						<?php if ( $show_date || $show_author ) : ?>
-							<div class="nexus-post-card__meta">
-								<?php if ( $show_date ) : ?>
-									<time class="nexus-post-card__date" datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>" itemprop="datePublished">
-										<?php echo esc_html( get_the_date() ); ?>
-									</time>
-								<?php endif; ?>
-								<?php if ( $show_author ) : ?>
-									<span class="nexus-post-card__author">
-										<?php esc_html_e( 'by', 'nexus' ); ?>
-										<a href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>">
-											<?php the_author(); ?>
-										</a>
-									</span>
-								<?php endif; ?>
-							</div>
-						<?php endif; ?>
 
 						<?php if ( $show_excerpt && $excerpt ) : ?>
 							<p class="nexus-post-card__excerpt" itemprop="description"><?php echo esc_html( $excerpt ); ?></p>
@@ -456,6 +483,7 @@ class Nexus_Widget_Blog_Posts extends \Elementor\Widget_Base {
 				</article>
 
 				<?php
+				++$nexus_post_index;
 			endwhile;
 			wp_reset_postdata();
 			?>
