@@ -547,13 +547,14 @@ Kirki::add_section(
 Kirki::add_field(
 	'nexus_theme',
 	array(
-		'type'     => 'select',
-		'settings' => 'nexus_blog_layout',
-		'label'    => esc_html__( 'Blog Layout', 'nexus' ),
-		'section'  => 'nexus_section_blog',
-		'default'  => 'right-sidebar',
-		'priority' => 10,
-		'choices'  => array(
+		'type'      => 'select',
+		'settings'  => 'nexus_blog_layout',
+		'label'     => esc_html__( 'Blog Layout', 'nexus' ),
+		'section'   => 'nexus_section_blog',
+		'default'   => 'right-sidebar',
+		'priority'  => 10,
+		'transport' => 'refresh',
+		'choices'   => array(
 			'right-sidebar' => esc_html__( 'Right Sidebar', 'nexus' ),
 			'left-sidebar'  => esc_html__( 'Left Sidebar', 'nexus' ),
 			'full-width'    => esc_html__( 'Full Width', 'nexus' ),
@@ -564,13 +565,14 @@ Kirki::add_field(
 Kirki::add_field(
 	'nexus_theme',
 	array(
-		'type'     => 'select',
-		'settings' => 'nexus_blog_style',
-		'label'    => esc_html__( 'Blog Post Style', 'nexus' ),
-		'section'  => 'nexus_section_blog',
-		'default'  => 'grid',
-		'priority' => 20,
-		'choices'  => array(
+		'type'      => 'select',
+		'settings'  => 'nexus_blog_style',
+		'label'     => esc_html__( 'Blog Post Style', 'nexus' ),
+		'section'   => 'nexus_section_blog',
+		'default'   => 'grid',
+		'priority'  => 20,
+		'transport' => 'refresh',
+		'choices'   => array(
 			'grid'    => esc_html__( 'Grid', 'nexus' ),
 			'list'    => esc_html__( 'List', 'nexus' ),
 			'masonry' => esc_html__( 'Masonry', 'nexus' ),
@@ -581,24 +583,26 @@ Kirki::add_field(
 Kirki::add_field(
 	'nexus_theme',
 	array(
-		'type'     => 'toggle',
-		'settings' => 'nexus_related_posts',
-		'label'    => esc_html__( 'Show Related Posts', 'nexus' ),
-		'section'  => 'nexus_section_blog',
-		'default'  => true,
-		'priority' => 30,
+		'type'      => 'toggle',
+		'settings'  => 'nexus_related_posts',
+		'label'     => esc_html__( 'Show Related Posts', 'nexus' ),
+		'section'   => 'nexus_section_blog',
+		'default'   => true,
+		'priority'  => 30,
+		'transport' => 'refresh',
 	)
 );
 
 Kirki::add_field(
 	'nexus_theme',
 	array(
-		'type'     => 'toggle',
-		'settings' => 'nexus_author_bio',
-		'label'    => esc_html__( 'Show Author Bio Box', 'nexus' ),
-		'section'  => 'nexus_section_blog',
-		'default'  => true,
-		'priority' => 40,
+		'type'      => 'toggle',
+		'settings'  => 'nexus_author_bio',
+		'label'     => esc_html__( 'Show Author Bio Box', 'nexus' ),
+		'section'   => 'nexus_section_blog',
+		'default'   => true,
+		'priority'  => 40,
+		'transport' => 'refresh',
 	)
 );
 
@@ -607,13 +611,14 @@ foreach ( array( 'date', 'author', 'category', 'reading_time' ) as $nexus_meta_i
 	Kirki::add_field(
 		'nexus_theme',
 		array(
-			'type'     => 'toggle',
-			'settings' => 'nexus_post_meta_' . $nexus_meta_item,
+			'type'      => 'toggle',
+			'settings'  => 'nexus_post_meta_' . $nexus_meta_item,
 			/* translators: %s: meta item name */
-			'label'    => sprintf( esc_html__( 'Show Post %s', 'nexus' ), ucfirst( str_replace( '_', ' ', $nexus_meta_item ) ) ),
-			'section'  => 'nexus_section_blog',
-			'default'  => true,
-			'priority' => 50,
+			'label'     => sprintf( esc_html__( 'Show Post %s', 'nexus' ), ucfirst( str_replace( '_', ' ', $nexus_meta_item ) ) ),
+			'section'   => 'nexus_section_blog',
+			'default'   => true,
+			'priority'  => 50,
+			'transport' => 'refresh',
 		)
 	);
 }
