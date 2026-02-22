@@ -408,19 +408,39 @@ class Nexus_Widget_Blog_Posts extends \Elementor\Widget_Base {
 
 				<article class="<?php echo esc_attr( $card_class ); ?>" itemscope itemtype="https://schema.org/BlogPosting">
 
-					<?php if ( $show_image && has_post_thumbnail() ) : ?>
-						<?php
-						$cats    = get_the_category();
-						$cat     = ! empty( $cats ) ? $cats[0] : null;
+					<?php
+					$cats = get_the_category();
+					$cat  = ! empty( $cats ) ? $cats[0] : null;
+
+					if ( $show_image ) :
+						// Placeholder colours cycle through brand palette when no thumbnail.
+						$nexus_ph_colors = array( '#e94560', '#0f3460', '#1a1a2e', '#16213e', '#533483' );
+						$nexus_ph_color  = $nexus_ph_colors[ get_the_ID() % count( $nexus_ph_colors ) ];
 						?>
-						<a href="<?php the_permalink(); ?>" class="nexus-post-card__thumb" tabindex="-1" aria-hidden="true">
-							<?php the_post_thumbnail( 'nexus-thumbnail', array( 'loading' => 'lazy' ) ); ?>
+						<div class="nexus-post-card__thumb">
+
+							<?php if ( has_post_thumbnail() ) : ?>
+								<a href="<?php the_permalink(); ?>" class="nexus-post-card__thumb-link" tabindex="-1" aria-hidden="true">
+									<?php the_post_thumbnail( 'nexus-medium', array( 'loading' => 'lazy' ) ); ?>
+								</a>
+							<?php else : ?>
+								<a
+									href="<?php the_permalink(); ?>"
+									class="nexus-post-card__thumb-link nexus-post-card__thumb-placeholder"
+									style="--ph-color: <?php echo esc_attr( $nexus_ph_color ); ?>;"
+									tabindex="-1"
+									aria-hidden="true"
+								>
+									<span class="nexus-post-card__thumb-initial" aria-hidden="true">
+										<?php echo esc_html( mb_substr( get_the_title(), 0, 1 ) ); ?>
+									</span>
+								</a>
+							<?php endif; ?>
 
 							<?php if ( $show_cat && $cat ) : ?>
 								<a
 									href="<?php echo esc_url( get_category_link( $cat->term_id ) ); ?>"
 									class="nexus-post-card__cat-badge"
-									tabindex="0"
 								>
 									<?php echo esc_html( $cat->name ); ?>
 								</a>
@@ -436,7 +456,8 @@ class Nexus_Widget_Blog_Posts extends \Elementor\Widget_Base {
 							</span>
 
 							<span class="nexus-post-card__img-overlay" aria-hidden="true"></span>
-						</a>
+
+						</div><!-- .nexus-post-card__thumb -->
 					<?php endif; ?>
 
 					<div class="nexus-post-card__body">
