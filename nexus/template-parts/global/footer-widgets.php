@@ -18,7 +18,7 @@ if ( empty( $nexus_active_footers ) ) {
 }
 
 $nexus_columns      = count( $nexus_active_footers );
-$nexus_column_class = 'nexus-footer-widgets--cols-' . $columns;
+$nexus_column_class = 'nexus-footer-widgets--cols-' . $nexus_columns;
 ?>
 
 <div class="nexus-footer-widgets <?php echo esc_attr( $nexus_column_class ); ?>">

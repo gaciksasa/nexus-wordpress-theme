@@ -1,251 +1,492 @@
 // =============================================================================
-// Footer
+// Nexus Theme — Footer
 // =============================================================================
 
 @use '../abstracts/variables' as *;
 @use '../abstracts/mixins' as *;
 
+// ============================================================================
+// Main container
+// ============================================================================
 .nexus-footer {
-	background-color: var(--nexus-footer-bg, #0f172a);
-	color: var(--nexus-footer-text, rgba(255 255 255 / 70%));
+	background-color: var(--nexus-footer-bg, #0d1117);
+	color: rgba(203 213 225 / 0.78);
 	font-size: 0.9375rem;
+	position: relative;
 
-	// -------------------------------------------------------------------------
-	// Widgets area
-	// -------------------------------------------------------------------------
-	&__widgets {
-		padding-block: clamp(3rem, 6vw, 5rem);
-		display: grid;
-		grid-template-columns: repeat(4, 1fr);
-		gap: 2.5rem;
+	// Top gradient accent bar
+	&::before {
+		content: '';
+		display: block;
+		height: 3px;
+		background: linear-gradient(90deg, var(--nexus-color-primary) 0%, var(--nexus-color-secondary) 50%, var(--nexus-color-primary) 100%);
+	}
+}
 
-		@include respond-below(lg) {
-			grid-template-columns: repeat(2, 1fr);
-		}
+// ============================================================================
+// Widget area  (PHP: footer-widgets.php | FSE: parts/footer.html)
+// ============================================================================
+.nexus-footer-widgets {
+	padding-block: clamp(3.5rem, 7vw, 5.5rem);
+}
 
-		@include respond-below(sm) {
-			grid-template-columns: 1fr;
+// Grid — both PHP .nexus-footer-widget-col children and FSE .wp-block-group children
+.nexus-footer-widgets__grid {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 2rem 3rem;
+	align-items: flex-start;
+
+	// PHP sidebar columns + FSE block columns
+	> .nexus-footer-widget-col,
+	> .wp-block-group,
+	> .wp-block-column {
+		flex: 1 1 180px;
+		min-width: 0;
+	}
+
+	// Brand column is wider
+	> .nexus-footer-col--brand,
+	> .wp-block-column.nexus-footer-col--brand {
+		flex: 2 1 260px;
+	}
+
+	@include respond-below(md) {
+		> .nexus-footer-widget-col,
+		> .wp-block-group,
+		> .wp-block-column {
+			flex: 1 1 calc(50% - 1.5rem);
 		}
 	}
 
-	// -------------------------------------------------------------------------
-	// Widget
-	// -------------------------------------------------------------------------
-	.widget {
-		&-title {
-			font-size: 1rem;
-			font-weight: 600;
-			color: #fff;
-			margin-block-end: 1.25rem;
-			text-transform: uppercase;
-			letter-spacing: 0.05em;
+	@include respond-below(sm) {
+		gap: 2rem;
 
-			&::after {
-				content: '';
-				display: block;
-				width: 2rem;
-				height: 2px;
-				background-color: var(--nexus-primary);
-				margin-block-start: 0.5rem;
-			}
+		> .nexus-footer-widget-col,
+		> .wp-block-group,
+		> .wp-block-column {
+			flex-basis: 100%;
 		}
+	}
+}
 
+// Gutenberg wp:columns override (adds is-layout-flex which is also flex)
+.wp-block-columns.nexus-footer-widgets__grid {
+	> .wp-block-column {
+		margin-block-start: 0;
+	}
+}
+
+// ============================================================================
+// Widget / column titles
+// ============================================================================
+.nexus-footer {
+	.widget-title,
+	.nexus-footer__widget-title {
+		font-size: 0.6875rem;
+		font-weight: 700;
+		color: #fff;
+		text-transform: uppercase;
+		letter-spacing: 0.16em;
+		margin-block: 0 1.625rem;
+		padding-block-end: 0.875rem;
+		position: relative;
+		border-block-end: 1px solid rgba(255 255 255 / 6%);
+
+		// Colored accent underline
+		&::after {
+			content: '';
+			position: absolute;
+			bottom: -1px;
+			inset-inline-start: 0;
+			width: 2rem;
+			height: 2px;
+			background: var(--nexus-color-secondary);
+		}
+	}
+
+	// ---- Links inside any footer column ----
+	.nexus-footer-widget-col,
+	.nexus-footer-col,
+	.wp-block-column {
 		a {
-			color: inherit;
+			color: rgba(203 213 225 / 0.72);
 			text-decoration: none;
-			transition: color var(--nexus-transition-fast);
+			transition: color 0.2s ease;
 
 			&:hover {
-				color: var(--nexus-primary);
+				color: var(--nexus-color-secondary);
 			}
 		}
 
-		ul {
+		// Lists
+		ul:not(.wp-block-social-links) {
 			list-style: none;
 			padding: 0;
 			margin: 0;
 
 			li {
-				padding-block: 0.35rem;
-				border-block-end: 1px solid rgba(255 255 255 / 6%);
-
-				&:last-child {
-					border-block-end: none;
-				}
-
 				a {
-					display: flex;
+					display: inline-flex;
 					align-items: center;
-					gap: 0.5rem;
+					gap: 0.45rem;
+					padding-block: 0.375rem;
+					font-size: 0.9rem;
+					transition: color 0.2s ease, transform 0.2s ease;
 
 					&::before {
 						content: '›';
-						color: var(--nexus-primary);
-						font-weight: 700;
+						color: var(--nexus-color-secondary);
+						font-size: 1.1em;
+						line-height: 1;
+						flex-shrink: 0;
+						transition: transform 0.2s ease;
+					}
+
+					&:hover {
+						transform: translateX(3px);
+
+						&::before {
+							transform: translateX(3px);
+						}
 					}
 				}
 			}
 		}
 
 		p {
-			line-height: 1.75;
-			margin-block-end: 0.75rem;
+			font-size: 0.9rem;
+			line-height: 1.8;
+			color: rgba(203 213 225 / 0.65);
+			margin-block-end: 0;
 		}
 	}
 
-	// -------------------------------------------------------------------------
-	// Logo area in footer
-	// -------------------------------------------------------------------------
-	&__logo {
-		max-width: 160px;
-		margin-block-end: 1rem;
-
-		img {
-			filter: brightness(0) invert(1);
+	// FSE wp:navigation inside footer columns — vertical orientation
+	.nexus-footer-col .wp-block-navigation,
+	.wp-block-column .wp-block-navigation {
+		.wp-block-navigation__container {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 0;
 		}
-	}
 
-	// -------------------------------------------------------------------------
-	// Social icons
-	// -------------------------------------------------------------------------
-	&__social {
-		display: flex;
-		gap: 0.625rem;
-		margin-block-start: 1.25rem;
-
-		a {
+		.wp-block-navigation-item__content {
+			color: rgba(203 213 225 / 0.72);
+			font-size: 0.9rem;
+			padding-block: 0.375rem;
+			padding-inline: 0;
 			display: inline-flex;
 			align-items: center;
-			justify-content: center;
-			width: 2.25rem;
-			height: 2.25rem;
-			border-radius: 50%;
-			background-color: rgba(255 255 255 / 8%);
-			color: rgba(255 255 255 / 70%);
-			font-size: 1rem;
-			transition: background-color var(--nexus-transition-fast), color var(--nexus-transition-fast);
+			gap: 0.45rem;
+			transition: color 0.2s ease, transform 0.2s ease;
+
+			&::before {
+				content: '›';
+				color: var(--nexus-color-secondary);
+				font-size: 1.1em;
+				line-height: 1;
+				flex-shrink: 0;
+				transition: transform 0.2s ease;
+			}
 
 			&:hover {
-				background-color: var(--nexus-primary);
-				color: #fff;
-			}
-		}
-	}
+				color: var(--nexus-color-secondary);
+				transform: translateX(3px);
 
-	// -------------------------------------------------------------------------
-	// Newsletter widget inside footer
-	// -------------------------------------------------------------------------
-	&__newsletter {
-		.newsletter-form {
-			display: flex;
-			margin-block-start: 0.75rem;
-			border-radius: var(--nexus-border-radius);
-			overflow: hidden;
-
-			input[type="email"] {
-				flex: 1;
-				padding: 0.625rem 1rem;
-				border: none;
-				background-color: rgba(255 255 255 / 10%);
-				color: #fff;
-				font-size: 0.875rem;
-
-				&::placeholder {
-					color: rgba(255 255 255 / 50%);
-				}
-
-				&:focus {
-					outline: none;
-					background-color: rgba(255 255 255 / 15%);
-				}
-			}
-
-			button {
-				padding: 0.625rem 1rem;
-				background-color: var(--nexus-primary);
-				border: none;
-				color: #fff;
-				cursor: pointer;
-				font-size: 0.875rem;
-				font-weight: 600;
-				transition: background-color var(--nexus-transition-fast);
-				white-space: nowrap;
-
-				&:hover {
-					background-color: var(--nexus-primary-dark);
+				&::before {
+					transform: translateX(3px);
 				}
 			}
 		}
 	}
+}
 
-	// -------------------------------------------------------------------------
-	// Bottom bar
-	// -------------------------------------------------------------------------
-	&__bottom {
-		border-block-start: 1px solid rgba(255 255 255 / 8%);
-		padding-block: 1.25rem;
+// ============================================================================
+// Brand column — logo + description + social
+// ============================================================================
+
+// PHP logo
+.nexus-footer__logo {
+	display: block;
+	max-width: 150px;
+	margin-block-end: 1.25rem;
+
+	img {
+		filter: brightness(0) invert(1);
+	}
+}
+
+// FSE wp:site-logo
+.nexus-footer .wp-block-site-logo {
+	margin-block-end: 1.25rem;
+	display: block;
+
+	img {
+		filter: brightness(0) invert(1);
+		max-height: 48px;
+		width: auto;
+	}
+}
+
+// Footer description
+.nexus-footer__desc {
+	font-size: 0.9rem;
+	line-height: 1.85;
+	color: rgba(203 213 225 / 0.58);
+	margin-block-end: 1.625rem;
+	max-width: 290px;
+}
+
+// ============================================================================
+// Social icons
+// ============================================================================
+.nexus-footer__social {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+
+	// Override Gutenberg social-links block spacing
+	&.wp-block-social-links {
+		padding: 0;
+		justify-content: flex-start;
+		gap: 0.5rem;
 	}
 
-	&__bottom-inner {
-		display: flex;
+	// Classic <a> or Gutenberg .wp-social-link
+	a,
+	.wp-social-link {
+		display: inline-flex;
 		align-items: center;
-		justify-content: space-between;
-		gap: 1rem;
-		flex-wrap: wrap;
-
-		@include respond-below(sm) {
-			flex-direction: column;
-			text-align: center;
-		}
-	}
-
-	&__copyright {
+		justify-content: center;
+		width: 2.25rem;
+		height: 2.25rem;
+		border-radius: 50%;
+		background-color: rgba(255 255 255 / 7%);
+		color: rgba(255 255 255 / 65%) !important;
 		font-size: 0.875rem;
+		border: 1px solid rgba(255 255 255 / 10%);
+		transition: background-color 0.25s ease, border-color 0.25s ease, transform 0.25s ease, color 0.25s ease;
+		text-decoration: none;
 
-		a {
-			color: var(--nexus-primary);
+		&:hover {
+			background-color: var(--nexus-color-secondary);
+			border-color: var(--nexus-color-secondary);
+			transform: translateY(-4px);
+			color: #fff !important;
+		}
 
-			&:hover {
-				text-decoration: underline;
-			}
+		svg {
+			width: 0.9rem;
+			height: 0.9rem;
+		}
+	}
+}
+
+// ============================================================================
+// Contact info
+// ============================================================================
+.nexus-footer__contact {
+	display: flex;
+	flex-direction: column;
+	gap: 0.875rem;
+}
+
+.nexus-footer__contact-item {
+	display: flex;
+	align-items: flex-start;
+	gap: 0.875rem;
+	font-size: 0.875rem;
+	color: rgba(203 213 225 / 0.7);
+	line-height: 1.6;
+
+	a {
+		color: rgba(203 213 225 / 0.7);
+		text-decoration: none;
+		transition: color 0.2s ease;
+
+		&:hover {
+			color: var(--nexus-color-secondary);
+		}
+	}
+}
+
+.nexus-footer__contact-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	width: 1.875rem;
+	height: 1.875rem;
+	border-radius: 6px;
+	background: rgba(233 69 96 / 0.12);
+	color: var(--nexus-color-secondary);
+
+	svg {
+		width: 0.875rem;
+		height: 0.875rem;
+	}
+}
+
+// ============================================================================
+// Newsletter form
+// ============================================================================
+.nexus-footer__newsletter-desc {
+	font-size: 0.875rem;
+	color: rgba(203 213 225 / 0.58);
+	line-height: 1.7;
+	margin-block: 0.5rem 0.875rem;
+}
+
+.nexus-footer__newsletter-form {
+	display: flex;
+	border-radius: var(--nexus-border-radius);
+	overflow: hidden;
+	border: 1px solid rgba(255 255 255 / 10%);
+	background: rgba(255 255 255 / 4%);
+
+	input[type='email'] {
+		flex: 1;
+		min-width: 0;
+		padding: 0.65rem 0.875rem;
+		border: none;
+		background: transparent;
+		color: #fff;
+		font-size: 0.8125rem;
+		font-family: inherit;
+		outline: none;
+
+		&::placeholder {
+			color: rgba(255 255 255 / 32%);
+		}
+
+		&:focus {
+			background: rgba(255 255 255 / 6%);
 		}
 	}
 
-	&__bottom-links {
+	button {
+		flex-shrink: 0;
+		padding: 0.65rem 1rem;
+		background: var(--nexus-color-secondary);
+		border: none;
+		color: #fff;
+		cursor: pointer;
+		font-size: 0.6875rem;
+		font-weight: 700;
+		font-family: inherit;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		white-space: nowrap;
+		transition: background-color 0.2s ease;
+
+		&:hover {
+			background: #c73652;
+		}
+	}
+}
+
+// ============================================================================
+// Bottom bar
+// ============================================================================
+.nexus-footer-bottom {
+	border-block-start: 1px solid rgba(255 255 255 / 7%);
+	padding-block: 1.375rem;
+}
+
+.nexus-footer-bottom__inner {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	flex-wrap: wrap;
+
+	@include respond-below(sm) {
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+		gap: 0.625rem;
+	}
+}
+
+// Copyright — PHP + FSE
+.nexus-footer-bottom__copyright,
+.nexus-footer__copyright {
+	font-size: 0.8125rem;
+	color: rgba(203 213 225 / 0.48);
+
+	a {
+		color: rgba(203 213 225 / 0.7);
+		text-decoration: none;
+
+		&:hover {
+			color: var(--nexus-color-secondary);
+		}
+	}
+}
+
+// Footer nav — PHP wp_nav_menu
+.nexus-footer-bottom__nav {
+	.nexus-footer-menu,
+	ul {
 		display: flex;
-		gap: 1.25rem;
+		gap: 1.5rem;
 		list-style: none;
 		padding: 0;
 		margin: 0;
-		font-size: 0.875rem;
+		flex-wrap: wrap;
 
-		a {
-			color: inherit;
+		@include respond-below(sm) {
+			justify-content: center;
+			gap: 1rem;
+		}
+
+		li a {
+			font-size: 0.8125rem;
+			color: rgba(203 213 225 / 0.48);
 			text-decoration: none;
-			transition: color var(--nexus-transition-fast);
+			transition: color 0.2s ease;
 
 			&:hover {
-				color: var(--nexus-primary);
+				color: var(--nexus-color-secondary);
 			}
 		}
 	}
+}
 
-	// -------------------------------------------------------------------------
-	// Minimal footer variant
-	// -------------------------------------------------------------------------
-	&--minimal {
-		.nexus-footer__widgets {
-			display: none;
+// FSE wp:navigation in bottom bar
+.nexus-footer-bottom .wp-block-navigation {
+	.wp-block-navigation__container {
+		gap: 1.5rem;
+		align-items: center;
+	}
+
+	.wp-block-navigation-item__content {
+		font-size: 0.8125rem;
+		color: rgba(203 213 225 / 0.48);
+		padding: 0;
+
+		&:hover {
+			color: var(--nexus-color-secondary);
 		}
+	}
+}
 
-		.nexus-footer__bottom {
-			border-block-start: none;
-			padding-block: 1.5rem;
-			text-align: center;
+// ============================================================================
+// Minimal variant
+// ============================================================================
+.nexus-footer--minimal {
+	.nexus-footer-widgets {
+		display: none;
+	}
 
-			.nexus-footer__bottom-inner {
-				justify-content: center;
-			}
+	.nexus-footer-bottom {
+		border-block-start: none;
+		padding-block: 1.5rem;
+		text-align: center;
+
+		.nexus-footer-bottom__inner {
+			justify-content: center;
 		}
 	}
 }

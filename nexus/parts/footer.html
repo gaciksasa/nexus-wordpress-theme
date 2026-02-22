@@ -1,35 +1,116 @@
 <!-- wp:group {"className":"nexus-footer-widgets","layout":{"type":"default"}} -->
 <div class="wp-block-group nexus-footer-widgets">
 
-	<!-- wp:group {"className":"nexus-container","layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between"}} -->
+	<!-- wp:group {"className":"nexus-container","layout":{"type":"default"}} -->
 	<div class="wp-block-group nexus-container">
 
-		<!-- wp:group {"className":"nexus-footer-col","layout":{"type":"default"}} -->
-		<div class="wp-block-group nexus-footer-col">
-			<!-- wp:site-logo {"width":140,"className":"nexus-footer__logo"} /-->
-			<!-- wp:paragraph {"className":"nexus-footer__desc"} -->
-			<p class="wp-block-paragraph nexus-footer__desc">Premium WordPress theme built for performance and flexibility. Start your next project with Nexus.</p>
-			<!-- /wp:paragraph -->
-		</div>
-		<!-- /wp:group -->
+		<!-- wp:group {"className":"nexus-footer-widgets__grid","layout":{"type":"flex","flexWrap":"wrap","verticalAlignment":"top","justifyContent":"space-between"}} -->
+		<div class="wp-block-group nexus-footer-widgets__grid">
 
-		<!-- wp:group {"className":"nexus-footer-col","layout":{"type":"default"}} -->
-		<div class="wp-block-group nexus-footer-col">
-			<!-- wp:heading {"level":2,"className":"nexus-footer__widget-title"} -->
-			<h2 class="wp-block-heading nexus-footer__widget-title">Quick Links</h2>
-			<!-- /wp:heading -->
-			<!-- wp:navigation {"className":"nexus-footer-nav","overlayMenu":"never","layout":{"type":"flex","orientation":"vertical"}} /-->
-		</div>
-		<!-- /wp:group -->
+			<!-- ===== Col 1: Brand ===== -->
+			<!-- wp:group {"className":"nexus-footer-col nexus-footer-col--brand","layout":{"type":"default"}} -->
+			<div class="wp-block-group nexus-footer-col nexus-footer-col--brand">
 
-		<!-- wp:group {"className":"nexus-footer-col","layout":{"type":"default"}} -->
-		<div class="wp-block-group nexus-footer-col">
-			<!-- wp:heading {"level":2,"className":"nexus-footer__widget-title"} -->
-			<h2 class="wp-block-heading nexus-footer__widget-title">Contact</h2>
-			<!-- /wp:heading -->
-			<!-- wp:paragraph -->
-			<p>hello@yoursite.com</p>
-			<!-- /wp:paragraph -->
+				<!-- wp:site-logo {"width":150} /-->
+
+				<!-- wp:paragraph {"className":"nexus-footer__desc"} -->
+				<p class="wp-block-paragraph nexus-footer__desc">Premium WordPress theme built for performance and flexibility. Create stunning websites with Nexus.</p>
+				<!-- /wp:paragraph -->
+
+				<!-- wp:social-links {"iconColor":"white","iconColorValue":"#ffffff","size":"has-small-icon-size","className":"nexus-footer__social","style":{"spacing":{"blockGap":{"top":"0.5rem","left":"0.5rem"}}}} -->
+				<ul class="wp-block-social-links has-small-icon-size has-icon-color nexus-footer__social">
+					<!-- wp:social-link {"url":"https://facebook.com","service":"facebook","label":"Facebook"} /-->
+					<!-- wp:social-link {"url":"https://twitter.com","service":"x","label":"X (Twitter)"} /-->
+					<!-- wp:social-link {"url":"https://instagram.com","service":"instagram","label":"Instagram"} /-->
+					<!-- wp:social-link {"url":"https://linkedin.com","service":"linkedin","label":"LinkedIn"} /-->
+					<!-- wp:social-link {"url":"https://youtube.com","service":"youtube","label":"YouTube"} /-->
+				</ul>
+				<!-- /wp:social-links -->
+
+			</div>
+			<!-- /wp:group -->
+
+			<!-- ===== Col 2: Quick Links ===== -->
+			<!-- wp:group {"className":"nexus-footer-col","layout":{"type":"default"}} -->
+			<div class="wp-block-group nexus-footer-col">
+
+				<!-- wp:heading {"level":3,"className":"nexus-footer__widget-title"} -->
+				<h3 class="wp-block-heading nexus-footer__widget-title">Quick Links</h3>
+				<!-- /wp:heading -->
+
+				<!-- wp:navigation {"overlayMenu":"never","layout":{"type":"flex","orientation":"vertical","justifyContent":"left"},"style":{"spacing":{"blockGap":"0"}}} /-->
+
+			</div>
+			<!-- /wp:group -->
+
+			<!-- ===== Col 3: Company ===== -->
+			<!-- wp:group {"className":"nexus-footer-col","layout":{"type":"default"}} -->
+			<div class="wp-block-group nexus-footer-col">
+
+				<!-- wp:heading {"level":3,"className":"nexus-footer__widget-title"} -->
+				<h3 class="wp-block-heading nexus-footer__widget-title">Company</h3>
+				<!-- /wp:heading -->
+
+				<!-- wp:list {"className":"nexus-footer__links"} -->
+				<ul class="wp-block-list nexus-footer__links">
+					<!-- wp:list-item --><li><a href="#">About Us</a></li><!-- /wp:list-item -->
+					<!-- wp:list-item --><li><a href="#">Our Team</a></li><!-- /wp:list-item -->
+					<!-- wp:list-item --><li><a href="#">Portfolio</a></li><!-- /wp:list-item -->
+					<!-- wp:list-item --><li><a href="#">Blog</a></li><!-- /wp:list-item -->
+					<!-- wp:list-item --><li><a href="#">Careers</a></li><!-- /wp:list-item -->
+					<!-- wp:list-item --><li><a href="#">Contact</a></li><!-- /wp:list-item -->
+				</ul>
+				<!-- /wp:list -->
+
+			</div>
+			<!-- /wp:group -->
+
+			<!-- ===== Col 4: Contact + Newsletter ===== -->
+			<!-- wp:group {"className":"nexus-footer-col nexus-footer-col--contact","layout":{"type":"default"}} -->
+			<div class="wp-block-group nexus-footer-col nexus-footer-col--contact">
+
+				<!-- wp:heading {"level":3,"className":"nexus-footer__widget-title"} -->
+				<h3 class="wp-block-heading nexus-footer__widget-title">Get in Touch</h3>
+				<!-- /wp:heading -->
+
+				<!-- wp:html -->
+				<div class="nexus-footer__contact">
+					<div class="nexus-footer__contact-item">
+						<span class="nexus-footer__contact-icon" aria-hidden="true">
+							<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+						</span>
+						<span>123 Business Ave, New York, USA</span>
+					</div>
+					<div class="nexus-footer__contact-item">
+						<span class="nexus-footer__contact-icon" aria-hidden="true">
+							<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+						</span>
+						<a href="mailto:hello@yoursite.com">hello@yoursite.com</a>
+					</div>
+					<div class="nexus-footer__contact-item">
+						<span class="nexus-footer__contact-icon" aria-hidden="true">
+							<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41a2 2 0 0 1 1.99-2.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.09 6.09l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+						</span>
+						<a href="tel:+15550000000">+1 (555) 000-0000</a>
+					</div>
+				</div>
+				<!-- /wp:html -->
+
+				<!-- wp:heading {"level":4,"className":"nexus-footer__widget-title","style":{"spacing":{"marginTop":"2rem"}}} -->
+				<h4 class="wp-block-heading nexus-footer__widget-title" style="margin-top:2rem">Newsletter</h4>
+				<!-- /wp:heading -->
+
+				<!-- wp:html -->
+				<p class="nexus-footer__newsletter-desc">Get the latest updates and news delivered to your inbox.</p>
+				<form class="nexus-footer__newsletter-form" onsubmit="return false;">
+					<input type="email" placeholder="Enter your email…" aria-label="<?php esc_attr_e( 'Email address', 'nexus' ); ?>" />
+					<button type="submit">Subscribe</button>
+				</form>
+				<!-- /wp:html -->
+
+			</div>
+			<!-- /wp:group -->
+
 		</div>
 		<!-- /wp:group -->
 
@@ -42,12 +123,14 @@
 <!-- wp:group {"className":"nexus-footer-bottom","layout":{"type":"default"}} -->
 <div class="wp-block-group nexus-footer-bottom">
 
-	<!-- wp:group {"className":"nexus-container","layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between","verticalAlignment":"center"}} -->
-	<div class="wp-block-group nexus-container">
+	<!-- wp:group {"className":"nexus-container nexus-footer-bottom__inner","layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between","verticalAlignment":"center"}} -->
+	<div class="wp-block-group nexus-container nexus-footer-bottom__inner">
 
-		<!-- wp:paragraph {"className":"nexus-footer__copyright"} -->
-		<p class="wp-block-paragraph nexus-footer__copyright">© 2025 <a href="/">Your Site</a>. All Rights Reserved.</p>
+		<!-- wp:paragraph {"className":"nexus-footer-bottom__copyright"} -->
+		<p class="wp-block-paragraph nexus-footer-bottom__copyright">© 2025 <a href="/">Your Site</a>. All Rights Reserved.</p>
 		<!-- /wp:paragraph -->
+
+		<!-- wp:navigation {"overlayMenu":"never","layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"right"},"style":{"spacing":{"blockGap":"1.5rem"}}} /-->
 
 	</div>
 	<!-- /wp:group -->
