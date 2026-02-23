@@ -64,6 +64,11 @@
 	}
 }
 
+// In sidebar layouts the available width is ~800 px — 3 columns is too narrow.
+.nexus-primary .nexus-blog-grid {
+	--nexus-blog-cols: 2;
+}
+
 // -------------------------------------------------------------------------
 // Post card
 // -------------------------------------------------------------------------

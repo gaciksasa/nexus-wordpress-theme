@@ -120,12 +120,13 @@
   &.nexus-layout--left-sidebar {
     grid-template-columns: 300px 1fr;
 
+    // Sidebar is second in HTML source, so pull it into the first (left) column.
+    .nexus-sidebar {
+      order: -1;
+    }
+
     @include respond-below(lg) {
       grid-template-columns: 1fr;
-
-      .nexus-sidebar {
-        order: -1;
-      }
     }
   }
 
