@@ -38,9 +38,11 @@
 .nexus-main {
   padding: var(--nexus-spacing-3xl) 0;
 
-  // No top padding on blank (Elementor full-page) templates
-  .page-template-template-blank & {
-    padding-block-start: 0;
+  // No padding on blank and canvas templates (Elementor full-page designs)
+  .page-template-template-blank &,
+  .page-template-template-canvas &,
+  &--canvas {
+    padding: 0;
   }
 
   .nexus-page-header {
