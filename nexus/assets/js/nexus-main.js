@@ -237,8 +237,8 @@
 	// Dark Mode Toggle
 	// =========================================================================
 	function initDarkMode() {
-		const toggle = document.querySelector( '.nexus-header__dark-toggle' );
-		if ( ! toggle ) return;
+		const toggles = document.querySelectorAll( '.nexus-header__dark-toggle' );
+		if ( ! toggles.length ) return;
 
 		function isDark() {
 			return document.documentElement.classList.contains( 'nexus-dark' );
@@ -246,17 +246,19 @@
 
 		function setDark( dark ) {
 			document.documentElement.classList.toggle( 'nexus-dark', dark );
-			toggle.setAttribute( 'aria-pressed', dark ? 'true' : 'false' );
+			toggles.forEach( ( btn ) => {
+				btn.setAttribute( 'aria-pressed', dark ? 'true' : 'false' );
+			} );
 			try {
 				localStorage.setItem( 'nexusDarkMode', dark ? 'dark' : 'light' );
 			} catch ( e ) {}
 		}
 
-		// Set initial state.
-		toggle.setAttribute( 'aria-pressed', isDark() ? 'true' : 'false' );
-
-		toggle.addEventListener( 'click', () => {
-			setDark( ! isDark() );
+		toggles.forEach( ( btn ) => {
+			btn.setAttribute( 'aria-pressed', isDark() ? 'true' : 'false' );
+			btn.addEventListener( 'click', () => {
+				setDark( ! isDark() );
+			} );
 		} );
 	}
 

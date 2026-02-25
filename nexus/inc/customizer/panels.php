@@ -369,7 +369,7 @@ Kirki::add_field(
 		'label'       => esc_html__( 'Enable Dark Mode Toggle', 'nexus' ),
 		'description' => esc_html__( 'Adds a dark mode toggle button to the header. Respects user\'s system preference.', 'nexus' ),
 		'section'     => 'nexus_section_dark_mode',
-		'default'     => false,
+		'default'     => true,
 		'priority'    => 10,
 	)
 );

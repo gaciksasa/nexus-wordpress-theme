@@ -130,6 +130,7 @@
 
   &__inner {
     @include flex-between;
+    width: 100%;
     height: 100%;
   }
 
@@ -165,6 +166,16 @@
     align-items: center;
     gap: 0.75rem;
     flex-shrink: 0;
+    margin-left: auto;
+  }
+
+  // Hide search, dark toggle and cart on mobile — they live in the drawer
+  &__search-toggle,
+  &__dark-toggle,
+  &__cart {
+    @include respond-below(lg) {
+      display: none;
+    }
   }
 
   &__search-toggle,
@@ -195,14 +206,14 @@
     }
   }
 
-  // Dark mode toggle — show sun in light mode, moon in dark mode
+  // Dark mode toggle — show sun in dark mode, moon in light mode
   &__dark-toggle {
-    .nexus-dark-toggle__icon--moon { display: none; }
-    .nexus-dark-toggle__icon--sun  { display: block; }
+    .nexus-icon--moon { display: flex; }
+    .nexus-icon--sun  { display: none; }
 
     .nexus-dark & {
-      .nexus-dark-toggle__icon--sun  { display: none; }
-      .nexus-dark-toggle__icon--moon { display: block; }
+      .nexus-icon--moon { display: none; }
+      .nexus-icon--sun  { display: flex; }
     }
   }
 
@@ -353,13 +364,94 @@
     }
   }
 
+  &__search {
+    padding: 0.75rem 1.5rem;
+    border-bottom: 1px solid var(--nexus-border-color);
+
+    .nexus-search-form {
+      width: 100%;
+    }
+  }
+
   &__body {
-    padding: 1rem 0;
+    padding: 0.5rem 0;
+    flex: 1;
+    overflow-y: auto;
+  }
+
+  // Mobile menu items
+  .nexus-mobile-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      border-bottom: 1px solid var(--nexus-border-color);
+    }
+
+    a {
+      display: block;
+      padding: 0.875rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--nexus-body-color);
+      text-decoration: none;
+      @include transition(background-color, color);
+
+      &:hover {
+        background: var(--nexus-color-light);
+        color: var(--nexus-color-secondary);
+      }
+    }
+
+    .current-menu-item > a {
+      color: var(--nexus-color-secondary);
+      font-weight: 600;
+    }
+
+    // Nested submenus
+    .sub-menu {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      a {
+        padding-left: 2.5rem;
+        font-weight: 400;
+        font-size: 0.9375rem;
+      }
+    }
   }
 
   &__footer {
     padding: 1rem 1.5rem;
     border-top: 1px solid var(--nexus-border-color);
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  &__dark-toggle {
+    @include button-reset;
+    @include focus-ring;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--nexus-body-color);
+    font-size: 0.9375rem;
+    cursor: pointer;
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--nexus-border-radius);
+    @include transition(background-color, color);
+
+    &:hover {
+      background: var(--nexus-color-light);
+    }
+
+    .nexus-icon {
+      width: 20px;
+      height: 20px;
+    }
   }
 
   &__cart {
@@ -368,6 +460,27 @@
     gap: 0.5rem;
     text-decoration: none;
     color: var(--nexus-body-color);
+    font-size: 0.9375rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--nexus-border-radius);
+    @include transition(background-color, color);
+
+    &:hover {
+      background: var(--nexus-color-light);
+      color: var(--nexus-color-secondary);
+    }
+
+    .nexus-icon {
+      width: 20px;
+      height: 20px;
+    }
+
+    .nexus-cart-count {
+      position: static;
+      min-width: 20px;
+      height: 20px;
+      line-height: 20px;
+    }
   }
 
   &__overlay {
