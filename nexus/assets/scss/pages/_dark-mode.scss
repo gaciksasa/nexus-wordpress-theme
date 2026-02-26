@@ -181,11 +181,32 @@ html.nexus-dark {
 	}
 
 	// ---- Headings ----
-	// Force all headings to light color; needed for widgets that apply
-	// color: var(--nexus-color-primary) directly instead of --nexus-heading-color.
+	// Default dark-mode heading color (no !important — allows Elementor
+	// inline styles on light-background sections to keep their dark text).
 	h1, h2, h3, h4, h5, h6,
 	.elementor-heading-title {
 		color: var(--nexus-heading-color);
+	}
+
+	// Sections on a dark/transparent background that need light text in
+	// dark mode. Add .nexus-dark-text to the Elementor container.
+	.nexus-dark-text {
+		.elementor-heading-title,
+		.elementor-widget-text-editor,
+		.elementor-icon-list-text {
+			color: var(--nexus-heading-color);
+		}
+
+		.elementor-widget-text-editor {
+			color: var(--nexus-text-color);
+		}
+
+		// Outline buttons should invert to light border/text
+		.elementor-button.elementor-size-sm[style*="background-color: transparent"],
+		.elementor-button.elementor-size-md[style*="background-color: transparent"] {
+			color: var(--nexus-text-color);
+			border-color: var(--nexus-border-hover);
+		}
 	}
 
 	// Widget-specific title elements that hardcode --nexus-color-primary as text color
