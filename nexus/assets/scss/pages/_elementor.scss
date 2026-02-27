@@ -1184,6 +1184,283 @@ html.nexus-dark {
 }
 
 // -------------------------------------------------------------------------
+// Row with Image
+// -------------------------------------------------------------------------
+.nexus-rwi {
+	padding: 5rem 2rem;
+	position: relative;
+
+	&__row {
+		display: flex;
+		align-items: center;
+		gap: 3rem;
+		max-width: var(--nexus-container-max-width);
+		margin-inline: auto;
+		flex-wrap: wrap;
+	}
+
+	&__img-col,
+	&__text-col {
+		flex: 1;
+		min-width: 280px;
+	}
+
+	&__img-col img {
+		width: 100%;
+		height: auto;
+		display: block;
+		border-radius: var(--nexus-border-radius-lg);
+		object-fit: cover;
+	}
+
+	&__tagline {
+		font-size: 0.875rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		margin-block-end: 0.5rem;
+		color: var(--nexus-secondary);
+	}
+
+	&__headline {
+		font-size: clamp(1.5rem, 3vw, 2.25rem);
+		font-weight: 700;
+		line-height: 1.25;
+		margin-block-end: 0.75rem;
+	}
+
+	&__desc {
+		font-size: 1rem;
+		line-height: 1.7;
+		margin-block-end: 1rem;
+	}
+
+	&__list {
+		list-style: none;
+		padding: 0;
+		margin: 0 0 1.5rem;
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+
+	&__stats {
+		display: flex;
+		gap: 2rem;
+		flex-wrap: wrap;
+		margin-block-end: 1.5rem;
+	}
+
+	&__actions {
+		display: flex;
+		gap: 1rem;
+		flex-wrap: wrap;
+	}
+
+	// Style 3: Dark background
+	&--image-left-dark {
+		background-color: #1a1a2e;
+	}
+
+	// Style 4: Light background
+	&--image-right-stats {
+		background-color: #f8f9fa;
+	}
+
+	// Style 5: Card with shadow (dark bg)
+	&--card-shadow {
+		background-color: #1a1a2e;
+		box-shadow: var(--nexus-shadow-lg);
+		border-radius: var(--nexus-border-radius-lg);
+
+		.nexus-rwi__headline { color: #fff; }
+		.nexus-rwi__tagline { color: #e94560; }
+		.nexus-rwi__desc,
+		.nexus-rwi__list li { color: #cbd5e1; }
+	}
+
+	// Style 6: Accent border on text col
+	&--accent-border .nexus-rwi__text-col {
+		border-inline-start: 4px solid var(--nexus-secondary);
+		padding-inline-start: 2rem;
+	}
+
+	// Mobile: stack columns
+	@media (max-width: 768px) {
+		&__row { flex-direction: column !important; }
+		&__img-col,
+		&__text-col { min-width: 100%; }
+	}
+}
+
+// Row with Image — dark mode overrides
+html.nexus-dark {
+	.nexus-rwi--image-left-light,
+	.nexus-rwi--image-right-light,
+	.nexus-rwi--accent-border,
+	.nexus-rwi--image-right-stats {
+		.nexus-rwi__headline { color: var(--nexus-heading-color); }
+		.nexus-rwi__desc { color: var(--nexus-text-color); }
+	}
+
+	.nexus-rwi--image-right-stats {
+		background-color: var(--nexus-bg-subtle);
+	}
+}
+
+// -------------------------------------------------------------------------
+// Blog Cards
+// -------------------------------------------------------------------------
+.nexus-bc {
+
+	// Card hover effects
+	&__card {
+		&:hover {
+			transform: translateY(-4px);
+			box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+		}
+
+		&:hover img {
+			transform: scale(1.05);
+		}
+	}
+
+	// Style 2: Minimal bordered
+	&--minimal-bordered &__card {
+		&:hover {
+			border-color: #e94560;
+		}
+	}
+
+	// Style 3: Dark elegant
+	&--dark-elegant &__card {
+		&:hover {
+			box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+			border-color: rgba(255, 255, 255, 0.15);
+		}
+	}
+
+	// Style 4: Overlay gradient
+	&--overlay-gradient &__card--overlay {
+		&:hover {
+			transform: translateY(-6px);
+			box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+		}
+	}
+
+	// Mobile: reduce section padding
+	@media (max-width: 768px) {
+		padding: 3rem 1rem !important;
+	}
+
+	// Prevent text overflow in all cards
+	&__card {
+		min-width: 0;
+		overflow: hidden;
+	}
+
+	&__card-title {
+		overflow-wrap: break-word;
+		word-break: break-word;
+	}
+
+	// Style 4: Overlay — smaller min-height on mobile
+	&__card--overlay {
+		@media (max-width: 768px) {
+			min-height: 260px !important;
+		}
+	}
+
+	// Style 5: Side image — mobile stack
+	&__card--side {
+		@media (max-width: 768px) {
+			flex-direction: column !important;
+			gap: 0 !important;
+
+			.nexus-bc__card-side-thumb {
+				flex: auto !important;
+				max-width: 100% !important;
+				width: 100%;
+			}
+
+			.nexus-bc__card-side-thumb img {
+				width: 100% !important;
+				height: 200px !important;
+			}
+
+			.nexus-bc__card-body {
+				padding: 1.25rem !important;
+			}
+		}
+	}
+
+	// Style 6: Magazine featured — mobile stack
+	&__card--mag-featured {
+		@media (max-width: 768px) {
+			flex-direction: column !important;
+			gap: 0 !important;
+
+			.nexus-bc__card-mag-thumb {
+				flex: auto !important;
+				width: 100%;
+			}
+
+			.nexus-bc__card-mag-thumb img {
+				height: 220px !important;
+			}
+
+			.nexus-bc__card-body {
+				padding: 1.25rem !important;
+			}
+		}
+	}
+
+	// Mobile: grid to single column
+	&__grid {
+		@media (max-width: 768px) {
+			grid-template-columns: 1fr !important;
+		}
+
+		@media (min-width: 769px) and (max-width: 1024px) {
+			grid-template-columns: repeat(2, 1fr) !important;
+		}
+	}
+
+	// Card footer: wrap on small screens
+	&__card-footer {
+		@media (max-width: 480px) {
+			flex-direction: column !important;
+			align-items: flex-start !important;
+			gap: 0.5rem;
+		}
+	}
+}
+
+// Blog Cards — dark mode overrides
+html.nexus-dark {
+	.nexus-bc--classic-light,
+	.nexus-bc--minimal-bordered,
+	.nexus-bc--side-image,
+	.nexus-bc--magazine-featured {
+		background-color: var(--nexus-bg) !important;
+
+		.nexus-bc__headline { color: var(--nexus-heading-color); }
+		.nexus-bc__desc { color: var(--nexus-text-color); }
+		.nexus-bc__card-title a { color: var(--nexus-heading-color) !important; }
+		.nexus-bc__card-excerpt { color: var(--nexus-text-color) !important; }
+
+		.nexus-bc__card {
+			background-color: var(--nexus-surface) !important;
+			border-color: var(--nexus-border-color) !important;
+		}
+	}
+
+	.nexus-bc--minimal-bordered .nexus-bc__card {
+		border-color: var(--nexus-border-color) !important;
+	}
+}
+
+// -------------------------------------------------------------------------
 // Video Popup
 // -------------------------------------------------------------------------
 .nexus-video-popup {

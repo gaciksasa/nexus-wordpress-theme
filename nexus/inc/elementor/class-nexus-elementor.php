@@ -142,8 +142,10 @@ final class Nexus_Elementor {
 			'widget-counter'        => 'Nexus_Widget_Counter',
 			'widget-icon-box'       => 'Nexus_Widget_Icon_Box',
 			'widget-blog-posts'     => 'Nexus_Widget_Blog_Posts',
-			'widget-cta-banner'     => 'Nexus_Widget_CTA_Banner',
-			'widget-video-popup'    => 'Nexus_Widget_Video_Popup',
+			'widget-cta-banner'        => 'Nexus_Widget_CTA_Banner',
+			'widget-row-with-image'    => 'Nexus_Widget_Row_With_Image',
+			'widget-video-popup'       => 'Nexus_Widget_Video_Popup',
+			'widget-blog-cards'        => 'Nexus_Widget_Blog_Cards',
 		);
 
 		// WooCommerce-specific widgets.
