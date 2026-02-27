@@ -995,28 +995,20 @@
 // CTA Banner
 // -------------------------------------------------------------------------
 .nexus-cta-banner {
-	background-color: var(--nexus-primary);
-	padding: 4rem 2rem;
+	// Scoped CSS vars — each preset overrides these, dark mode overrides light presets.
+	--cta-bg: #f8f9fa;
+	--cta-heading: #1a1a2e;
+	--cta-text: #495057;
+	--cta-tagline: var(--nexus-primary);
+	--cta-note: #64748b;
+
+	padding: 5rem 2rem;
+	position: relative;
+	background-color: var(--cta-bg);
 
 	&__inner {
 		max-width: var(--nexus-container-max-width);
 		margin-inline: auto;
-	}
-
-	&--centered {
-		text-align: center;
-
-		.nexus-cta-banner__actions {
-			justify-content: center;
-		}
-	}
-
-	&--left-right .nexus-cta-banner__inner {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		gap: 2rem;
-		flex-wrap: wrap;
 	}
 
 	&__text { flex: 1; }
@@ -1027,12 +1019,15 @@
 		text-transform: uppercase;
 		letter-spacing: 0.08em;
 		margin-block-end: 0.5rem;
+		color: var(--cta-tagline);
 	}
 
 	&__headline {
-		font-size: clamp(1.5rem, 3vw, 2.25rem);
+		font-size: clamp(1.5rem, 3vw, 2.5rem);
+		font-weight: 700;
 		line-height: 1.25;
 		margin-block-end: 0.75rem;
+		color: var(--cta-heading);
 	}
 
 	&__desc {
@@ -1040,8 +1035,7 @@
 		line-height: 1.7;
 		margin-block-end: 0;
 		max-width: 560px;
-
-		.nexus-cta-banner--centered & { margin-inline: auto; }
+		color: var(--cta-text);
 	}
 
 	&__actions {
@@ -1049,11 +1043,143 @@
 		gap: 1rem;
 		flex-wrap: wrap;
 		margin-block-start: 1.5rem;
+	}
 
-		.nexus-cta-banner--left-right & {
+	&__note {
+		font-size: 0.8125rem;
+		margin-block-start: 1rem;
+		color: var(--cta-note);
+	}
+
+	// ----- Style 1: Centered Minimal (Light) -----
+	&--centered-light {
+		text-align: center;
+
+		.nexus-cta-banner__desc { margin-inline: auto; }
+		.nexus-cta-banner__actions { justify-content: center; }
+	}
+
+	// ----- Style 2: Centered Dark -----
+	&--centered-dark {
+		--cta-bg: #1a1a2e;
+		--cta-heading: #fff;
+		--cta-text: #cbd5e1;
+		text-align: center;
+
+		.nexus-cta-banner__desc { margin-inline: auto; }
+		.nexus-cta-banner__actions { justify-content: center; }
+		.nexus-cta-banner__note { text-align: center; }
+	}
+
+	// ----- Style 3: Side by Side -----
+	&--side-by-side {
+		.nexus-cta-banner__inner {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 2.5rem;
+			flex-wrap: wrap;
+		}
+
+		.nexus-cta-banner__actions {
 			margin-block-start: 0;
 			flex-shrink: 0;
 		}
+	}
+
+	// ----- Style 4: Gradient -----
+	&--gradient {
+		--cta-heading: #fff;
+		--cta-text: rgba(255, 255, 255, 0.85);
+		--cta-tagline: rgba(255, 255, 255, 0.7);
+		background: linear-gradient(135deg, #667eea, #764ba2);
+		text-align: center;
+
+		.nexus-cta-banner__desc { margin-inline: auto; }
+		.nexus-cta-banner__actions { justify-content: center; }
+	}
+
+	// ----- Style 5: Image + Overlay -----
+	&--image-overlay {
+		--cta-bg: transparent;
+		--cta-heading: #fff;
+		--cta-text: rgba(255, 255, 255, 0.85);
+		background-size: cover;
+		background-position: center;
+		text-align: center;
+
+		&::before {
+			content: '';
+			position: absolute;
+			inset: 0;
+			background-color: rgba(26, 26, 46, 0.8);
+		}
+
+		.nexus-cta-banner__inner { position: relative; z-index: 1; }
+		.nexus-cta-banner__desc { margin-inline: auto; }
+		.nexus-cta-banner__actions { justify-content: center; }
+	}
+
+	// ----- Style 6: Split with Accent Bar -----
+	&--split-accent {
+		--cta-bg: #1a1a2e;
+		--cta-heading: #fff;
+		--cta-text: #94a3b8;
+
+		.nexus-cta-banner__inner {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 2.5rem;
+			flex-wrap: wrap;
+			border-inline-start: 4px solid var(--nexus-primary);
+			padding-inline-start: 2rem;
+		}
+
+		.nexus-cta-banner__actions {
+			margin-block-start: 0;
+			flex-shrink: 0;
+		}
+	}
+
+	// ----- Legacy layout compat (centered / left-right) -----
+	&--centered {
+		--cta-bg: var(--nexus-primary);
+		--cta-heading: #fff;
+		--cta-text: rgba(255, 255, 255, 0.85);
+		text-align: center;
+
+		.nexus-cta-banner__actions { justify-content: center; }
+		.nexus-cta-banner__desc { margin-inline: auto; }
+	}
+
+	&--left-right {
+		--cta-bg: var(--nexus-primary);
+		--cta-heading: #fff;
+		--cta-text: rgba(255, 255, 255, 0.85);
+
+		.nexus-cta-banner__inner {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 2rem;
+			flex-wrap: wrap;
+		}
+
+		.nexus-cta-banner__actions {
+			margin-block-start: 0;
+			flex-shrink: 0;
+		}
+	}
+}
+
+// CTA Banner — dark mode: only light-bg presets need overrides
+html.nexus-dark {
+	.nexus-cta-banner--centered-light,
+	.nexus-cta-banner--side-by-side {
+		--cta-bg: var(--nexus-bg-subtle);
+		--cta-heading: var(--nexus-heading-color);
+		--cta-text: var(--nexus-text-color);
 	}
 }
 

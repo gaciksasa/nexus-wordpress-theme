@@ -95,6 +95,10 @@ final class Nexus_Elementor {
 
 		// Theme builder (header/footer) support.
 		add_action( 'elementor/theme/register_locations', array( $this, 'register_theme_locations' ) );
+
+		// Override Container widget defaults (zero padding, full width).
+		add_action( 'elementor/element/container/section_layout_container/before_section_end', array( $this, 'update_container_defaults' ) );
+		add_action( 'elementor/element/container/section_layout/before_section_end', array( $this, 'update_container_padding_default' ) );
 	}
 
 	/**
@@ -200,6 +204,39 @@ final class Nexus_Elementor {
 	 */
 	public function register_theme_locations( $location_manager ) {
 		$location_manager->register_all_core_location();
+	}
+
+	/**
+	 * Sets Container widget content width default to full width.
+	 *
+	 * @param \Elementor\Element_Base $element The element.
+	 */
+	public function update_container_defaults( $element ) {
+		$element->update_control(
+			'content_width',
+			array( 'default' => 'full' )
+		);
+	}
+
+	/**
+	 * Sets Container widget padding default to 0.
+	 *
+	 * @param \Elementor\Element_Base $element The element.
+	 */
+	public function update_container_padding_default( $element ) {
+		$element->update_responsive_control(
+			'padding',
+			array(
+				'default' => array(
+					'top'      => '0',
+					'right'    => '0',
+					'bottom'   => '0',
+					'left'     => '0',
+					'unit'     => 'px',
+					'isLinked' => true,
+				),
+			)
+		);
 	}
 
 	/**
