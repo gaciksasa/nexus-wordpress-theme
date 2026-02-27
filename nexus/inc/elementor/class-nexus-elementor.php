@@ -146,6 +146,7 @@ final class Nexus_Elementor {
 			'widget-row-with-image'    => 'Nexus_Widget_Row_With_Image',
 			'widget-video-popup'       => 'Nexus_Widget_Video_Popup',
 			'widget-blog-cards'        => 'Nexus_Widget_Blog_Cards',
+			'widget-image-cards-grid'  => 'Nexus_Widget_Image_Cards_Grid',
 		);
 
 		// WooCommerce-specific widgets.

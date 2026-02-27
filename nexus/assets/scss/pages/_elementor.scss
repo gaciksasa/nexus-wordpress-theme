@@ -1461,6 +1461,138 @@ html.nexus-dark {
 }
 
 // -------------------------------------------------------------------------
+// Image Cards Grid
+// -------------------------------------------------------------------------
+.nexus-icg {
+
+	// Mobile: reduce section padding
+	@media (max-width: 768px) {
+		padding: 3rem 1rem !important;
+	}
+
+	// Card hover lift
+	&__card {
+		&:hover {
+			transform: translateY(-4px);
+			box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+		}
+
+		&:hover img {
+			transform: scale(1.05);
+		}
+	}
+
+	// Prevent text overflow
+	&__card {
+		min-width: 0;
+	}
+
+	&__card-title {
+		overflow-wrap: break-word;
+		word-break: break-word;
+	}
+
+	// Overlay cards: show overlay + content on hover
+	&__card--overlay {
+		cursor: pointer;
+
+		&:hover .nexus-icg__card-overlay {
+			opacity: 1 !important;
+		}
+
+		&:hover .nexus-icg__card-content {
+			opacity: 1 !important;
+			transform: translateY(0) !important;
+		}
+
+		// Touch/mobile: always show overlay + content
+		@media (max-width: 768px) {
+			.nexus-icg__card-overlay {
+				opacity: 0.7 !important;
+			}
+
+			.nexus-icg__card-content {
+				opacity: 1 !important;
+				transform: translateY(0) !important;
+			}
+		}
+
+		// Normalize masonry aspect ratios on mobile
+		@media (max-width: 768px) {
+			aspect-ratio: 4/3 !important;
+		}
+	}
+
+	// Hover-zoom: image scales more
+	&__card--zoom {
+		&:hover img {
+			transform: scale(1.12);
+		}
+	}
+
+	// Rounded shadow: bigger shadow on hover
+	&--rounded-shadow &__card {
+		&:hover {
+			box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+		}
+	}
+
+	// Caption-below: image hover zoom
+	&__card--caption {
+		.nexus-icg__card-thumb:hover img {
+			transform: scale(1.08);
+		}
+	}
+
+	// Mobile grid
+	&__grid {
+		@media (max-width: 768px) {
+			grid-template-columns: 1fr !important;
+			gap: 1.5rem !important;
+		}
+
+		@media (min-width: 769px) and (max-width: 1024px) {
+			grid-template-columns: repeat(2, 1fr) !important;
+		}
+	}
+
+	// Caption-below: smaller circle on mobile
+	&__card--caption .nexus-icg__card-thumb {
+		@media (max-width: 480px) {
+			width: 140px !important;
+			height: 140px !important;
+		}
+	}
+
+	// Standard/rounded card body: tighter padding on mobile
+	&__card-body {
+		@media (max-width: 480px) {
+			padding: 1rem 1.25rem 1.25rem !important;
+		}
+	}
+}
+
+// Image Cards Grid — dark mode overrides
+html.nexus-dark {
+	.nexus-icg--clean-grid,
+	.nexus-icg--rounded-shadow,
+	.nexus-icg--caption-below,
+	.nexus-icg--hover-zoom {
+		background-color: var(--nexus-bg) !important;
+
+		.nexus-icg__headline { color: var(--nexus-heading-color); }
+		.nexus-icg__desc { color: var(--nexus-text-color); }
+		.nexus-icg__card-title { color: var(--nexus-heading-color); }
+		.nexus-icg__card-title a { color: var(--nexus-heading-color) !important; }
+		.nexus-icg__card-subtitle { color: var(--nexus-text-color); }
+
+		.nexus-icg__card {
+			background-color: var(--nexus-surface) !important;
+		}
+	}
+}
+
+// -------------------------------------------------------------------------
 // Video Popup
 // -------------------------------------------------------------------------
 .nexus-video-popup {
