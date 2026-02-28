@@ -675,19 +675,19 @@ class Nexus_Widget_Row_With_Image extends \Elementor\Widget_Base {
 		<div class="nexus-rwi__text-col" style="flex:1;min-width:280px;<?php echo esc_attr( $text_extra ); ?>">
 
 			<?php if ( $tagline ) : ?>
-				<p class="nexus-rwi__tagline nexus-rwi-anim--<?php echo esc_attr( $anim ); ?>" data-rwi-delay="0" style="<?php echo esc_attr( $hidden ); ?>color:<?php echo esc_attr( $colors['tagline'] ); ?>;font-size:0.875rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin:0 0 0.5rem;">
+				<p class="nexus-rwi__tagline nexus-rwi-anim--<?php echo esc_attr( $anim ); ?>" data-rwi-delay="0" style="<?php echo esc_attr( $hidden ); ?>color:var(--nexus-rwi-tagline, <?php echo esc_attr( $colors['tagline'] ); ?>) !important;font-size:0.875rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin:0 0 0.5rem;">
 					<?php echo esc_html( $tagline ); ?>
 				</p>
 			<?php endif; ?>
 
 			<?php if ( $headline ) : ?>
-				<<?php echo esc_attr( $htag ); ?> class="nexus-rwi__headline nexus-rwi-anim--<?php echo esc_attr( $anim ); ?>" data-rwi-delay="100" style="<?php echo esc_attr( $hidden ); ?>color:<?php echo esc_attr( $colors['heading'] ); ?>;font-size:clamp(1.5rem,3vw,2.25rem);font-weight:700;line-height:1.25;margin:0 0 0.75rem;">
+				<<?php echo esc_attr( $htag ); ?> class="nexus-rwi__headline nexus-rwi-anim--<?php echo esc_attr( $anim ); ?>" data-rwi-delay="100" style="<?php echo esc_attr( $hidden ); ?>color:var(--nexus-rwi-heading, <?php echo esc_attr( $colors['heading'] ); ?>) !important;font-size:clamp(1.5rem,3vw,2.25rem);font-weight:700;line-height:1.25;margin:0 0 0.75rem;">
 					<?php echo wp_kses_post( $headline ); ?>
 				</<?php echo esc_attr( $htag ); ?>>
 			<?php endif; ?>
 
 			<?php if ( $description ) : ?>
-				<p class="nexus-rwi__desc nexus-rwi-anim--<?php echo esc_attr( $anim ); ?>" data-rwi-delay="200" style="<?php echo esc_attr( $hidden ); ?>color:<?php echo esc_attr( $colors['text'] ); ?>;font-size:1rem;line-height:1.7;margin:0 0 1rem;">
+				<p class="nexus-rwi__desc nexus-rwi-anim--<?php echo esc_attr( $anim ); ?>" data-rwi-delay="200" style="<?php echo esc_attr( $hidden ); ?>color:var(--nexus-rwi-text, <?php echo esc_attr( $colors['text'] ); ?>) !important;font-size:1rem;line-height:1.7;margin:0 0 1rem;">
 					<?php echo wp_kses_post( $description ); ?>
 				</p>
 			<?php endif; ?>

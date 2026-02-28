@@ -920,75 +920,106 @@
 }
 
 // -------------------------------------------------------------------------
-// Counter
+// Counter (multi-item widget, .nexus-cnt prefix)
 // -------------------------------------------------------------------------
-.nexus-counter {
-	padding: 1.5rem 2rem;
-	text-align: center;
 
-	&__icon {
-		display: block;
-		margin-block-end: 1rem;
-		font-size: 2.25rem;
-		line-height: 1;
-		color: var(--nexus-color-secondary);
-	}
+// Preset 3: Icon Cards — card hover lift
+.nexus-cnt--icon-cards .nexus-cnt__card {
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
 
-	&__number-wrap {
-		display: flex;
-		align-items: baseline;
-		justify-content: center;
-		gap: 0.05em;
-		line-height: 1;
-	}
-
-	&__number {
-		font-size: clamp(2.5rem, 5vw, 3.5rem);
-		font-weight: 800;
-		line-height: 1;
-		color: #fff;
-	}
-
-	&__prefix,
-	&__suffix {
-		font-size: 1.75rem;
-		font-weight: 800;
-		line-height: 1;
-		color: var(--nexus-color-secondary);
-	}
-
-	&__title {
-		font-size: 0.8125rem;
-		font-weight: 500;
-		letter-spacing: 0.08em;
-		text-transform: uppercase;
-		color: rgba(255 255 255 / 0.6);
-		margin-block: 0.75rem 0;
-	}
-
-	&__desc {
-		font-size: 0.8125rem;
-		color: rgba(255 255 255 / 0.4);
-		margin: 0.25rem 0 0;
+	&:hover {
+		transform: translateY(-4px);
+		box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
 	}
 }
 
-// Counter widgets: distribute evenly across the full row
-.e-con-inner > .elementor-widget-nexus-counter {
-	flex: 1;
-	min-width: 160px;
+// Mobile: reduce padding and font sizes, but keep items in one row
+.nexus-cnt {
+	@media (max-width: 768px) {
+		padding-left: 1rem !important;
+		padding-right: 1rem !important;
+	}
 }
 
-// Space counters evenly and align them vertically
-.e-con-inner:has(> .elementor-widget-nexus-counter) {
-	justify-content: space-evenly;
-	align-items: center;
-	flex-wrap: wrap;
+.nexus-cnt__grid {
+	@media (max-width: 768px) {
+		gap: 1rem !important;
+	}
 }
 
-// Vertical divider between sibling counter widgets in a flex-row container
-.e-con-inner > .elementor-widget-nexus-counter:not(:last-child) {
-	border-inline-end: 1px solid rgba(255 255 255 / 0.12);
+.nexus-cnt__item,
+.nexus-cnt__card {
+	@media (max-width: 768px) {
+		padding: 1rem 0.5rem !important;
+		min-width: 0 !important;
+	}
+}
+
+.nexus-cnt__number {
+	@media (max-width: 480px) {
+		font-size: clamp(1.5rem, 8vw, 2.25rem) !important;
+	}
+}
+
+.nexus-cnt__prefix,
+.nexus-cnt__suffix {
+	@media (max-width: 480px) {
+		font-size: 1rem !important;
+	}
+}
+
+.nexus-cnt__label {
+	@media (max-width: 480px) {
+		font-size: 0.6875rem !important;
+		letter-spacing: 0.04em !important;
+	}
+}
+
+.nexus-cnt__icon {
+	@media (max-width: 480px) {
+		font-size: 1.5rem !important;
+		margin-bottom: 0.5rem !important;
+	}
+}
+
+.nexus-cnt__icon-wrap {
+	@media (max-width: 480px) {
+		width: 48px !important;
+		height: 48px !important;
+		margin-bottom: 0.75rem !important;
+	}
+}
+
+// Counter — dark mode overrides for light-bg presets
+html.nexus-dark {
+	.nexus-cnt--minimal-row,
+	.nexus-cnt--accent-top,
+	.nexus-cnt--circle-icon {
+		.nexus-cnt__number { color: #fff !important; }
+		.nexus-cnt__label { color: rgba(255, 255, 255, 0.6) !important; }
+		.nexus-cnt__headline { color: #fff !important; }
+	}
+
+	.nexus-cnt--icon-cards {
+		background-color: var(--nexus-bg-subtle, #1e1e2e) !important;
+
+		.nexus-cnt__card {
+			background: var(--nexus-surface, #252538) !important;
+			box-shadow: 0 2px 16px rgba(0, 0, 0, 0.2);
+		}
+
+		.nexus-cnt__number { color: #fff !important; }
+		.nexus-cnt__label { color: rgba(255, 255, 255, 0.6) !important; }
+		.nexus-cnt__headline { color: #fff !important; }
+	}
+
+	.nexus-cnt--circle-icon {
+		background-color: var(--nexus-bg-subtle, #1e1e2e) !important;
+
+		.nexus-cnt__icon-wrap {
+			background: rgba(233, 69, 96, 0.15) !important;
+		}
+	}
 }
 
 // -------------------------------------------------------------------------
@@ -1293,17 +1324,21 @@ html.nexus-dark {
 	}
 }
 
-// Row with Image — dark mode overrides
+// Row with Image — dark mode overrides (uses CSS custom properties)
 html.nexus-dark {
 	.nexus-rwi--image-left-light,
 	.nexus-rwi--image-right-light,
-	.nexus-rwi--accent-border,
-	.nexus-rwi--image-right-stats {
-		.nexus-rwi__headline { color: var(--nexus-heading-color); }
-		.nexus-rwi__desc { color: var(--nexus-text-color); }
+	.nexus-rwi--accent-border {
+		--nexus-rwi-heading: #fff;
+		--nexus-rwi-tagline: #e94560;
+		--nexus-rwi-text: var(--nexus-text-color);
+
+		.nexus-rwi__list li { color: var(--nexus-text-color) !important; }
 	}
 
 	.nexus-rwi--image-right-stats {
+		--nexus-rwi-heading: #1a1a2e;
+		--nexus-rwi-text: #495057;
 		background-color: var(--nexus-bg-subtle);
 	}
 }
