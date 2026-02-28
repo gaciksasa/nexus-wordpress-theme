@@ -2175,3 +2175,209 @@ html.nexus-dark {
 		box-shadow: 0 0 0 4px var(--nexus-bg);
 	}
 }
+
+// -------------------------------------------------------------------------
+// Image Cards Scroller
+// -------------------------------------------------------------------------
+.nexus-ics {
+
+	// ---- Standard card hover ----
+	&__card--standard {
+		&:hover {
+			transform: translateY(-4px);
+			box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12) !important;
+		}
+
+		&:hover img {
+			transform: scale(1.05);
+		}
+	}
+
+	// ---- Overlay card hover ----
+	&__card--overlay {
+		&:hover {
+			transform: translateY(-4px);
+			box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
+		}
+
+		&:hover img {
+			transform: scale(1.08);
+		}
+	}
+
+	// Gradient-hover: overlay + content revealed on hover.
+	&--gradient-hover .nexus-ics__card--overlay {
+		&:hover .nexus-ics__card-overlay {
+			opacity: 1 !important;
+		}
+
+		&:hover .nexus-ics__card-content {
+			opacity: 1 !important;
+		}
+	}
+
+	// ---- Caption card hover ----
+	&__card--caption {
+		&:hover {
+			transform: translateY(-2px);
+		}
+
+		&:hover img {
+			transform: scale(1.05);
+		}
+	}
+
+	// ---- Swiper arrows ----
+	&__arrow {
+		width: 48px !important;
+		height: 48px !important;
+		border-radius: 50% !important;
+		background: rgba(255, 255, 255, 0.85) !important;
+		backdrop-filter: blur(8px);
+		border: 1px solid rgba(0, 0, 0, 0.08) !important;
+		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+		transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+		z-index: 10;
+		top: 50%;
+		margin-top: 0;
+		transform: translateY(-50%);
+
+		&::after {
+			font-size: 14px !important;
+			font-weight: 700;
+			color: #1a1a2e;
+		}
+
+		&:hover {
+			background: var(--nexus-color-secondary, #e94560) !important;
+			border-color: var(--nexus-color-secondary, #e94560) !important;
+			box-shadow: 0 6px 24px rgba(233, 69, 96, 0.3);
+			transform: translateY(-50%) scale(1.08);
+
+			&::after {
+				color: #fff;
+			}
+		}
+
+		&--prev {
+			left: 1rem;
+		}
+
+		&--next {
+			right: 1rem;
+		}
+	}
+
+	// Dark presets: glassmorphism arrows.
+	&--dark-cinema &__arrow,
+	&--fullwidth-hero &__arrow {
+		background: rgba(255, 255, 255, 0.12) !important;
+		border-color: rgba(255, 255, 255, 0.2) !important;
+		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+
+		&::after {
+			color: #fff;
+		}
+
+		&:hover {
+			background: rgba(255, 255, 255, 0.25) !important;
+			border-color: rgba(255, 255, 255, 0.4) !important;
+			box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
+		}
+	}
+
+	// ---- Pagination dots ----
+	&__dots {
+		margin-top: 1.5rem !important;
+		position: relative !important;
+		bottom: auto !important;
+
+		.swiper-pagination-bullet {
+			width: 10px;
+			height: 10px;
+			opacity: 0.3;
+			transition: opacity 0.3s ease, transform 0.3s ease;
+		}
+
+		.swiper-pagination-bullet-active {
+			opacity: 1;
+			transform: scale(1.2);
+		}
+	}
+
+	&--minimal-slide &__dots .swiper-pagination-bullet-active,
+	&--gradient-hover &__dots .swiper-pagination-bullet-active {
+		background: #e94560;
+	}
+
+	&--dark-cinema &__dots .swiper-pagination-bullet-active {
+		background: #e94560;
+	}
+
+	&--rounded-peek &__dots .swiper-pagination-bullet-active,
+	&--caption-card &__dots .swiper-pagination-bullet-active {
+		background: #0f3460;
+	}
+
+	&--fullwidth-hero &__dots .swiper-pagination-bullet {
+		background: #fff;
+	}
+
+	&--fullwidth-hero &__dots .swiper-pagination-bullet-active {
+		background: #fff;
+	}
+
+	// ---- Responsive ----
+	@include respond-below(md) {
+		padding: 3rem 0 !important;
+
+		&__header {
+			margin-bottom: 1.5rem !important;
+		}
+
+		&__arrow {
+			display: none !important;
+		}
+	}
+
+	@include respond-below(sm) {
+		&__card--standard {
+			border-radius: 8px !important;
+		}
+
+		&__card--overlay {
+			border-radius: 8px !important;
+		}
+
+		&__dots {
+			margin-top: 1rem !important;
+		}
+	}
+}
+
+// Dark mode overrides for image cards scroller light-bg presets.
+.nexus-dark {
+	.nexus-ics--minimal-slide,
+	.nexus-ics--rounded-peek,
+	.nexus-ics--caption-card,
+	.nexus-ics--gradient-hover {
+		background-color: var(--nexus-bg) !important;
+
+		.nexus-ics__card--standard,
+		.nexus-ics__card--caption {
+			background: var(--nexus-bg-subtle) !important;
+		}
+
+		.nexus-ics__card-title {
+			color: var(--nexus-text-heading) !important;
+		}
+
+		.nexus-ics__title {
+			color: var(--nexus-text-heading) !important;
+		}
+
+		.nexus-ics__desc {
+			color: var(--nexus-text) !important;
+		}
+	}
+}

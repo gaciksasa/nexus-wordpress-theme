@@ -149,6 +149,7 @@ final class Nexus_Elementor {
 			'widget-image-cards-grid'       => 'Nexus_Widget_Image_Cards_Grid',
 			'widget-testimonials-slider'    => 'Nexus_Widget_Testimonials_Slider',
 			'widget-feature-list'           => 'Nexus_Widget_Feature_List',
+			'widget-image-cards-scroller'   => 'Nexus_Widget_Image_Cards_Scroller',
 		);
 
 		// WooCommerce-specific widgets.
