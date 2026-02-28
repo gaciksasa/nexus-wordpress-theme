@@ -1829,3 +1829,349 @@ html.nexus-dark {
 		}
 	}
 }
+
+// -------------------------------------------------------------------------
+// Testimonials Slider
+// -------------------------------------------------------------------------
+.nexus-ts {
+	position: relative;
+
+	// Card animation.
+	&__card--anim {
+		opacity: 0;
+		transform: translateY(30px);
+		transition: opacity 0.6s ease, transform 0.6s ease;
+
+		&.is-visible {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	// Swiper nav arrows inside slider.
+	.swiper-button-prev,
+	.swiper-button-next {
+		width: 44px;
+		height: 44px;
+		background: var(--nexus-color-white);
+		border-radius: 50%;
+		box-shadow: var(--nexus-shadow-md);
+
+		&::after {
+			font-size: 1rem;
+			color: var(--nexus-body-color);
+		}
+	}
+
+	// Dots spacing.
+	&__dots {
+		margin-top: 1.5rem;
+		text-align: center;
+	}
+
+	// Bubble speech card — triangle pointer.
+	&--bubble-speech .nexus-ts__card--bubble {
+		&::after {
+			content: '';
+			position: absolute;
+			bottom: -12px;
+			left: 2rem;
+			width: 0;
+			height: 0;
+			border-left: 12px solid transparent;
+			border-right: 12px solid transparent;
+			border-top: 12px solid #f0f4f8;
+		}
+	}
+
+	// Bubble — author sits below card with spacing for the triangle.
+	&--bubble-speech .nexus-ts__author {
+		padding-top: 1.25rem;
+	}
+
+	// Large quote — oversized quote mark.
+	&--large-quote .nexus-ts__quote {
+		font-size: 5rem !important;
+		margin-bottom: 1rem !important;
+	}
+
+	// Accented cards — glow on hover.
+	&--cards-accented .nexus-ts__card--accented {
+		transition: box-shadow 0.3s ease, transform 0.3s ease;
+
+		&:hover {
+			box-shadow: 0 0 20px rgba(233, 69, 96, 0.15);
+			transform: translateY(-2px);
+		}
+	}
+
+	// General card hover for shadow style.
+	&--classic-light .nexus-ts__card--shadow,
+	&--dark-elegant .nexus-ts__card--shadow {
+		transition: box-shadow 0.3s ease, transform 0.3s ease;
+
+		&:hover {
+			box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+			transform: translateY(-2px);
+		}
+	}
+
+	// Bordered card hover.
+	&--minimal-clean .nexus-ts__card--bordered {
+		transition: border-color 0.3s ease, box-shadow 0.3s ease;
+
+		&:hover {
+			border-color: var(--nexus-color-secondary);
+			box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+		}
+	}
+
+	// Mobile.
+	@include respond-below(md) {
+		padding: 3rem 0 !important;
+
+		&__header {
+			margin-bottom: 2rem !important;
+		}
+	}
+
+	@include respond-below(sm) {
+		&__card--large {
+			padding: 2rem 1rem !important;
+		}
+	}
+}
+
+// Dark mode overrides for testimonials slider light-bg presets.
+.nexus-dark {
+	.nexus-ts--classic-light,
+	.nexus-ts--minimal-clean,
+	.nexus-ts--bubble-speech,
+	.nexus-ts--large-quote {
+		background-color: var(--nexus-bg) !important;
+
+		.nexus-ts__card {
+			background: var(--nexus-bg-subtle) !important;
+		}
+	}
+
+	.nexus-ts--bubble-speech .nexus-ts__card--bubble::after {
+		border-top-color: var(--nexus-bg-subtle);
+	}
+}
+
+// -------------------------------------------------------------------------
+// Feature List
+// -------------------------------------------------------------------------
+.nexus-fl {
+
+	// ---- Entrance animations ----
+	&__item--anim {
+		opacity: 0;
+		transform: translateY(20px);
+		transition: opacity 0.5s ease, transform 0.5s ease;
+
+		&.is-visible {
+			opacity: 1;
+			transform: none;
+		}
+	}
+
+	// ---- Check-list divider hover ----
+	&--check-list .nexus-fl__item {
+		transition: background-color 0.25s ease;
+
+		&:hover {
+			background-color: rgba(0, 0, 0, 0.015);
+		}
+	}
+
+	&--check-list .nexus-fl__icon svg {
+		transition: transform 0.25s ease;
+	}
+
+	&--check-list .nexus-fl__item:hover .nexus-fl__icon svg {
+		transform: scale(1.15);
+	}
+
+	// ---- Icon bordered hover ----
+	&--icon-bordered .nexus-fl__item {
+		transition: box-shadow 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
+
+		&:hover {
+			box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+			transform: translateY(-2px);
+			border-color: var(--nexus-color-secondary) !important;
+		}
+	}
+
+	// ---- Dark numbered ----
+	&--dark-numbered .nexus-fl__item {
+		transition: background-color 0.25s ease;
+
+		&:hover {
+			background-color: rgba(255, 255, 255, 0.03);
+		}
+	}
+
+	// ---- Timeline ----
+	&--timeline .nexus-fl__timeline-line {
+		transition: background-color 0.3s ease;
+	}
+
+	&--timeline .nexus-fl__timeline-dot .nexus-fl__icon {
+		transition: transform 0.3s ease, box-shadow 0.3s ease;
+		box-shadow: 0 0 0 4px #fff;
+	}
+
+	&--timeline .nexus-fl__item:hover .nexus-fl__timeline-dot .nexus-fl__icon {
+		transform: scale(1.15);
+		box-shadow: 0 0 0 4px #fff, 0 0 12px rgba(233, 69, 96, 0.3);
+	}
+
+	// ---- Card grid hover ----
+	&--card-grid .nexus-fl__item {
+		transition: box-shadow 0.3s ease, transform 0.3s ease;
+
+		&:hover {
+			box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1) !important;
+			transform: translateY(-4px);
+		}
+	}
+
+	&--card-grid .nexus-fl__icon {
+		transition: transform 0.3s ease;
+	}
+
+	&--card-grid .nexus-fl__item:hover .nexus-fl__icon {
+		transform: scale(1.1);
+	}
+
+	// ---- Minimal accent ----
+	&--minimal-accent .nexus-fl__item {
+		transition: border-color 0.3s ease, background-color 0.3s ease, transform 0.3s ease;
+
+		&:hover {
+			background-color: rgba(255, 255, 255, 0.06) !important;
+			border-left-color: var(--nexus-color-secondary) !important;
+			transform: translateX(4px);
+		}
+	}
+
+	// ---- Responsive ----
+	@include respond-below(md) {
+		padding: 3rem 0 !important;
+
+		&__header {
+			margin-bottom: 2rem !important;
+		}
+
+		&__grid {
+			grid-template-columns: repeat(2, 1fr) !important;
+		}
+
+		&__list {
+			grid-template-columns: 1fr !important;
+			gap: 0 !important;
+		}
+
+		// Icon-bordered cards: stack single column, full-width items.
+		&--icon-bordered .nexus-fl__item {
+			padding: 1rem !important;
+			border-radius: 0 !important;
+			border-left: none !important;
+			border-right: none !important;
+		}
+
+		// Card grid: 2 cols on tablet.
+		&--card-grid .nexus-fl__grid {
+			grid-template-columns: repeat(2, 1fr) !important;
+		}
+	}
+
+	@include respond-below(sm) {
+		&__grid {
+			grid-template-columns: 1fr !important;
+		}
+
+		// Icon-bordered: full-width list items.
+		&--icon-bordered .nexus-fl__list {
+			margin-left: -1rem !important;
+			margin-right: -1rem !important;
+			max-width: none !important;
+		}
+
+		&--icon-bordered .nexus-fl__item {
+			gap: 0.75rem !important;
+			padding: 0.875rem 1rem !important;
+			border-radius: 0 !important;
+			border-left: none !important;
+			border-right: none !important;
+		}
+
+		&--icon-bordered .nexus-fl__icon {
+			width: 36px !important;
+			height: 36px !important;
+		}
+
+		// Card grid: full-width single column items.
+		&--card-grid .nexus-fl__grid {
+			grid-template-columns: 1fr !important;
+			gap: 1rem !important;
+			margin-left: -1rem !important;
+			margin-right: -1rem !important;
+		}
+
+		&--card-grid .nexus-fl__item {
+			border-radius: 0 !important;
+		}
+
+		&__timeline {
+			padding-left: 30px !important;
+
+			.nexus-fl__timeline-dot {
+				left: -16px !important;
+
+				.nexus-fl__icon {
+					width: 32px !important;
+					height: 32px !important;
+				}
+			}
+		}
+	}
+}
+
+// Dark mode overrides for feature list light-bg presets.
+.nexus-dark {
+	.nexus-fl--check-list,
+	.nexus-fl--icon-bordered,
+	.nexus-fl--timeline,
+	.nexus-fl--card-grid {
+		background-color: var(--nexus-bg) !important;
+
+		.nexus-fl__item-title {
+			color: var(--nexus-text-heading) !important;
+		}
+
+		.nexus-fl__item-text {
+			color: var(--nexus-text) !important;
+		}
+
+		.nexus-fl__title {
+			color: var(--nexus-text-heading) !important;
+		}
+
+		.nexus-fl__desc {
+			color: var(--nexus-text) !important;
+		}
+	}
+
+	.nexus-fl--icon-bordered .nexus-fl__item,
+	.nexus-fl--card-grid .nexus-fl__item {
+		background: var(--nexus-bg-subtle) !important;
+	}
+
+	.nexus-fl--timeline .nexus-fl__timeline-dot .nexus-fl__icon {
+		box-shadow: 0 0 0 4px var(--nexus-bg);
+	}
+}

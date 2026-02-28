@@ -146,7 +146,9 @@ final class Nexus_Elementor {
 			'widget-row-with-image'    => 'Nexus_Widget_Row_With_Image',
 			'widget-video-popup'       => 'Nexus_Widget_Video_Popup',
 			'widget-blog-cards'        => 'Nexus_Widget_Blog_Cards',
-			'widget-image-cards-grid'  => 'Nexus_Widget_Image_Cards_Grid',
+			'widget-image-cards-grid'       => 'Nexus_Widget_Image_Cards_Grid',
+			'widget-testimonials-slider'    => 'Nexus_Widget_Testimonials_Slider',
+			'widget-feature-list'           => 'Nexus_Widget_Feature_List',
 		);
 
 		// WooCommerce-specific widgets.
@@ -180,9 +182,16 @@ final class Nexus_Elementor {
 	}
 
 	/**
-	 * Registers Elementor widget scripts (not enqueued — loaded conditionally).
+	 * Registers Elementor widget scripts and styles (not enqueued — loaded conditionally).
 	 */
 	public function register_scripts() {
+		wp_register_style(
+			'nexus-swiper',
+			NEXUS_ASSETS_URI . '/css/vendor/swiper.min.css',
+			array(),
+			'11.0.5'
+		);
+
 		wp_register_script(
 			'nexus-swiper',
 			NEXUS_ASSETS_URI . '/js/vendor/swiper.min.js',
