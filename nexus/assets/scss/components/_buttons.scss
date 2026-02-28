@@ -71,6 +71,37 @@
     }
   }
 
+  // Outline dark
+  &--outline-dark {
+    &:hover, &:focus-visible {
+      background-color: #1a1a2e !important;
+      color: #fff !important;
+      border-color: #1a1a2e !important;
+    }
+  }
+
+  // Ghost accent (text link with arrow)
+  &--ghost-accent {
+    &:hover, &:focus-visible {
+      opacity: 0.75;
+      transform: translateX(2px);
+    }
+  }
+
+  // Ghost white
+  &--ghost-white {
+    &:hover, &:focus-visible {
+      opacity: 0.75;
+    }
+  }
+
+  // Ghost dark
+  &--ghost-dark {
+    &:hover, &:focus-visible {
+      color: #e94560 !important;
+    }
+  }
+
   // Sizes
   &--sm {
     padding: 0.5em 1.25em;

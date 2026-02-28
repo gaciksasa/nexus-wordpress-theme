@@ -1397,6 +1397,34 @@ html.nexus-dark {
 	&__card-title {
 		overflow-wrap: break-word;
 		word-break: break-word;
+
+		a {
+			transition: color 0.25s ease;
+
+			&:hover { color: #e94560 !important; }
+		}
+	}
+
+	// Button hover overrides (inline styles need !important to override)
+	.nexus-btn--primary:hover {
+		background-color: #c5243d !important;
+		border-color: #c5243d !important;
+	}
+
+	.nexus-btn--secondary:hover {
+		background-color: #e94560 !important;
+		border-color: #e94560 !important;
+	}
+
+	.nexus-btn--outline:hover {
+		background-color: #e94560 !important;
+		color: #fff !important;
+	}
+
+	.nexus-btn--outline-white:hover {
+		background-color: #fff !important;
+		color: #e94560 !important;
+		border-color: #fff !important;
 	}
 
 	// Style 4: Overlay — smaller min-height on mobile
@@ -1479,8 +1507,8 @@ html.nexus-dark {
 	.nexus-bc--magazine-featured {
 		background-color: var(--nexus-bg) !important;
 
-		.nexus-bc__headline { color: var(--nexus-heading-color); }
-		.nexus-bc__desc { color: var(--nexus-text-color); }
+		.nexus-bc__headline { color: var(--nexus-heading-color) !important; }
+		.nexus-bc__desc { color: var(--nexus-text-color) !important; }
 		.nexus-bc__card-title a { color: var(--nexus-heading-color) !important; }
 		.nexus-bc__card-excerpt { color: var(--nexus-text-color) !important; }
 
@@ -1492,6 +1520,11 @@ html.nexus-dark {
 
 	.nexus-bc--minimal-bordered .nexus-bc__card {
 		border-color: var(--nexus-border-color) !important;
+	}
+
+	.nexus-bc--minimal-bordered .nexus-btn--outline-dark {
+		color: #e94560 !important;
+		border-color: #e94560 !important;
 	}
 }
 
