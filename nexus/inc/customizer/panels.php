@@ -329,6 +329,26 @@ Kirki::add_section(
 Kirki::add_field(
 	'nexus_theme',
 	array(
+		'type'     => 'select',
+		'settings' => 'nexus_color_palette',
+		'label'    => esc_html__( 'Color Palette', 'nexus' ),
+		'section'  => 'nexus_section_colors_brand',
+		'default'  => 'default',
+		'priority' => 5,
+		'choices'  => array(
+			'default'      => esc_html__( 'Crimson Night (Default)', 'nexus' ),
+			'ocean-breeze' => esc_html__( 'Ocean Breeze', 'nexus' ),
+			'forest-green' => esc_html__( 'Forest Green', 'nexus' ),
+			'royal-purple' => esc_html__( 'Royal Purple', 'nexus' ),
+			'sunset-warm'  => esc_html__( 'Sunset Warm', 'nexus' ),
+			'slate-modern' => esc_html__( 'Slate Modern', 'nexus' ),
+		),
+	)
+);
+
+Kirki::add_field(
+	'nexus_theme',
+	array(
 		'type'      => 'color',
 		'settings'  => 'nexus_primary_color',
 		'label'     => esc_html__( 'Primary Color', 'nexus' ),
@@ -351,6 +371,59 @@ Kirki::add_field(
 		'priority'  => 20,
 		'transport' => 'postMessage',
 		'choices'   => array( 'alpha' => false ),
+	)
+);
+
+Kirki::add_field(
+	'nexus_theme',
+	array(
+		'type'      => 'color',
+		'settings'  => 'nexus_accent_color',
+		'label'     => esc_html__( 'Accent Color', 'nexus' ),
+		'section'   => 'nexus_section_colors_brand',
+		'default'   => '#0f3460',
+		'priority'  => 25,
+		'transport' => 'postMessage',
+		'choices'   => array( 'alpha' => false ),
+	)
+);
+
+Kirki::add_field(
+	'nexus_theme',
+	array(
+		'type'      => 'color',
+		'settings'  => 'nexus_dark_color',
+		'label'     => esc_html__( 'Dark Color', 'nexus' ),
+		'section'   => 'nexus_section_colors_brand',
+		'default'   => '#16213e',
+		'priority'  => 26,
+		'transport' => 'postMessage',
+		'choices'   => array( 'alpha' => false ),
+	)
+);
+
+Kirki::add_field(
+	'nexus_theme',
+	array(
+		'type'      => 'color',
+		'settings'  => 'nexus_light_color',
+		'label'     => esc_html__( 'Light / Subtle Background', 'nexus' ),
+		'section'   => 'nexus_section_colors_brand',
+		'default'   => '#f8f9fa',
+		'priority'  => 27,
+		'transport' => 'postMessage',
+		'choices'   => array( 'alpha' => false ),
+	)
+);
+
+Kirki::add_field(
+	'nexus_theme',
+	array(
+		'type'     => 'custom',
+		'settings' => 'nexus_palette_reset',
+		'section'  => 'nexus_section_colors_brand',
+		'default'  => '<button type="button" id="nexus-palette-reset" class="button button-secondary" style="margin-top:8px;width:100%">' . esc_html__( 'Reset to Palette Defaults', 'nexus' ) . '</button>',
+		'priority' => 28,
 	)
 );
 

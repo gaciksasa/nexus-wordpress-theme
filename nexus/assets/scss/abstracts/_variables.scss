@@ -27,7 +27,8 @@ $link-hover:      $color-secondary;
 :root {
   --nexus-color-primary:   #{$color-primary};
   --nexus-color-secondary: #{$color-secondary};
-  --nexus-color-dark:      #{$color-dark};
+  --nexus-color-accent:    #{$color-dark};
+  --nexus-color-dark:      #{$color-dark-alt};
   --nexus-color-light:     #{$color-light};
   --nexus-color-white:     #{$color-white};
   --nexus-color-muted:     #{$color-muted};

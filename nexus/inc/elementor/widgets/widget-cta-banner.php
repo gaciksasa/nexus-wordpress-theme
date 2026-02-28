@@ -47,12 +47,12 @@ class Nexus_Widget_CTA_Banner extends \Elementor\Widget_Base {
 		$base = 'display:inline-flex;align-items:center;justify-content:center;padding:0.75em 1.75em;font-size:1rem;font-weight:600;line-height:1.5;border-radius:6px;text-decoration:none;border:2px solid transparent;cursor:pointer;transition:all 0.3s ease;';
 
 		$styles = array(
-			'primary'       => $base . 'background-color:#e94560;color:#fff;border-color:#e94560;',
-			'secondary'     => $base . 'background-color:#16213e;color:#fff;border-color:#16213e;',
+			'primary'       => $base . 'background-color:' . nexus_palette()['secondary'] . ';color:#fff;border-color:' . nexus_palette()['secondary'] . ';',
+			'secondary'     => $base . 'background-color:' . nexus_palette()['dark'] . ';color:#fff;border-color:' . nexus_palette()['dark'] . ';',
 			'white'         => $base . 'background-color:#fff;color:#667eea;border-color:#fff;',
-			'outline'       => $base . 'background-color:transparent;color:#e94560;border-color:#e94560;',
+			'outline'       => $base . 'background-color:transparent;color:' . nexus_palette()['secondary'] . ';border-color:' . nexus_palette()['secondary'] . ';',
 			'outline-white' => $base . 'background-color:transparent;color:#fff;border-color:rgba(255,255,255,0.5);',
-			'outline-dark'  => $base . 'background-color:transparent;color:#1a1a2e;border-color:#1a1a2e;',
+			'outline-dark'  => $base . 'background-color:transparent;color:' . nexus_palette()['primary'] . ';border-color:' . nexus_palette()['primary'] . ';',
 			'ghost'         => $base . 'background-color:transparent;color:inherit;border-color:transparent;',
 		);
 
@@ -68,24 +68,24 @@ class Nexus_Widget_CTA_Banner extends \Elementor\Widget_Base {
 	private function get_preset_colors( $preset ) {
 		$presets = array(
 			'centered-light' => array(
-				'bg'      => '#f8f9fa',
-				'heading' => '#1a1a2e',
+				'bg'      => nexus_palette()['light'],
+				'heading' => nexus_palette()['primary'],
 				'text'    => '#495057',
-				'tagline' => '#e94560',
+				'tagline' => nexus_palette()['secondary'],
 				'note'    => '#64748b',
 			),
 			'centered-dark'  => array(
-				'bg'      => '#1a1a2e',
+				'bg'      => nexus_palette()['primary'],
 				'heading' => '#ffffff',
 				'text'    => '#cbd5e1',
-				'tagline' => '#e94560',
+				'tagline' => nexus_palette()['secondary'],
 				'note'    => '#64748b',
 			),
 			'side-by-side'   => array(
-				'bg'      => '#f8f9fa',
-				'heading' => '#1a1a2e',
+				'bg'      => nexus_palette()['light'],
+				'heading' => nexus_palette()['primary'],
 				'text'    => '#495057',
-				'tagline' => '#e94560',
+				'tagline' => nexus_palette()['secondary'],
 				'note'    => '',
 			),
 			'gradient'       => array(
@@ -99,14 +99,14 @@ class Nexus_Widget_CTA_Banner extends \Elementor\Widget_Base {
 				'bg'      => '',
 				'heading' => '#ffffff',
 				'text'    => 'rgba(255,255,255,0.85)',
-				'tagline' => '#e94560',
+				'tagline' => nexus_palette()['secondary'],
 				'note'    => '',
 			),
 			'split-accent'   => array(
-				'bg'      => '#1a1a2e',
+				'bg'      => nexus_palette()['primary'],
 				'heading' => '#ffffff',
 				'text'    => '#94a3b8',
-				'tagline' => '#e94560',
+				'tagline' => nexus_palette()['secondary'],
 				'note'    => '',
 			),
 		);
@@ -509,7 +509,7 @@ class Nexus_Widget_CTA_Banner extends \Elementor\Widget_Base {
 			$inner_css .= 'display:flex;align-items:center;justify-content:space-between;gap:2.5rem;flex-wrap:wrap;';
 		}
 		if ( 'split-accent' === $preset ) {
-			$inner_css .= 'border-left:4px solid #e94560;padding-left:2rem;';
+			$inner_css .= 'border-left:4px solid ' . nexus_palette()['secondary'] . ';padding-left:2rem;';
 		}
 
 		// --- Text container ---

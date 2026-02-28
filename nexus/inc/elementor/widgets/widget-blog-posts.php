@@ -414,7 +414,7 @@ class Nexus_Widget_Blog_Posts extends \Elementor\Widget_Base {
 
 					if ( $show_image ) :
 						// Placeholder colours cycle through brand palette when no thumbnail.
-						$nexus_ph_colors = array( '#e94560', '#0f3460', '#1a1a2e', '#16213e', '#533483' );
+						$nexus_ph_colors = array( nexus_palette()['secondary'], nexus_palette()['accent'], nexus_palette()['primary'], nexus_palette()['dark'], '#533483' );
 						$nexus_ph_color  = $nexus_ph_colors[ get_the_ID() % count( $nexus_ph_colors ) ];
 						?>
 						<div class="nexus-post-card__thumb">

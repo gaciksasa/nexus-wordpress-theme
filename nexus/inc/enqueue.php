@@ -192,24 +192,77 @@ function nexus_admin_enqueue_assets( $hook ) {
 add_action( 'admin_enqueue_scripts', 'nexus_admin_enqueue_assets' );
 
 /**
+ * Enqueues the palette-switching script in the Customizer controls panel.
+ */
+function nexus_customizer_controls_scripts() {
+	wp_enqueue_script(
+		'nexus-customizer-palettes',
+		NEXUS_ASSETS_URI . '/js/customizer-palettes.js',
+		array( 'jquery', 'customize-controls' ),
+		NEXUS_VERSION,
+		true
+	);
+}
+add_action( 'customize_controls_enqueue_scripts', 'nexus_customizer_controls_scripts' );
+
+/**
+ * Converts a hex color to comma-separated RGB values.
+ *
+ * @param string $hex Hex color string (e.g. '#1a1a2e').
+ * @return string Comma-separated RGB (e.g. '26, 26, 46').
+ */
+function nexus_hex_to_rgb( $hex ) {
+	$hex = ltrim( $hex, '#' );
+	if ( strlen( $hex ) === 3 ) {
+		$hex = $hex[0] . $hex[0] . $hex[1] . $hex[1] . $hex[2] . $hex[2];
+	}
+	$r = hexdec( substr( $hex, 0, 2 ) );
+	$g = hexdec( substr( $hex, 2, 2 ) );
+	$b = hexdec( substr( $hex, 4, 2 ) );
+	return "{$r}, {$g}, {$b}";
+}
+
+/**
  * Outputs inline critical CSS variables.
  * This prevents layout shift before main stylesheet loads.
  */
 function nexus_output_critical_css() {
 	$primary_color   = nexus_option( 'nexus_primary_color', '#1a1a2e' );
 	$secondary_color = nexus_option( 'nexus_secondary_color', '#e94560' );
+	$accent_color    = nexus_option( 'nexus_accent_color', '#0f3460' );
+	$dark_color      = nexus_option( 'nexus_dark_color', '#16213e' );
+	$light_color     = nexus_option( 'nexus_light_color', '#f8f9fa' );
 	$font_body       = nexus_option( 'nexus_font_body', 'Inter' );
 	$font_heading    = nexus_option( 'nexus_font_heading', 'Poppins' );
 
+	$primary_rgb   = nexus_hex_to_rgb( $primary_color );
+	$secondary_rgb = nexus_hex_to_rgb( $secondary_color );
+
 	$css = sprintf(
 		':root {
-			--nexus-color-primary: %s;
-			--nexus-color-secondary: %s;
-			--nexus-font-body: "%s", -apple-system, BlinkMacSystemFont, sans-serif;
-			--nexus-font-heading: "%s", -apple-system, BlinkMacSystemFont, sans-serif;
+			--nexus-color-primary: %1$s;
+			--nexus-color-secondary: %2$s;
+			--nexus-color-accent: %3$s;
+			--nexus-color-dark: %4$s;
+			--nexus-color-light: %5$s;
+			--nexus-primary: %1$s;
+			--nexus-secondary: %2$s;
+			--nexus-primary-rgb: %6$s;
+			--nexus-secondary-rgb: %7$s;
+			--nexus-heading-color: %1$s;
+			--nexus-text-color: %1$s;
+			--nexus-bg-subtle: %5$s;
+			--nexus-bg-dark: %1$s;
+			--nexus-font-body: "%8$s", -apple-system, BlinkMacSystemFont, sans-serif;
+			--nexus-font-heading: "%9$s", -apple-system, BlinkMacSystemFont, sans-serif;
 		}',
 		sanitize_hex_color( $primary_color ),
 		sanitize_hex_color( $secondary_color ),
+		sanitize_hex_color( $accent_color ),
+		sanitize_hex_color( $dark_color ),
+		sanitize_hex_color( $light_color ),
+		esc_attr( $primary_rgb ),
+		esc_attr( $secondary_rgb ),
 		esc_attr( $font_body ),
 		esc_attr( $font_heading )
 	);

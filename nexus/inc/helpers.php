@@ -27,6 +27,34 @@ function nexus_option( $setting, $default = '' ) {
 }
 
 /**
+ * Returns the current palette colors from the Customizer.
+ *
+ * Widget preset color arrays should reference these values instead of
+ * hardcoding hex strings so that palette changes propagate everywhere.
+ *
+ * @return array {
+ *     @type string $primary   Primary color hex.
+ *     @type string $secondary Secondary / accent color hex.
+ *     @type string $accent    Accent color hex.
+ *     @type string $dark      Dark color hex.
+ *     @type string $light     Light / subtle background hex.
+ * }
+ */
+function nexus_palette() {
+	static $palette = null;
+	if ( null === $palette ) {
+		$palette = array(
+			'primary'   => nexus_option( 'nexus_primary_color', '#1a1a2e' ),
+			'secondary' => nexus_option( 'nexus_secondary_color', '#e94560' ),
+			'accent'    => nexus_option( 'nexus_accent_color', '#0f3460' ),
+			'dark'      => nexus_option( 'nexus_dark_color', '#16213e' ),
+			'light'     => nexus_option( 'nexus_light_color', '#f8f9fa' ),
+		);
+	}
+	return $palette;
+}
+
+/**
  * Checks if a specific feature is enabled in theme options.
  *
  * @param string $feature Feature key.

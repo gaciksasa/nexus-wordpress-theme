@@ -1027,8 +1027,8 @@ html.nexus-dark {
 // -------------------------------------------------------------------------
 .nexus-cta-banner {
 	// Scoped CSS vars — each preset overrides these, dark mode overrides light presets.
-	--cta-bg: #f8f9fa;
-	--cta-heading: #1a1a2e;
+	--cta-bg: var(--nexus-color-light);
+	--cta-heading: var(--nexus-color-primary);
 	--cta-text: #495057;
 	--cta-tagline: var(--nexus-primary);
 	--cta-note: #64748b;
@@ -1092,7 +1092,7 @@ html.nexus-dark {
 
 	// ----- Style 2: Centered Dark -----
 	&--centered-dark {
-		--cta-bg: #1a1a2e;
+		--cta-bg: var(--nexus-color-primary);
 		--cta-heading: #fff;
 		--cta-text: #cbd5e1;
 		text-align: center;
@@ -1153,7 +1153,7 @@ html.nexus-dark {
 
 	// ----- Style 6: Split with Accent Bar -----
 	&--split-accent {
-		--cta-bg: #1a1a2e;
+		--cta-bg: var(--nexus-color-primary);
 		--cta-heading: #fff;
 		--cta-text: #94a3b8;
 
@@ -1290,22 +1290,22 @@ html.nexus-dark {
 
 	// Style 3: Dark background
 	&--image-left-dark {
-		background-color: #1a1a2e;
+		background-color: var(--nexus-color-primary);
 	}
 
 	// Style 4: Light background
 	&--image-right-stats {
-		background-color: #f8f9fa;
+		background-color: var(--nexus-color-light);
 	}
 
 	// Style 5: Card with shadow (dark bg)
 	&--card-shadow {
-		background-color: #1a1a2e;
+		background-color: var(--nexus-color-primary);
 		box-shadow: var(--nexus-shadow-lg);
 		border-radius: var(--nexus-border-radius-lg);
 
 		.nexus-rwi__headline { color: #fff; }
-		.nexus-rwi__tagline { color: #e94560; }
+		.nexus-rwi__tagline { color: var(--nexus-color-secondary); }
 		.nexus-rwi__desc,
 		.nexus-rwi__list li { color: #cbd5e1; }
 	}
@@ -1330,14 +1330,14 @@ html.nexus-dark {
 	.nexus-rwi--image-right-light,
 	.nexus-rwi--accent-border {
 		--nexus-rwi-heading: #fff;
-		--nexus-rwi-tagline: #e94560;
+		--nexus-rwi-tagline: var(--nexus-color-secondary);
 		--nexus-rwi-text: var(--nexus-text-color);
 
 		.nexus-rwi__list li { color: var(--nexus-text-color) !important; }
 	}
 
 	.nexus-rwi--image-right-stats {
-		--nexus-rwi-heading: #1a1a2e;
+		--nexus-rwi-heading: var(--nexus-color-primary);
 		--nexus-rwi-text: #495057;
 		background-color: var(--nexus-bg-subtle);
 	}
@@ -1363,7 +1363,7 @@ html.nexus-dark {
 	// Style 2: Minimal bordered
 	&--minimal-bordered &__card {
 		&:hover {
-			border-color: #e94560;
+			border-color: var(--nexus-color-secondary);
 		}
 	}
 
@@ -1401,29 +1401,29 @@ html.nexus-dark {
 		a {
 			transition: color 0.25s ease;
 
-			&:hover { color: #e94560 !important; }
+			&:hover { color: var(--nexus-color-secondary) !important; }
 		}
 	}
 
 	// Button hover overrides (inline styles need !important to override)
 	.nexus-btn--primary:hover {
-		background-color: #c5243d !important;
-		border-color: #c5243d !important;
+		background-color: var(--nexus-color-secondary) !important;
+		border-color: var(--nexus-color-secondary) !important;
 	}
 
 	.nexus-btn--secondary:hover {
-		background-color: #e94560 !important;
-		border-color: #e94560 !important;
+		background-color: var(--nexus-color-secondary) !important;
+		border-color: var(--nexus-color-secondary) !important;
 	}
 
 	.nexus-btn--outline:hover {
-		background-color: #e94560 !important;
+		background-color: var(--nexus-color-secondary) !important;
 		color: #fff !important;
 	}
 
 	.nexus-btn--outline-white:hover {
 		background-color: #fff !important;
-		color: #e94560 !important;
+		color: var(--nexus-color-secondary) !important;
 		border-color: #fff !important;
 	}
 
@@ -1523,8 +1523,8 @@ html.nexus-dark {
 	}
 
 	.nexus-bc--minimal-bordered .nexus-btn--outline-dark {
-		color: #e94560 !important;
-		border-color: #e94560 !important;
+		color: var(--nexus-color-secondary) !important;
+		border-color: var(--nexus-color-secondary) !important;
 	}
 }
 
@@ -2313,13 +2313,13 @@ html.nexus-dark {
 		&::after {
 			font-size: 14px !important;
 			font-weight: 700;
-			color: #1a1a2e;
+			color: var(--nexus-color-primary);
 		}
 
 		&:hover {
-			background: var(--nexus-color-secondary, #e94560) !important;
-			border-color: var(--nexus-color-secondary, #e94560) !important;
-			box-shadow: 0 6px 24px rgba(233, 69, 96, 0.3);
+			background: var(--nexus-color-secondary) !important;
+			border-color: var(--nexus-color-secondary) !important;
+			box-shadow: 0 6px 24px rgba(var(--nexus-secondary-rgb), 0.3);
 			transform: translateY(-50%) scale(1.08);
 
 			&::after {
@@ -2375,16 +2375,16 @@ html.nexus-dark {
 
 	&--minimal-slide &__dots .swiper-pagination-bullet-active,
 	&--gradient-hover &__dots .swiper-pagination-bullet-active {
-		background: #e94560;
+		background: var(--nexus-color-secondary);
 	}
 
 	&--dark-cinema &__dots .swiper-pagination-bullet-active {
-		background: #e94560;
+		background: var(--nexus-color-secondary);
 	}
 
 	&--rounded-peek &__dots .swiper-pagination-bullet-active,
 	&--caption-card &__dots .swiper-pagination-bullet-active {
-		background: #0f3460;
+		background: var(--nexus-color-accent);
 	}
 
 	&--fullwidth-hero &__dots .swiper-pagination-bullet {
@@ -2514,7 +2514,7 @@ html.nexus-dark {
 		&:hover {
 			transform: translateY(-4px);
 			box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1) !important;
-			border-color: var(--nexus-color-secondary, #e94560) !important;
+			border-color: var(--nexus-color-secondary) !important;
 		}
 	}
 
@@ -2532,8 +2532,8 @@ html.nexus-dark {
 
 	// ---- Social link hover ----
 	&__social-link:hover {
-		color: var(--nexus-color-secondary, #e94560) !important;
-		background: rgba(233, 69, 96, 0.08);
+		color: var(--nexus-color-secondary) !important;
+		background: rgba(var(--nexus-secondary-rgb), 0.08);
 	}
 
 	// ---- Button hover ----

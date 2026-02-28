@@ -74,9 +74,9 @@
   // Outline dark
   &--outline-dark {
     &:hover, &:focus-visible {
-      background-color: #1a1a2e !important;
+      background-color: var(--nexus-color-primary) !important;
       color: #fff !important;
-      border-color: #1a1a2e !important;
+      border-color: var(--nexus-color-primary) !important;
     }
   }
 
@@ -98,7 +98,7 @@
   // Ghost dark
   &--ghost-dark {
     &:hover, &:focus-visible {
-      color: #e94560 !important;
+      color: var(--nexus-color-secondary) !important;
     }
   }
 

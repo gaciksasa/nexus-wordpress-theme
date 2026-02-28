@@ -51,39 +51,39 @@ class Nexus_Widget_Row_With_Image extends \Elementor\Widget_Base {
 		$presets = array(
 			'image-left-light'  => array(
 				'bg'      => 'transparent',
-				'heading' => '#1a1a2e',
+				'heading' => nexus_palette()['primary'],
 				'text'    => '#495057',
-				'tagline' => '#e94560',
+				'tagline' => nexus_palette()['secondary'],
 			),
 			'image-right-light' => array(
 				'bg'      => 'transparent',
-				'heading' => '#1a1a2e',
+				'heading' => nexus_palette()['primary'],
 				'text'    => '#495057',
-				'tagline' => '#e94560',
+				'tagline' => nexus_palette()['secondary'],
 			),
 			'image-left-dark'   => array(
-				'bg'      => '#1a1a2e',
+				'bg'      => nexus_palette()['primary'],
 				'heading' => '#ffffff',
 				'text'    => '#cbd5e1',
-				'tagline' => '#e94560',
+				'tagline' => nexus_palette()['secondary'],
 			),
 			'image-right-stats' => array(
-				'bg'      => '#f8f9fa',
-				'heading' => '#1a1a2e',
+				'bg'      => nexus_palette()['light'],
+				'heading' => nexus_palette()['primary'],
 				'text'    => '#495057',
-				'tagline' => '#e94560',
+				'tagline' => nexus_palette()['secondary'],
 			),
 			'card-shadow'       => array(
-				'bg'      => '#1a1a2e',
+				'bg'      => nexus_palette()['primary'],
 				'heading' => '#ffffff',
 				'text'    => '#cbd5e1',
-				'tagline' => '#e94560',
+				'tagline' => nexus_palette()['secondary'],
 			),
 			'accent-border'     => array(
 				'bg'      => 'transparent',
-				'heading' => '#1a1a2e',
+				'heading' => nexus_palette()['primary'],
 				'text'    => '#495057',
-				'tagline' => '#e94560',
+				'tagline' => nexus_palette()['secondary'],
 			),
 		);
 
@@ -209,12 +209,12 @@ class Nexus_Widget_Row_With_Image extends \Elementor\Widget_Base {
 		$base = 'display:inline-flex;align-items:center;justify-content:center;padding:0.75em 1.75em;font-size:1rem;font-weight:600;line-height:1.5;border-radius:6px;text-decoration:none;border:2px solid transparent;cursor:pointer;transition:all 0.3s ease;';
 
 		$styles = array(
-			'primary'       => $base . 'background-color:#e94560;color:#fff;border-color:#e94560;',
-			'secondary'     => $base . 'background-color:#16213e;color:#fff;border-color:#16213e;',
+			'primary'       => $base . 'background-color:' . nexus_palette()['secondary'] . ';color:#fff;border-color:' . nexus_palette()['secondary'] . ';',
+			'secondary'     => $base . 'background-color:' . nexus_palette()['dark'] . ';color:#fff;border-color:' . nexus_palette()['dark'] . ';',
 			'white'         => $base . 'background-color:#fff;color:#667eea;border-color:#fff;',
-			'outline'       => $base . 'background-color:transparent;color:#e94560;border-color:#e94560;',
+			'outline'       => $base . 'background-color:transparent;color:' . nexus_palette()['secondary'] . ';border-color:' . nexus_palette()['secondary'] . ';',
 			'outline-white' => $base . 'background-color:transparent;color:#fff;border-color:rgba(255,255,255,0.5);',
-			'outline-dark'  => $base . 'background-color:transparent;color:#1a1a2e;border-color:#1a1a2e;',
+			'outline-dark'  => $base . 'background-color:transparent;color:' . nexus_palette()['primary'] . ';border-color:' . nexus_palette()['primary'] . ';',
 			'ghost'         => $base . 'background-color:transparent;color:inherit;border-color:transparent;',
 		);
 
@@ -570,7 +570,7 @@ class Nexus_Widget_Row_With_Image extends \Elementor\Widget_Base {
 		// Accent border (style 6).
 		$text_extra = '';
 		if ( 'accent-border' === $preset ) {
-			$text_extra = 'border-left:4px solid #e94560;padding-left:2rem;';
+			$text_extra = 'border-left:4px solid ' . nexus_palette()['secondary'] . ';padding-left:2rem;';
 		}
 		?>
 
@@ -701,7 +701,7 @@ class Nexus_Widget_Row_With_Image extends \Elementor\Widget_Base {
 					<ul class="nexus-rwi__list nexus-rwi-anim--<?php echo esc_attr( $anim ); ?>" data-rwi-delay="250" style="<?php echo esc_attr( $hidden ); ?>list-style:none;padding:0;margin:0 0 1.5rem;display:flex;flex-direction:column;gap:0.5rem;">
 						<?php foreach ( $items as $item ) : ?>
 							<li style="display:flex;align-items:center;gap:0.5rem;color:<?php echo esc_attr( $colors['text'] ); ?>;font-size:0.95rem;">
-								<svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex-shrink:0;"><circle cx="8" cy="8" r="8" fill="#e94560" opacity="0.15"/><path d="M5 8l2 2 4-4" stroke="#e94560" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+								<svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex-shrink:0;"><circle cx="8" cy="8" r="8" fill="<?php echo esc_attr( nexus_palette()['secondary'] ); ?>" opacity="0.15"/><path d="M5 8l2 2 4-4" stroke="<?php echo esc_attr( nexus_palette()['secondary'] ); ?>" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
 								<?php echo esc_html( $item ); ?>
 							</li>
 						<?php endforeach; ?>
@@ -716,7 +716,7 @@ class Nexus_Widget_Row_With_Image extends \Elementor\Widget_Base {
 				<div class="nexus-rwi__stats nexus-rwi-anim--<?php echo esc_attr( $anim ); ?>" data-rwi-delay="250" style="<?php echo esc_attr( $hidden ); ?>display:flex;gap:2rem;flex-wrap:wrap;margin:0 0 1.5rem;">
 					<?php foreach ( $stats as $stat ) : ?>
 						<div style="text-align:left;">
-							<div style="font-size:1.75rem;font-weight:700;color:#e94560;line-height:1.2;"><?php echo esc_html( $stat['num'] ); ?></div>
+							<div style="font-size:1.75rem;font-weight:700;color:<?php echo esc_attr( nexus_palette()['secondary'] ); ?>;line-height:1.2;"><?php echo esc_html( $stat['num'] ); ?></div>
 							<div style="font-size:0.8125rem;color:#6c757d;margin-top:0.25rem;"><?php echo esc_html( $stat['label'] ); ?></div>
 						</div>
 					<?php endforeach; ?>
