@@ -166,6 +166,8 @@ class Nexus_Metabox {
 					'transparent' => esc_html__( 'Transparent', 'nexus' ),
 					'centered'    => esc_html__( 'Centered Logo', 'nexus' ),
 					'minimal'     => esc_html__( 'Minimal', 'nexus' ),
+					'dark'        => esc_html__( 'Dark', 'nexus' ),
+					'split'       => esc_html__( 'Split', 'nexus' ),
 					'hidden'      => esc_html__( 'Hidden', 'nexus' ),
 				),
 			)

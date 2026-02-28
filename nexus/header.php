@@ -45,8 +45,15 @@
 			get_template_part( 'template-parts/global/header-top-bar' );
 		endif;
 
-		// Main navigation.
-		get_template_part( 'template-parts/global/header-nav' );
+		// Main navigation — load variant template for centered/split styles.
+		$nexus_header_style = nexus_get_header_style();
+		if ( 'centered' === $nexus_header_style ) :
+			get_template_part( 'template-parts/global/header-nav-centered' );
+		elseif ( 'split' === $nexus_header_style ) :
+			get_template_part( 'template-parts/global/header-nav-split' );
+		else :
+			get_template_part( 'template-parts/global/header-nav' );
+		endif;
 
 		// Mobile navigation.
 		get_template_part( 'template-parts/global/header-mobile' );

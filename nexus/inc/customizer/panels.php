@@ -92,6 +92,22 @@ Kirki::add_panel(
 );
 
 // -------------------------------------------------------------------------
+// Site Identity — Inverse Logo (added to core WP section).
+// -------------------------------------------------------------------------
+Kirki::add_field(
+	'nexus_theme',
+	array(
+		'type'        => 'image',
+		'settings'    => 'nexus_logo_inverse',
+		'label'       => esc_html__( 'Inverse Logo (Light)', 'nexus' ),
+		'description' => esc_html__( 'Light version of your logo, used on dark backgrounds (Transparent/Dark header styles and Dark Mode).', 'nexus' ),
+		'section'     => 'title_tagline',
+		'default'     => '',
+		'priority'    => 9,
+	)
+);
+
+// -------------------------------------------------------------------------
 // General Settings — Section: Site Identity.
 // -------------------------------------------------------------------------
 Kirki::add_section(
@@ -176,17 +192,19 @@ Kirki::add_section(
 Kirki::add_field(
 	'nexus_theme',
 	array(
-		'type'     => 'radio-image',
+		'type'     => 'select',
 		'settings' => 'nexus_header_style',
 		'label'    => esc_html__( 'Default Header Style', 'nexus' ),
 		'section'  => 'nexus_section_header',
 		'default'  => 'default',
 		'priority' => 10,
 		'choices'  => array(
-			'default'     => NEXUS_ASSETS_URI . '/images/customizer/header-default.png',
-			'transparent' => NEXUS_ASSETS_URI . '/images/customizer/header-transparent.png',
-			'centered'    => NEXUS_ASSETS_URI . '/images/customizer/header-centered.png',
-			'minimal'     => NEXUS_ASSETS_URI . '/images/customizer/header-minimal.png',
+			'default'     => esc_html__( 'Classic', 'nexus' ),
+			'transparent' => esc_html__( 'Transparent', 'nexus' ),
+			'centered'    => esc_html__( 'Centered', 'nexus' ),
+			'minimal'     => esc_html__( 'Minimal', 'nexus' ),
+			'dark'        => esc_html__( 'Dark', 'nexus' ),
+			'split'       => esc_html__( 'Split', 'nexus' ),
 		),
 	)
 );

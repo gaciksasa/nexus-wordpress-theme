@@ -101,13 +101,63 @@ function nexus_page_has_slider() {
 /**
  * Returns the current header style.
  *
- * @return string Header style slug: 'default' | 'transparent' | 'centered' | 'minimal'.
+ * @return string Header style slug: 'default' | 'transparent' | 'centered' | 'minimal' | 'dark' | 'split'.
  */
 function nexus_get_header_style() {
 	$page_style    = nexus_meta( '_nexus_header_style' );
 	$default_style = nexus_option( 'nexus_header_style', 'default' );
 
 	return ( $page_style && 'default' !== $page_style ) ? $page_style : $default_style;
+}
+
+/**
+ * Outputs the site logo markup.
+ *
+ * Renders both default and inverse logos. The inverse logo is shown (via CSS)
+ * on dark backgrounds: Transparent header, Dark header, and Dark Mode.
+ * If no inverse logo is uploaded, the default logo is always visible.
+ */
+function nexus_the_logo() {
+	$inverse_url = nexus_option( 'nexus_logo_inverse', '' );
+	$home_url    = esc_url( home_url( '/' ) );
+	$site_name   = esc_attr( get_bloginfo( 'name' ) );
+
+	if ( has_custom_logo() ) {
+		// Default logo — hidden on dark backgrounds when inverse is available.
+		echo '<span class="nexus-logo-default">';
+		the_custom_logo();
+		echo '</span>';
+
+		// Inverse logo — shown on dark backgrounds.
+		if ( $inverse_url ) {
+			printf(
+				'<a href="%s" class="nexus-logo-inverse custom-logo-link" rel="home"><img src="%s" class="custom-logo" alt="%s"></a>',
+				$home_url,
+				esc_url( $inverse_url ),
+				$site_name
+			);
+		}
+	} elseif ( $inverse_url ) {
+		// No default logo but inverse is uploaded — show text + inverse image.
+		printf(
+			'<a href="%s" class="nexus-logo-text nexus-logo-default" rel="home">%s</a>',
+			$home_url,
+			esc_html( get_bloginfo( 'name' ) )
+		);
+		printf(
+			'<a href="%s" class="nexus-logo-inverse custom-logo-link" rel="home"><img src="%s" class="custom-logo" alt="%s"></a>',
+			$home_url,
+			esc_url( $inverse_url ),
+			$site_name
+		);
+	} else {
+		// No logos at all — just site name text.
+		printf(
+			'<a href="%s" class="nexus-logo-text" rel="home">%s</a>',
+			$home_url,
+			esc_html( get_bloginfo( 'name' ) )
+		);
+	}
 }
 
 /**

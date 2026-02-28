@@ -23,23 +23,39 @@
   // Transparent header (overlays hero section)
   &--transparent {
     position: absolute;
-    top: var(--nexus-admin-bar-height);
+    top: 0;
     left: 0;
     right: 0;
+    z-index: $z-sticky + 1;
+
+    // Offset for WP admin bar when logged in.
+    .admin-bar & {
+      top: var(--nexus-admin-bar-height, 32px);
+    }
     background: transparent;
     border-bottom: 1px solid rgba(255, 255, 255, 0.15);
 
-    // Logo text — white
-    .nexus-logo-text {
-      color: rgba(255 255 255 / 0.95);
-      a { color: inherit; }
+    // Swap to inverse logo on dark background.
+    .nexus-logo-default { display: none; }
+    .nexus-logo-inverse { display: block !important; }
+
+    // Logo text — white (fallback when no logo images).
+    .nexus-logo-text,
+    .nexus-logo-text:visited {
+      color: #fff !important;
     }
 
-    // Nav links — white
-    .nexus-nav a,
+    // Top-level nav links — white
+    .nexus-menu-item > a,
     .wp-block-navigation-item__content {
       color: rgba(255 255 255 / 0.9) !important;
       &:hover { color: #fff !important; }
+    }
+
+    // Dropdown links — dark for readability
+    .nexus-dropdown a {
+      color: var(--nexus-body-color) !important;
+      &:hover { color: var(--nexus-color-secondary) !important; }
     }
 
     // Action icons — white
@@ -146,6 +162,11 @@
     img {
       height: 44px;
       width: auto;
+    }
+
+    // Inverse logo — hidden by default, shown on dark backgrounds via modifiers.
+    .nexus-logo-inverse {
+      display: none;
     }
   }
 
@@ -653,6 +674,303 @@
     &:hover {
       background: var(--nexus-color-light);
       color: var(--nexus-color-secondary);
+    }
+  }
+}
+
+// =============================================================================
+// Header Style Variants
+// =============================================================================
+
+// 3. Centered — Logo centered on top, navigation below
+// -----------------------------------------------------
+.nexus-header--centered {
+  border-bottom: 1px solid var(--nexus-border-color);
+
+  .nexus-header__main--centered {
+    height: auto;
+    display: block;
+
+    > .nexus-container {
+      display: block !important;
+    }
+  }
+
+  .nexus-header__centered-top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.25rem 0 0.75rem;
+    position: relative;
+  }
+
+  .nexus-header__centered-spacer {
+    position: absolute;
+    left: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    &--right {
+      left: auto;
+      right: 0;
+    }
+  }
+
+  .nexus-header__logo {
+    text-align: center;
+
+    .nexus-logo-text {
+      font-size: 1.75rem;
+    }
+
+    img {
+      height: 52px;
+    }
+  }
+
+  .nexus-nav--centered {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 0.75rem;
+    border-top: 1px solid var(--nexus-border-color);
+
+    .nexus-menu {
+      justify-content: center;
+    }
+
+    @include respond-below(lg) {
+      display: none;
+    }
+  }
+
+  &.is-sticky {
+    .nexus-header__centered-top {
+      padding: 0.75rem 0 0.5rem;
+    }
+
+    .nexus-header__logo img {
+      height: 40px;
+    }
+
+    .nexus-nav--centered {
+      padding-bottom: 0.5rem;
+    }
+  }
+}
+
+// 4. Minimal — Clean, reduced height, uppercase nav, no border
+// -------------------------------------------------------------
+.nexus-header--minimal {
+  border-bottom: none;
+  background: transparent;
+
+  .nexus-header__main {
+    height: 64px;
+  }
+
+  .nexus-header__logo {
+    img {
+      height: 36px;
+    }
+
+    .nexus-logo-text {
+      font-size: 1.25rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+  }
+
+  .nexus-nav--primary .nexus-menu-item > a {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0.5rem 0.875rem;
+  }
+
+  .nexus-header__search-toggle,
+  .nexus-header__dark-toggle,
+  .nexus-header__cart {
+    width: 36px;
+    height: 36px;
+
+    .nexus-icon,
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  &.is-sticky {
+    background: var(--nexus-color-white);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.06);
+  }
+}
+
+// 5. Dark — Dark background with light text
+// ------------------------------------------
+.nexus-header--dark {
+  background: var(--nexus-color-primary);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
+  // Swap to inverse logo on dark background.
+  .nexus-logo-default { display: none; }
+  .nexus-logo-inverse { display: block !important; }
+
+  .nexus-logo-text {
+    color: #fff;
+  }
+
+  .nexus-nav--primary .nexus-menu-item > a {
+    color: rgba(255, 255, 255, 0.85);
+
+    &:hover {
+      color: #fff;
+    }
+  }
+
+  .nexus-nav--primary .nexus-menu-item.current-menu-item > a,
+  .nexus-nav--primary .nexus-menu-item.current-menu-ancestor > a {
+    color: var(--nexus-color-secondary);
+  }
+
+  .nexus-header__search-toggle,
+  .nexus-header__dark-toggle,
+  .nexus-header__cart {
+    color: rgba(255, 255, 255, 0.8);
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+  }
+
+  .nexus-hamburger__bar {
+    background: #fff;
+  }
+
+  .nexus-cart-count {
+    background: var(--nexus-color-secondary);
+  }
+
+  // Dropdown stays light for readability.
+  .nexus-menu-item--has-dropdown > .nexus-dropdown {
+    background: var(--nexus-color-white);
+    border-color: var(--nexus-border-color);
+
+    a {
+      color: var(--nexus-body-color);
+
+      &:hover {
+        background: var(--nexus-color-light);
+        color: var(--nexus-color-secondary);
+      }
+    }
+  }
+
+  &.is-sticky {
+    background: rgba(26, 26, 46, 0.96);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+  }
+}
+
+// 6. Split — Logo centered, nav split on both sides
+// --------------------------------------------------
+.nexus-header--split {
+  .nexus-header__main--split {
+    height: var(--nexus-header-height);
+  }
+
+  .nexus-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .nexus-nav--split-left {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+
+    .nexus-menu {
+      justify-content: flex-end;
+    }
+
+    @include respond-below(lg) {
+      display: none;
+    }
+  }
+
+  .nexus-header__logo--split-center {
+    flex-shrink: 0;
+    margin: 0 2rem;
+    text-align: center;
+
+    .nexus-logo-text {
+      font-size: 1.625rem;
+    }
+
+    img {
+      height: 48px;
+    }
+  }
+
+  .nexus-header__split-right {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .nexus-nav--split-right {
+    flex: 1;
+
+    .nexus-menu {
+      justify-content: flex-start;
+    }
+
+    @include respond-below(lg) {
+      display: none;
+    }
+  }
+
+  .nexus-header__actions {
+    margin-left: auto;
+  }
+
+  &.is-sticky .nexus-header__logo--split-center img {
+    height: 38px;
+  }
+}
+
+// =============================================================================
+// Dark Mode Overrides for Header Variants
+// =============================================================================
+.nexus-dark {
+  // Swap to inverse logo in dark mode for all header styles.
+  .nexus-logo-default { display: none; }
+  .nexus-logo-inverse { display: block !important; }
+
+  // Default & minimal — invert to dark bg.
+  .nexus-header:not(.nexus-header--transparent):not(.nexus-header--dark) {
+    background: var(--nexus-color-white); // Uses CSS var which is already overridden in dark mode.
+    border-bottom-color: var(--nexus-border-color);
+  }
+
+  // Centered nav divider.
+  .nexus-header--centered .nexus-nav--centered {
+    border-top-color: var(--nexus-border-color);
+  }
+
+  // Dark header in dark mode — slightly lighter to differentiate from body.
+  .nexus-header--dark {
+    background: #12121f;
+    border-bottom-color: rgba(255, 255, 255, 0.06);
+
+    &.is-sticky {
+      background: rgba(18, 18, 31, 0.97);
     }
   }
 }
