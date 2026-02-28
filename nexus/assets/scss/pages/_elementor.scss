@@ -2381,3 +2381,160 @@ html.nexus-dark {
 		}
 	}
 }
+
+// -------------------------------------------------------------------------
+// Team Grid
+// -------------------------------------------------------------------------
+.nexus-tg {
+
+	// ---- Entrance animation ----
+	&__card--anim {
+		opacity: 0;
+		transform: translateY(20px);
+		transition: opacity 0.5s ease, transform 0.5s ease;
+
+		&.is-visible {
+			opacity: 1;
+			transform: none;
+		}
+	}
+
+	// ---- Clean cards (style 1): overlay on photo hover ----
+	&--clean-cards .nexus-tg__card {
+		&:hover {
+			transform: translateY(-4px);
+			box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12) !important;
+		}
+
+		&:hover img {
+			transform: scale(1.05);
+		}
+
+		&:hover .nexus-tg__overlay {
+			opacity: 1 !important;
+		}
+	}
+
+	// ---- Rounded photo (style 2): card lift ----
+	&--rounded-photo .nexus-tg__card {
+		&:hover {
+			transform: translateY(-4px);
+			box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1) !important;
+		}
+	}
+
+	// ---- Dark overlay (style 3): reveal on hover ----
+	&--dark-overlay .nexus-tg__card {
+		&:hover img {
+			transform: scale(1.08);
+		}
+
+		&:hover .nexus-tg__overlay {
+			opacity: 1 !important;
+		}
+	}
+
+	// ---- Minimal row (style 4): hover bg ----
+	&--minimal-row .nexus-tg__card {
+		&:hover {
+			background-color: rgba(0, 0, 0, 0.02) !important;
+		}
+	}
+
+	// ---- Bordered hover (style 5): lift + accent border ----
+	&--bordered-hover .nexus-tg__card {
+		&:hover {
+			transform: translateY(-4px);
+			box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1) !important;
+			border-color: var(--nexus-color-secondary, #e94560) !important;
+		}
+	}
+
+	// ---- Accent bottom (style 6): lift + image zoom ----
+	&--accent-bottom .nexus-tg__card {
+		&:hover {
+			transform: translateY(-4px);
+			box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
+		}
+
+		&:hover img {
+			transform: scale(1.05);
+		}
+	}
+
+	// ---- Social link hover ----
+	&__social-link:hover {
+		color: var(--nexus-color-secondary, #e94560) !important;
+		background: rgba(233, 69, 96, 0.08);
+	}
+
+	// ---- Button hover ----
+	&__btn:hover {
+		opacity: 0.9;
+		transform: translateY(-2px);
+	}
+
+	// ---- Responsive ----
+	@include respond-below(md) {
+		padding: 3rem 0 !important;
+
+		&__header {
+			margin-bottom: 2rem !important;
+		}
+
+		&__grid {
+			grid-template-columns: repeat(2, 1fr) !important;
+		}
+
+		// Horizontal stays 1 col on tablet.
+		&--minimal-row .nexus-tg__grid {
+			grid-template-columns: 1fr !important;
+		}
+	}
+
+	@include respond-below(sm) {
+		&__grid {
+			grid-template-columns: 1fr !important;
+		}
+	}
+}
+
+// Dark mode overrides for team grid light-bg presets.
+.nexus-dark {
+	.nexus-tg--clean-cards,
+	.nexus-tg--rounded-photo,
+	.nexus-tg--minimal-row,
+	.nexus-tg--bordered-hover {
+		background-color: var(--nexus-bg) !important;
+
+		.nexus-tg__title {
+			color: var(--nexus-text-heading) !important;
+		}
+
+		.nexus-tg__desc {
+			color: var(--nexus-text) !important;
+		}
+
+		.nexus-tg__name {
+			color: var(--nexus-text-heading) !important;
+		}
+
+		.nexus-tg__position {
+			color: var(--nexus-text-muted) !important;
+		}
+
+		.nexus-tg__bio {
+			color: var(--nexus-text) !important;
+		}
+	}
+
+	.nexus-tg--clean-cards .nexus-tg__card,
+	.nexus-tg--rounded-photo .nexus-tg__card,
+	.nexus-tg--bordered-hover .nexus-tg__card {
+		background: var(--nexus-bg-subtle) !important;
+	}
+
+	.nexus-tg--bordered-hover .nexus-tg__card {
+		border-color: var(--nexus-border-color) !important;
+	}
+}
