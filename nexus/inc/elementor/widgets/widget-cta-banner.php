@@ -38,83 +38,6 @@ class Nexus_Widget_CTA_Banner extends \Elementor\Widget_Base {
 	}
 
 	/**
-	 * Returns inline button styles per class.
-	 *
-	 * @param string $style Button style key.
-	 * @return string Inline CSS.
-	 */
-	private function get_button_inline_style( $style ) {
-		$base = 'display:inline-flex;align-items:center;justify-content:center;padding:0.75em 1.75em;font-size:1rem;font-weight:600;line-height:1.5;border-radius:6px;text-decoration:none;border:2px solid transparent;cursor:pointer;transition:all 0.3s ease;';
-
-		$styles = array(
-			'primary'       => $base . 'background-color:' . nexus_palette()['secondary'] . ';color:#fff;border-color:' . nexus_palette()['secondary'] . ';',
-			'secondary'     => $base . 'background-color:' . nexus_palette()['dark'] . ';color:#fff;border-color:' . nexus_palette()['dark'] . ';',
-			'white'         => $base . 'background-color:#fff;color:#667eea;border-color:#fff;',
-			'outline'       => $base . 'background-color:transparent;color:' . nexus_palette()['secondary'] . ';border-color:' . nexus_palette()['secondary'] . ';',
-			'outline-white' => $base . 'background-color:transparent;color:#fff;border-color:rgba(255,255,255,0.5);',
-			'outline-dark'  => $base . 'background-color:transparent;color:' . nexus_palette()['primary'] . ';border-color:' . nexus_palette()['primary'] . ';',
-			'ghost'         => $base . 'background-color:transparent;color:inherit;border-color:transparent;',
-		);
-
-		return $styles[ $style ] ?? $styles['primary'];
-	}
-
-	/**
-	 * Returns color map per preset.
-	 *
-	 * @param string $preset Preset key.
-	 * @return array
-	 */
-	private function get_preset_colors( $preset ) {
-		$presets = array(
-			'centered-light' => array(
-				'bg'      => nexus_palette()['light'],
-				'heading' => nexus_palette()['primary'],
-				'text'    => '#495057',
-				'tagline' => nexus_palette()['secondary'],
-				'note'    => '#64748b',
-			),
-			'centered-dark'  => array(
-				'bg'      => nexus_palette()['primary'],
-				'heading' => '#ffffff',
-				'text'    => '#cbd5e1',
-				'tagline' => nexus_palette()['secondary'],
-				'note'    => '#64748b',
-			),
-			'side-by-side'   => array(
-				'bg'      => nexus_palette()['light'],
-				'heading' => nexus_palette()['primary'],
-				'text'    => '#495057',
-				'tagline' => nexus_palette()['secondary'],
-				'note'    => '',
-			),
-			'gradient'       => array(
-				'bg'      => '',
-				'heading' => '#ffffff',
-				'text'    => 'rgba(255,255,255,0.85)',
-				'tagline' => 'rgba(255,255,255,0.7)',
-				'note'    => '',
-			),
-			'image-overlay'  => array(
-				'bg'      => '',
-				'heading' => '#ffffff',
-				'text'    => 'rgba(255,255,255,0.85)',
-				'tagline' => nexus_palette()['secondary'],
-				'note'    => '',
-			),
-			'split-accent'   => array(
-				'bg'      => nexus_palette()['primary'],
-				'heading' => '#ffffff',
-				'text'    => '#94a3b8',
-				'tagline' => nexus_palette()['secondary'],
-				'note'    => '',
-			),
-		);
-
-		return $presets[ $preset ] ?? $presets['centered-light'];
-	}
-
-	/**
 	 * Returns full content + button defaults per preset.
 	 *
 	 * @param string $preset Preset key.
@@ -129,7 +52,7 @@ class Nexus_Widget_CTA_Banner extends \Elementor\Widget_Base {
 				'btn1_text'  => 'Get Started',
 				'btn2_text'  => 'Learn More',
 				'btn1_style' => 'primary',
-				'btn2_style' => 'outline',
+				'btn2_style' => 'secondary',
 				'note_text'  => '',
 			),
 			'centered-dark'  => array(
@@ -138,7 +61,7 @@ class Nexus_Widget_CTA_Banner extends \Elementor\Widget_Base {
 				'description' => 'Schedule a free consultation with one of our specialists and discover how we can help you succeed.',
 				'btn1_text'  => 'Book a Call',
 				'btn2_text'  => 'Send a Message',
-				'btn1_style' => 'primary',
+				'btn1_style' => 'secondary',
 				'btn2_style' => 'outline-white',
 				'note_text'  => 'No bots — just a real expert ready to talk.',
 			),
@@ -178,7 +101,7 @@ class Nexus_Widget_CTA_Banner extends \Elementor\Widget_Base {
 				'description' => 'Reach out to our award-winning support team available 24/7.',
 				'btn1_text'  => 'Contact Us',
 				'btn2_text'  => 'View FAQ',
-				'btn1_style' => 'primary',
+				'btn1_style' => 'secondary',
 				'btn2_style' => 'outline-white',
 				'note_text'  => '',
 			),
@@ -463,7 +386,6 @@ class Nexus_Widget_CTA_Banner extends \Elementor\Widget_Base {
 		$settings = $this->get_settings_for_display();
 		$preset   = $settings['style_preset'] ?? 'centered-light';
 		$defaults = $this->get_preset_defaults( $preset );
-		$colors   = $this->get_preset_colors( $preset );
 		$htag     = in_array( $settings['headline_tag'] ?? 'h2', array( 'h1', 'h2', 'h3', 'h4' ), true ) ? $settings['headline_tag'] : 'h2';
 		$anim     = $settings['entrance_animation'] ?? 'fadeInUp';
 		$is_editor = \Elementor\Plugin::$instance->editor->is_edit_mode();
@@ -491,34 +413,10 @@ class Nexus_Widget_CTA_Banner extends \Elementor\Widget_Base {
 		// Unique ID for this widget instance.
 		$uid = 'nexus-cta-' . $this->get_id();
 
-		// --- Wrapper styles ---
-		$wrap_css = 'padding:5rem 2rem;position:relative;overflow:hidden;';
-		if ( $colors['bg'] ) {
-			$wrap_css .= 'background-color:' . $colors['bg'] . ';';
-		}
-		if ( 'gradient' === $preset ) {
-			$wrap_css .= 'background:linear-gradient(135deg,#667eea,#764ba2);';
-		}
+		// --- Wrapper: only structural + image-overlay bg-image ---
+		$wrap_css = '';
 		if ( 'image-overlay' === $preset && ! empty( $settings['bg_image']['url'] ) ) {
-			$wrap_css .= 'background-image:url(' . esc_url( $settings['bg_image']['url'] ) . ');background-size:cover;background-position:center;';
-		}
-
-		// --- Inner styles ---
-		$inner_css = 'max-width:1200px;margin:0 auto;position:relative;z-index:1;';
-		if ( $is_horizontal ) {
-			$inner_css .= 'display:flex;align-items:center;justify-content:space-between;gap:2.5rem;flex-wrap:wrap;';
-		}
-		if ( 'split-accent' === $preset ) {
-			$inner_css .= 'border-left:4px solid ' . nexus_palette()['secondary'] . ';padding-left:2rem;';
-		}
-
-		// --- Text container ---
-		$text_css = '';
-		if ( $is_centered ) {
-			$text_css .= 'text-align:center;';
-		}
-		if ( $is_horizontal ) {
-			$text_css .= 'flex:1;';
+			$wrap_css = 'background-image:url(' . esc_url( $settings['bg_image']['url'] ) . ');background-size:cover;background-position:center;';
 		}
 
 		// Hidden style for animated elements before they appear.
@@ -541,30 +439,26 @@ class Nexus_Widget_CTA_Banner extends \Elementor\Widget_Base {
 			</style>
 		<?php endif; ?>
 
-		<div id="<?php echo esc_attr( $uid ); ?>" class="nexus-cta-banner nexus-cta-banner--<?php echo esc_attr( $preset ); ?>" style="<?php echo esc_attr( $wrap_css ); ?>">
+		<div id="<?php echo esc_attr( $uid ); ?>" class="nexus-cta-banner nexus-cta-banner--<?php echo esc_attr( $preset ); ?>"<?php echo $wrap_css ? ' style="' . esc_attr( $wrap_css ) . '"' : ''; ?>>
 
-			<?php if ( 'image-overlay' === $preset ) : ?>
-				<div style="position:absolute;inset:0;background-color:rgba(26,26,46,0.8);z-index:0;"></div>
-			<?php endif; ?>
+			<div class="nexus-cta-banner__inner">
 
-			<div class="nexus-cta-banner__inner" style="<?php echo esc_attr( $inner_css ); ?>">
-
-				<div class="nexus-cta-banner__text" style="<?php echo esc_attr( $text_css ); ?>">
+				<div class="nexus-cta-banner__text">
 
 					<?php if ( $tagline ) : ?>
-						<p class="nexus-cta-banner__tagline nexus-cta-anim--<?php echo esc_attr( $anim ); ?>" data-cta-delay="0" style="<?php echo esc_attr( $hidden ); ?>color:<?php echo esc_attr( $colors['tagline'] ); ?>;font-size:0.875rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin:0 0 0.5rem;">
+						<p class="nexus-cta-banner__tagline nexus-cta-anim--<?php echo esc_attr( $anim ); ?>" data-cta-delay="0"<?php echo $hidden ? ' style="' . esc_attr( $hidden ) . '"' : ''; ?>>
 							<?php echo esc_html( $tagline ); ?>
 						</p>
 					<?php endif; ?>
 
 					<?php if ( $headline ) : ?>
-						<<?php echo esc_attr( $htag ); ?> class="nexus-cta-banner__headline nexus-cta-anim--<?php echo esc_attr( $anim ); ?>" data-cta-delay="100" style="<?php echo esc_attr( $hidden ); ?>color:<?php echo esc_attr( $colors['heading'] ); ?>;font-size:clamp(1.5rem,3vw,2.5rem);font-weight:700;line-height:1.25;margin:0 0 0.75rem;">
+						<<?php echo esc_attr( $htag ); ?> class="nexus-cta-banner__headline nexus-cta-anim--<?php echo esc_attr( $anim ); ?>" data-cta-delay="100"<?php echo $hidden ? ' style="' . esc_attr( $hidden ) . '"' : ''; ?>>
 							<?php echo wp_kses_post( $headline ); ?>
 						</<?php echo esc_attr( $htag ); ?>>
 					<?php endif; ?>
 
 					<?php if ( $description ) : ?>
-						<p class="nexus-cta-banner__desc nexus-cta-anim--<?php echo esc_attr( $anim ); ?>" data-cta-delay="200" style="<?php echo esc_attr( $hidden ); ?>color:<?php echo esc_attr( $colors['text'] ); ?>;font-size:1rem;line-height:1.7;margin:0;max-width:560px;<?php echo $is_centered ? 'margin-left:auto;margin-right:auto;' : ''; ?>">
+						<p class="nexus-cta-banner__desc nexus-cta-anim--<?php echo esc_attr( $anim ); ?>" data-cta-delay="200"<?php echo $hidden ? ' style="' . esc_attr( $hidden ) . '"' : ''; ?>>
 							<?php echo wp_kses_post( $description ); ?>
 						</p>
 					<?php endif; ?>
@@ -574,7 +468,7 @@ class Nexus_Widget_CTA_Banner extends \Elementor\Widget_Base {
 					<?php endif; ?>
 
 					<?php if ( 'centered-dark' === $preset && $note_text ) : ?>
-						<p class="nexus-cta-banner__note nexus-cta-anim--<?php echo esc_attr( $anim ); ?>" data-cta-delay="400" style="<?php echo esc_attr( $hidden ); ?>color:<?php echo esc_attr( $colors['note'] ); ?>;font-size:0.8125rem;margin:1rem 0 0;<?php echo $is_centered ? 'text-align:center;' : ''; ?>">
+						<p class="nexus-cta-banner__note nexus-cta-anim--<?php echo esc_attr( $anim ); ?>" data-cta-delay="400"<?php echo $hidden ? ' style="' . esc_attr( $hidden ) . '"' : ''; ?>>
 							<?php echo esc_html( $note_text ); ?>
 						</p>
 					<?php endif; ?>
@@ -582,7 +476,7 @@ class Nexus_Widget_CTA_Banner extends \Elementor\Widget_Base {
 				</div>
 
 				<?php if ( $is_horizontal ) : ?>
-					<div class="nexus-cta-banner__actions-wrap nexus-cta-anim--<?php echo esc_attr( $anim ); ?>" data-cta-delay="200" style="<?php echo esc_attr( $hidden ); ?>flex-shrink:0;">
+					<div class="nexus-cta-banner__actions-wrap nexus-cta-anim--<?php echo esc_attr( $anim ); ?>" data-cta-delay="200"<?php echo $hidden ? ' style="' . esc_attr( $hidden ) . '"' : ''; ?>>
 						<?php $this->render_buttons_with_defaults( $settings, $btn1_text, $btn2_text, $btn1_style_key, $btn2_style_key, false, 'none', '' ); ?>
 					</div>
 				<?php endif; ?>
@@ -635,13 +529,13 @@ class Nexus_Widget_CTA_Banner extends \Elementor\Widget_Base {
 			return;
 		}
 		?>
-		<div class="nexus-cta-banner__actions nexus-cta-anim--<?php echo esc_attr( $anim ); ?>" data-cta-delay="300" style="<?php echo esc_attr( $hidden ); ?>display:flex;gap:1rem;flex-wrap:wrap;margin-top:1.5rem;<?php echo $centered ? 'justify-content:center;' : ''; ?>">
+		<div class="nexus-cta-banner__actions nexus-cta-anim--<?php echo esc_attr( $anim ); ?>" data-cta-delay="300"<?php echo $hidden ? ' style="' . esc_attr( $hidden ) . '"' : ''; ?>>
 			<?php if ( $btn1_text ) : ?>
 				<?php
 				$url    = ! empty( $settings['btn1_link']['url'] ) ? esc_url( $settings['btn1_link']['url'] ) : '#';
 				$target = ! empty( $settings['btn1_link']['is_external'] ) ? 'target="_blank" rel="noopener noreferrer"' : '';
 				?>
-				<a href="<?php echo $url; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>" class="nexus-btn nexus-btn--<?php echo esc_attr( $btn1_style_key ); ?>" style="<?php echo esc_attr( $this->get_button_inline_style( $btn1_style_key ) ); ?>" <?php echo $target; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+				<a href="<?php echo $url; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>" class="nexus-btn nexus-btn--<?php echo esc_attr( $btn1_style_key ); ?>" <?php echo $target; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 					<?php echo esc_html( $btn1_text ); ?>
 				</a>
 			<?php endif; ?>
@@ -651,7 +545,7 @@ class Nexus_Widget_CTA_Banner extends \Elementor\Widget_Base {
 				$url    = ! empty( $settings['btn2_link']['url'] ) ? esc_url( $settings['btn2_link']['url'] ) : '#';
 				$target = ! empty( $settings['btn2_link']['is_external'] ) ? 'target="_blank" rel="noopener noreferrer"' : '';
 				?>
-				<a href="<?php echo $url; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>" class="nexus-btn nexus-btn--<?php echo esc_attr( $btn2_style_key ); ?>" style="<?php echo esc_attr( $this->get_button_inline_style( $btn2_style_key ) ); ?>" <?php echo $target; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+				<a href="<?php echo $url; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>" class="nexus-btn nexus-btn--<?php echo esc_attr( $btn2_style_key ); ?>" <?php echo $target; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 					<?php echo esc_html( $btn2_text ); ?>
 				</a>
 			<?php endif; ?>

@@ -1896,9 +1896,9 @@ html.nexus-dark {
 	// Scoped CSS vars — each preset overrides these, dark mode overrides light presets.
 	--cta-bg: var(--nexus-color-light);
 	--cta-heading: var(--nexus-color-primary);
-	--cta-text: #495057;
-	--cta-tagline: var(--nexus-primary);
-	--cta-note: #64748b;
+	--cta-text: var(--nexus-text-secondary);
+	--cta-tagline: var(--nexus-color-secondary);
+	--cta-note: var(--nexus-text-muted);
 
 	padding: 5rem 2rem;
 	position: relative;
@@ -1960,8 +1960,8 @@ html.nexus-dark {
 	// ----- Style 2: Centered Dark -----
 	&--centered-dark {
 		--cta-bg: var(--nexus-color-primary);
-		--cta-heading: #fff;
-		--cta-text: #cbd5e1;
+		--cta-heading: var(--nexus-color-white);
+		--cta-text: var(--nexus-text-muted);
 		text-align: center;
 
 		.nexus-cta-banner__desc { margin-inline: auto; }
@@ -1987,10 +1987,10 @@ html.nexus-dark {
 
 	// ----- Style 4: Gradient -----
 	&--gradient {
-		--cta-heading: #fff;
+		--cta-heading: var(--nexus-color-white);
 		--cta-text: rgba(255, 255, 255, 0.85);
 		--cta-tagline: rgba(255, 255, 255, 0.7);
-		background: linear-gradient(135deg, #667eea, #764ba2);
+		background: linear-gradient(135deg, var(--nexus-color-secondary), var(--nexus-color-accent));
 		text-align: center;
 
 		.nexus-cta-banner__desc { margin-inline: auto; }
@@ -2000,7 +2000,7 @@ html.nexus-dark {
 	// ----- Style 5: Image + Overlay -----
 	&--image-overlay {
 		--cta-bg: transparent;
-		--cta-heading: #fff;
+		--cta-heading: var(--nexus-color-white);
 		--cta-text: rgba(255, 255, 255, 0.85);
 		background-size: cover;
 		background-position: center;
@@ -2011,6 +2011,7 @@ html.nexus-dark {
 			position: absolute;
 			inset: 0;
 			background-color: rgba(26, 26, 46, 0.8);
+			z-index: 0;
 		}
 
 		.nexus-cta-banner__inner { position: relative; z-index: 1; }
@@ -2021,8 +2022,8 @@ html.nexus-dark {
 	// ----- Style 6: Split with Accent Bar -----
 	&--split-accent {
 		--cta-bg: var(--nexus-color-primary);
-		--cta-heading: #fff;
-		--cta-text: #94a3b8;
+		--cta-heading: var(--nexus-color-white);
+		--cta-text: var(--nexus-text-muted);
 
 		.nexus-cta-banner__inner {
 			display: flex;
@@ -2071,13 +2072,50 @@ html.nexus-dark {
 	}
 }
 
-// CTA Banner — dark mode: only light-bg presets need overrides
+// CTA Banner — dark mode: inverse theme system
 html.nexus-dark {
+	// Light-bg presets (1, 3) → dark in dark mode
 	.nexus-cta-banner--centered-light,
 	.nexus-cta-banner--side-by-side {
-		--cta-bg: var(--nexus-bg-subtle);
+		--cta-bg: var(--nexus-surface);
 		--cta-heading: var(--nexus-heading-color);
 		--cta-text: var(--nexus-text-color);
+		--cta-tagline: var(--nexus-color-secondary);
+
+		.nexus-btn--outline {
+			color: #fff;
+			border-color: rgba(255, 255, 255, 0.7);
+
+			&:hover, &:focus-visible {
+				background: #fff;
+				color: var(--nexus-color-primary);
+				border-color: #fff;
+			}
+		}
+	}
+
+	// Dark-bg presets (2, 6) → light in dark mode
+	.nexus-cta-banner--centered-dark,
+	.nexus-cta-banner--split-accent {
+		--cta-bg: var(--nexus-color-light);
+		--cta-heading: var(--nexus-color-primary);
+		--cta-text: var(--nexus-text-secondary);
+		--cta-note: var(--nexus-text-muted);
+	}
+
+	// Gradient (4) → softer gradient in dark mode
+	.nexus-cta-banner--gradient {
+		background: linear-gradient(135deg, var(--nexus-color-accent), var(--nexus-color-dark));
+		--cta-heading: var(--nexus-heading-color);
+		--cta-text: rgba(255, 255, 255, 0.8);
+		--cta-tagline: rgba(255, 255, 255, 0.6);
+	}
+
+	// Image overlay (5) → lighter overlay in dark mode
+	.nexus-cta-banner--image-overlay {
+		&::before {
+			background-color: rgba(15, 23, 42, 0.7);
+		}
 	}
 }
 
