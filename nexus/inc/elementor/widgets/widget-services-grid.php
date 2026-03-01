@@ -2,7 +2,8 @@
 /**
  * Nexus Theme - Elementor Services Grid Widget
  *
- * Services/features grid with icon, title, text, optional link.
+ * Services/features grid with 6 visually distinct style presets.
+ * Each preset has a unique HTML structure and visual identity.
  *
  * @package Nexus
  */
@@ -36,11 +37,140 @@ class Nexus_Widget_Services_Grid extends \Elementor\Widget_Base {
 		return array( 'services', 'features', 'grid', 'icons', 'nexus' );
 	}
 
+	// -----------------------------------------------------------------
+	// Preset data
+	// -----------------------------------------------------------------
+
+	/**
+	 * Only palette-dependent colors go here — they become inline CSS vars.
+	 * Static colors (#ffffff, #6c757d, etc.) are SCSS defaults so dark mode can override them.
+	 * Heading/text are NOT set here — they use var(--nexus-heading-color) etc. in SCSS,
+	 * which the dark mode theme already handles.
+	 */
+	private function get_preset_colors( $preset ) {
+		$p       = nexus_palette();
+		$presets = array(
+			'clean-minimal'       => array(
+				'icon_color'    => $p['secondary'],
+				'link'          => $p['secondary'],
+			),
+			'corporate-numbered'  => array(
+				'accent'        => $p['secondary'],
+				'icon_color'    => $p['secondary'],
+				'link'          => $p['secondary'],
+			),
+			'flip-hover'          => array(
+				'card_bg_hover' => $p['secondary'],
+				'icon_color'    => $p['secondary'],
+				'link'          => $p['secondary'],
+			),
+			'horizontal-list'     => array(
+				'icon_bg'       => $p['secondary'],
+				'link'          => $p['secondary'],
+			),
+			'overlapping-icon'    => array(
+				'icon_bg'       => 'linear-gradient(135deg, ' . $p['secondary'] . ', ' . $p['accent'] . ')',
+				'link'          => $p['secondary'],
+			),
+			'dark-glass'          => array(
+				'section_bg'    => $p['dark'],
+				'icon_color'    => $p['secondary'],
+				'link'          => $p['secondary'],
+				'glow'          => $p['secondary'],
+			),
+		);
+
+		return $presets[ $preset ] ?? $presets['clean-minimal'];
+	}
+
+	// -----------------------------------------------------------------
+	// Controls
+	// -----------------------------------------------------------------
+
 	protected function register_controls() {
 
-		// ---------------------------------------------------------------
-		// CONTENT: Items
-		// ---------------------------------------------------------------
+		// ---- Style Preset ----
+		$this->start_controls_section(
+			'section_preset',
+			array( 'label' => esc_html__( 'Style Preset', 'nexus' ) )
+		);
+
+		$this->add_control(
+			'style_preset',
+			array(
+				'label'       => esc_html__( 'Style', 'nexus' ),
+				'type'        => \Elementor\Controls_Manager::SELECT,
+				'default'     => 'clean-minimal',
+				'options'     => array(
+					'clean-minimal'      => esc_html__( '1 — Clean Minimal', 'nexus' ),
+					'corporate-numbered' => esc_html__( '2 — Corporate Numbered', 'nexus' ),
+					'flip-hover'         => esc_html__( '3 — Flip Hover', 'nexus' ),
+					'horizontal-list'    => esc_html__( '4 — Horizontal List', 'nexus' ),
+					'overlapping-icon'   => esc_html__( '5 — Overlapping Icon', 'nexus' ),
+					'dark-glass'         => esc_html__( '6 — Dark Glassmorphism', 'nexus' ),
+				),
+				'render_type' => 'template',
+			)
+		);
+
+		$this->end_controls_section();
+
+		// ---- Section Header ----
+		$this->start_controls_section(
+			'section_header',
+			array( 'label' => esc_html__( 'Section Header', 'nexus' ) )
+		);
+
+		$this->add_control(
+			'tagline',
+			array(
+				'label'       => esc_html__( 'Tagline', 'nexus' ),
+				'type'        => \Elementor\Controls_Manager::TEXT,
+				'default'     => esc_html__( 'What We Do', 'nexus' ),
+				'placeholder' => esc_html__( 'e.g. Our Services', 'nexus' ),
+				'dynamic'     => array( 'active' => true ),
+			)
+		);
+
+		$this->add_control(
+			'heading',
+			array(
+				'label'       => esc_html__( 'Heading', 'nexus' ),
+				'type'        => \Elementor\Controls_Manager::TEXT,
+				'default'     => esc_html__( 'Services We Provide', 'nexus' ),
+				'placeholder' => esc_html__( 'Enter heading', 'nexus' ),
+				'dynamic'     => array( 'active' => true ),
+			)
+		);
+
+		$this->add_control(
+			'subheading',
+			array(
+				'label'       => esc_html__( 'Subheading', 'nexus' ),
+				'type'        => \Elementor\Controls_Manager::TEXTAREA,
+				'rows'        => 3,
+				'default'     => esc_html__( 'Comprehensive solutions designed to help your business grow and succeed in a competitive landscape.', 'nexus' ),
+				'placeholder' => esc_html__( 'Enter subheading', 'nexus' ),
+				'dynamic'     => array( 'active' => true ),
+			)
+		);
+
+		$this->add_control(
+			'header_align',
+			array(
+				'label'   => esc_html__( 'Alignment', 'nexus' ),
+				'type'    => \Elementor\Controls_Manager::CHOOSE,
+				'options' => array(
+					'left'   => array( 'title' => esc_html__( 'Left', 'nexus' ), 'icon' => 'eicon-text-align-left' ),
+					'center' => array( 'title' => esc_html__( 'Center', 'nexus' ), 'icon' => 'eicon-text-align-center' ),
+				),
+				'default' => 'center',
+			)
+		);
+
+		$this->end_controls_section();
+
+		// ---- Services Repeater ----
 		$this->start_controls_section(
 			'section_items',
 			array( 'label' => esc_html__( 'Services', 'nexus' ) )
@@ -99,14 +229,6 @@ class Nexus_Widget_Services_Grid extends \Elementor\Widget_Base {
 			)
 		);
 
-		$repeater->add_control(
-			'icon_color',
-			array(
-				'label' => esc_html__( 'Icon Color Override', 'nexus' ),
-				'type'  => \Elementor\Controls_Manager::COLOR,
-			)
-		);
-
 		$this->add_control(
 			'services',
 			array(
@@ -115,52 +237,40 @@ class Nexus_Widget_Services_Grid extends \Elementor\Widget_Base {
 				'fields'      => $repeater->get_controls(),
 				'default'     => array(
 					array(
-						'icon'        => array(
-							'value'   => 'ri-palette-line',
-							'library' => 'remix-icon',
-						),
+						'icon'        => array( 'value' => 'ri-palette-line', 'library' => 'remix-icon' ),
 						'title'       => esc_html__( 'Creative Design', 'nexus' ),
 						'description' => esc_html__( 'Stunning visuals that capture your brand essence and communicate your message effectively.', 'nexus' ),
+						'link_text'   => esc_html__( 'Learn More', 'nexus' ),
 					),
 					array(
-						'icon'        => array(
-							'value'   => 'ri-code-s-slash-line',
-							'library' => 'remix-icon',
-						),
+						'icon'        => array( 'value' => 'ri-code-s-slash-line', 'library' => 'remix-icon' ),
 						'title'       => esc_html__( 'Web Development', 'nexus' ),
 						'description' => esc_html__( 'Fast, secure, and scalable web solutions built with modern technologies.', 'nexus' ),
+						'link_text'   => esc_html__( 'Learn More', 'nexus' ),
 					),
 					array(
-						'icon'        => array(
-							'value'   => 'ri-bar-chart-2-line',
-							'library' => 'remix-icon',
-						),
+						'icon'        => array( 'value' => 'ri-bar-chart-2-line', 'library' => 'remix-icon' ),
 						'title'       => esc_html__( 'Digital Marketing', 'nexus' ),
 						'description' => esc_html__( 'Data-driven strategies to grow your online presence and drive conversions.', 'nexus' ),
+						'link_text'   => esc_html__( 'Learn More', 'nexus' ),
 					),
 					array(
-						'icon'        => array(
-							'value'   => 'ri-customer-service-2-line',
-							'library' => 'remix-icon',
-						),
+						'icon'        => array( 'value' => 'ri-customer-service-2-line', 'library' => 'remix-icon' ),
 						'title'       => esc_html__( '24/7 Support', 'nexus' ),
 						'description' => esc_html__( 'Round-the-clock assistance to ensure your business never misses a beat.', 'nexus' ),
+						'link_text'   => esc_html__( 'Learn More', 'nexus' ),
 					),
 					array(
-						'icon'        => array(
-							'value'   => 'ri-shield-check-line',
-							'library' => 'remix-icon',
-						),
+						'icon'        => array( 'value' => 'ri-shield-check-line', 'library' => 'remix-icon' ),
 						'title'       => esc_html__( 'Security', 'nexus' ),
 						'description' => esc_html__( 'Enterprise-grade security measures protecting your data and users at all times.', 'nexus' ),
+						'link_text'   => esc_html__( 'Learn More', 'nexus' ),
 					),
 					array(
-						'icon'        => array(
-							'value'   => 'ri-rocket-2-line',
-							'library' => 'remix-icon',
-						),
+						'icon'        => array( 'value' => 'ri-rocket-2-line', 'library' => 'remix-icon' ),
 						'title'       => esc_html__( 'Fast Performance', 'nexus' ),
 						'description' => esc_html__( 'Optimized for speed and performance delivering exceptional user experiences.', 'nexus' ),
+						'link_text'   => esc_html__( 'Learn More', 'nexus' ),
 					),
 				),
 				'title_field' => '{{{ title }}}',
@@ -169,9 +279,7 @@ class Nexus_Widget_Services_Grid extends \Elementor\Widget_Base {
 
 		$this->end_controls_section();
 
-		// ---------------------------------------------------------------
-		// CONTENT: Layout
-		// ---------------------------------------------------------------
+		// ---- Layout ----
 		$this->start_controls_section(
 			'section_layout',
 			array( 'label' => esc_html__( 'Layout', 'nexus' ) )
@@ -186,90 +294,81 @@ class Nexus_Widget_Services_Grid extends \Elementor\Widget_Base {
 				'tablet_default' => '2',
 				'mobile_default' => '1',
 				'options'        => array(
+					'1' => '1',
 					'2' => '2',
 					'3' => '3',
 					'4' => '4',
-					'5' => '5',
 				),
 				'selectors'      => array(
-					'{{WRAPPER}} .nexus-services-grid' => '--nexus-services-cols: {{VALUE}};',
+					'{{WRAPPER}} .nexus-sg__grid' => '--nexus-sg-cols: {{VALUE}};',
 				),
 			)
 		);
 
-		$this->add_control(
-			'card_style',
+		$this->add_responsive_control(
+			'card_gap',
 			array(
-				'label'   => esc_html__( 'Card Style', 'nexus' ),
-				'type'    => \Elementor\Controls_Manager::SELECT,
-				'default' => 'boxed',
-				'options' => array(
-					'boxed'  => esc_html__( 'Boxed', 'nexus' ),
-					'flat'   => esc_html__( 'Flat (No Border)', 'nexus' ),
-					'border' => esc_html__( 'Border Left Accent', 'nexus' ),
-				),
-			)
-		);
-
-		$this->add_control(
-			'icon_position',
-			array(
-				'label'   => esc_html__( 'Icon Position', 'nexus' ),
-				'type'    => \Elementor\Controls_Manager::SELECT,
-				'default' => 'top',
-				'options' => array(
-					'top'  => esc_html__( 'Top', 'nexus' ),
-					'left' => esc_html__( 'Left (Inline)', 'nexus' ),
-				),
-			)
-		);
-
-		$this->add_control(
-			'text_align',
-			array(
-				'label'     => esc_html__( 'Text Alignment', 'nexus' ),
-				'type'      => \Elementor\Controls_Manager::CHOOSE,
-				'options'   => array(
-					'left'   => array(
-						'title' => esc_html__( 'Left', 'nexus' ),
-						'icon'  => 'eicon-text-align-left',
-					),
-					'center' => array(
-						'title' => esc_html__( 'Center', 'nexus' ),
-						'icon'  => 'eicon-text-align-center',
-					),
-					'right'  => array(
-						'title' => esc_html__( 'Right', 'nexus' ),
-						'icon'  => 'eicon-text-align-right',
-					),
-				),
-				'default'   => 'left',
-				'selectors' => array(
-					'{{WRAPPER}} .nexus-service-card' => 'text-align: {{VALUE}};',
-				),
-			)
-		);
-
-		$this->add_control(
-			'hover_effect',
-			array(
-				'label'   => esc_html__( 'Hover Effect', 'nexus' ),
-				'type'    => \Elementor\Controls_Manager::SELECT,
-				'default' => 'lift',
-				'options' => array(
-					'none'   => esc_html__( 'None', 'nexus' ),
-					'lift'   => esc_html__( 'Lift Up', 'nexus' ),
-					'glow'   => esc_html__( 'Glow Shadow', 'nexus' ),
-					'border' => esc_html__( 'Accent Border', 'nexus' ),
+				'label'      => esc_html__( 'Gap', 'nexus' ),
+				'type'       => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => array( 'px' ),
+				'range'      => array( 'px' => array( 'min' => 0, 'max' => 60 ) ),
+				'default'    => array( 'size' => 30, 'unit' => 'px' ),
+				'selectors'  => array(
+					'{{WRAPPER}} .nexus-sg__grid' => 'gap: {{SIZE}}{{UNIT}};',
 				),
 			)
 		);
 
 		$this->end_controls_section();
 
-		// ---------------------------------------------------------------
-		// STYLE: Icon
-		// ---------------------------------------------------------------
+		// ---- Style: Header ----
+		$this->start_controls_section(
+			'section_style_header',
+			array(
+				'label' => esc_html__( 'Section Header', 'nexus' ),
+				'tab'   => \Elementor\Controls_Manager::TAB_STYLE,
+			)
+		);
+
+		$this->add_control(
+			'tagline_color',
+			array(
+				'label'     => esc_html__( 'Tagline Color', 'nexus' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array( '{{WRAPPER}} .nexus-sg__tagline' => 'color: {{VALUE}};' ),
+			)
+		);
+
+		$this->add_control(
+			'heading_color',
+			array(
+				'label'     => esc_html__( 'Heading Color', 'nexus' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array( '{{WRAPPER}} .nexus-sg__heading' => 'color: {{VALUE}};' ),
+			)
+		);
+
+		$this->add_control(
+			'subheading_color',
+			array(
+				'label'     => esc_html__( 'Subheading Color', 'nexus' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array( '{{WRAPPER}} .nexus-sg__subheading' => 'color: {{VALUE}};' ),
+			)
+		);
+
+		$this->add_group_control(
+			\Elementor\Group_Control_Typography::get_type(),
+			array(
+				'name'     => 'heading_typography',
+				'label'    => esc_html__( 'Heading Typography', 'nexus' ),
+				'selector' => '{{WRAPPER}} .nexus-sg__heading',
+			)
+		);
+
+		$this->end_controls_section();
+
+		// ---- Style: Icon ----
 		$this->start_controls_section(
 			'section_style_icon',
 			array(
@@ -283,9 +382,7 @@ class Nexus_Widget_Services_Grid extends \Elementor\Widget_Base {
 			array(
 				'label'     => esc_html__( 'Icon Color', 'nexus' ),
 				'type'      => \Elementor\Controls_Manager::COLOR,
-				'selectors' => array(
-					'{{WRAPPER}} .nexus-service-card__icon' => 'color: {{VALUE}};',
-				),
+				'selectors' => array( '{{WRAPPER}} .nexus-sg-card__icon' => 'color: {{VALUE}};' ),
 			)
 		);
 
@@ -294,9 +391,7 @@ class Nexus_Widget_Services_Grid extends \Elementor\Widget_Base {
 			array(
 				'label'     => esc_html__( 'Icon Background', 'nexus' ),
 				'type'      => \Elementor\Controls_Manager::COLOR,
-				'selectors' => array(
-					'{{WRAPPER}} .nexus-service-card__icon-wrap' => 'background-color: {{VALUE}};',
-				),
+				'selectors' => array( '{{WRAPPER}} .nexus-sg-card__icon-wrap' => 'background-color: {{VALUE}};' ),
 			)
 		);
 
@@ -306,65 +401,14 @@ class Nexus_Widget_Services_Grid extends \Elementor\Widget_Base {
 				'label'      => esc_html__( 'Icon Size', 'nexus' ),
 				'type'       => \Elementor\Controls_Manager::SLIDER,
 				'size_units' => array( 'px' ),
-				'range'      => array(
-					'px' => array(
-						'min' => 16,
-						'max' => 80,
-					),
-				),
-				'default'    => array(
-					'size' => 32,
-					'unit' => 'px',
-				),
-				'selectors'  => array(
-					'{{WRAPPER}} .nexus-service-card__icon' => 'font-size: {{SIZE}}{{UNIT}};',
-				),
-			)
-		);
-
-		$this->add_control(
-			'icon_padding',
-			array(
-				'label'      => esc_html__( 'Icon Wrapper Size', 'nexus' ),
-				'type'       => \Elementor\Controls_Manager::SLIDER,
-				'size_units' => array( 'px' ),
-				'range'      => array(
-					'px' => array(
-						'min' => 40,
-						'max' => 120,
-					),
-				),
-				'default'    => array(
-					'size' => 70,
-					'unit' => 'px',
-				),
-				'selectors'  => array(
-					'{{WRAPPER}} .nexus-service-card__icon-wrap' => 'width: {{SIZE}}{{UNIT}}; height: {{SIZE}}{{UNIT}};',
-				),
-			)
-		);
-
-		$this->add_control(
-			'icon_radius',
-			array(
-				'label'      => esc_html__( 'Icon Border Radius', 'nexus' ),
-				'type'       => \Elementor\Controls_Manager::SLIDER,
-				'size_units' => array( 'px', '%' ),
-				'default'    => array(
-					'size' => 50,
-					'unit' => '%',
-				),
-				'selectors'  => array(
-					'{{WRAPPER}} .nexus-service-card__icon-wrap' => 'border-radius: {{SIZE}}{{UNIT}};',
-				),
+				'range'      => array( 'px' => array( 'min' => 16, 'max' => 80 ) ),
+				'selectors'  => array( '{{WRAPPER}} .nexus-sg-card__icon' => 'font-size: {{SIZE}}{{UNIT}};' ),
 			)
 		);
 
 		$this->end_controls_section();
 
-		// ---------------------------------------------------------------
-		// STYLE: Card
-		// ---------------------------------------------------------------
+		// ---- Style: Card ----
 		$this->start_controls_section(
 			'section_style_card',
 			array(
@@ -373,76 +417,12 @@ class Nexus_Widget_Services_Grid extends \Elementor\Widget_Base {
 			)
 		);
 
-		$this->add_responsive_control(
-			'card_gap',
-			array(
-				'label'      => esc_html__( 'Gap', 'nexus' ),
-				'type'       => \Elementor\Controls_Manager::SLIDER,
-				'size_units' => array( 'px' ),
-				'range'      => array(
-					'px' => array(
-						'min' => 0,
-						'max' => 60,
-					),
-				),
-				'default'    => array(
-					'size' => 30,
-					'unit' => 'px',
-				),
-				'selectors'  => array(
-					'{{WRAPPER}} .nexus-services-grid' => 'gap: {{SIZE}}{{UNIT}};',
-				),
-			)
-		);
-
-		$this->add_group_control(
-			\Elementor\Group_Control_Background::get_type(),
-			array(
-				'name'     => 'card_bg',
-				'selector' => '{{WRAPPER}} .nexus-service-card',
-			)
-		);
-
-		$this->add_group_control(
-			\Elementor\Group_Control_Border::get_type(),
-			array(
-				'name'     => 'card_border',
-				'selector' => '{{WRAPPER}} .nexus-service-card',
-			)
-		);
-
-		$this->add_control(
-			'card_radius',
-			array(
-				'label'      => esc_html__( 'Border Radius', 'nexus' ),
-				'type'       => \Elementor\Controls_Manager::DIMENSIONS,
-				'size_units' => array( 'px' ),
-				'selectors'  => array(
-					'{{WRAPPER}} .nexus-service-card' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-				),
-			)
-		);
-
-		$this->add_responsive_control(
-			'card_padding',
-			array(
-				'label'      => esc_html__( 'Padding', 'nexus' ),
-				'type'       => \Elementor\Controls_Manager::DIMENSIONS,
-				'size_units' => array( 'px', 'em' ),
-				'selectors'  => array(
-					'{{WRAPPER}} .nexus-service-card' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-				),
-			)
-		);
-
 		$this->add_control(
 			'title_color',
 			array(
 				'label'     => esc_html__( 'Title Color', 'nexus' ),
 				'type'      => \Elementor\Controls_Manager::COLOR,
-				'selectors' => array(
-					'{{WRAPPER}} .nexus-service-card__title' => 'color: {{VALUE}};',
-				),
+				'selectors' => array( '{{WRAPPER}} .nexus-sg-card__title' => 'color: {{VALUE}};' ),
 			)
 		);
 
@@ -451,7 +431,7 @@ class Nexus_Widget_Services_Grid extends \Elementor\Widget_Base {
 			array(
 				'name'     => 'title_typography',
 				'label'    => esc_html__( 'Title Typography', 'nexus' ),
-				'selector' => '{{WRAPPER}} .nexus-service-card__title',
+				'selector' => '{{WRAPPER}} .nexus-sg-card__title',
 			)
 		);
 
@@ -460,70 +440,399 @@ class Nexus_Widget_Services_Grid extends \Elementor\Widget_Base {
 			array(
 				'label'     => esc_html__( 'Description Color', 'nexus' ),
 				'type'      => \Elementor\Controls_Manager::COLOR,
-				'selectors' => array(
-					'{{WRAPPER}} .nexus-service-card__desc' => 'color: {{VALUE}};',
-				),
+				'selectors' => array( '{{WRAPPER}} .nexus-sg-card__desc' => 'color: {{VALUE}};' ),
 			)
 		);
 
 		$this->end_controls_section();
 	}
 
+	// -----------------------------------------------------------------
+	// Render dispatcher
+	// -----------------------------------------------------------------
+
 	protected function render() {
-		$settings   = $this->get_settings_for_display();
-		$services   = $settings['services'];
-		$card_style = $settings['card_style'] ?? 'boxed';
-		$icon_pos   = $settings['icon_position'] ?? 'top';
-		$hover      = $settings['hover_effect'] ?? 'lift';
+		$settings = $this->get_settings_for_display();
+		$preset   = $settings['style_preset'] ?? 'clean-minimal';
+		$services = $settings['services'] ?? array();
 
 		if ( empty( $services ) ) {
 			return;
 		}
+
+		switch ( $preset ) {
+			case 'corporate-numbered':
+				$this->render_corporate_numbered( $settings, $services );
+				break;
+			case 'flip-hover':
+				$this->render_flip_hover( $settings, $services );
+				break;
+			case 'horizontal-list':
+				$this->render_horizontal_list( $settings, $services );
+				break;
+			case 'overlapping-icon':
+				$this->render_overlapping_icon( $settings, $services );
+				break;
+			case 'dark-glass':
+				$this->render_dark_glass( $settings, $services );
+				break;
+			default:
+				$this->render_clean_minimal( $settings, $services );
+				break;
+		}
+	}
+
+	// -----------------------------------------------------------------
+	// Shared helpers
+	// -----------------------------------------------------------------
+
+	private function render_icon( $service ) {
+		if ( ! empty( $service['icon']['value'] ) ) {
+			\Elementor\Icons_Manager::render_icon( $service['icon'], array( 'aria-hidden' => 'true' ) );
+		}
+	}
+
+	private function get_link_attrs( $service ) {
+		$has_link = ! empty( $service['link']['url'] );
+		if ( ! $has_link ) {
+			return '';
+		}
+		$attrs = ' href="' . esc_url( $service['link']['url'] ) . '"';
+		if ( ! empty( $service['link']['is_external'] ) ) {
+			$attrs .= ' target="_blank" rel="noopener noreferrer"';
+		}
+		return $attrs;
+	}
+
+	/**
+	 * Build a CSS custom-properties string from a preset color array.
+	 * Set on the wrapper .nexus-sg so all children can use var(--sg-*).
+	 */
+	private function get_css_vars( $colors ) {
+		$map = array(
+			'card_bg'      => '--sg-card-bg',
+			'icon_color'   => '--sg-icon-color',
+			'icon_bg'      => '--sg-icon-bg',
+			'heading'      => '--sg-heading',
+			'text'         => '--sg-text',
+			'link'         => '--sg-link',
+			'border'       => '--sg-border',
+			'accent'       => '--sg-accent',
+			'number_color' => '--sg-number',
+			'card_bg_hover' => '--sg-card-bg-hover',
+			'card_border'  => '--sg-card-border',
+			'glow'         => '--sg-glow',
+			'shadow'       => '--sg-shadow',
+			'section_bg'   => '--sg-section-bg',
+		);
+
+		$vars = array();
+		foreach ( $map as $key => $prop ) {
+			if ( ! empty( $colors[ $key ] ) ) {
+				$vars[] = $prop . ':' . $colors[ $key ];
+			}
+		}
+		return implode( ';', $vars );
+	}
+
+	private function render_section_header( $settings ) {
+		$tagline    = $settings['tagline'] ?? '';
+		$heading    = $settings['heading'] ?? '';
+		$subheading = $settings['subheading'] ?? '';
+		$align      = $settings['header_align'] ?? 'center';
+
+		if ( ! $tagline && ! $heading && ! $subheading ) {
+			return;
+		}
 		?>
+		<div class="nexus-sg__header nexus-sg__header--<?php echo esc_attr( $align ); ?>">
+			<?php if ( $tagline ) : ?>
+				<span class="nexus-sg__tagline"><?php echo esc_html( $tagline ); ?></span>
+			<?php endif; ?>
 
-		<div class="nexus-services-grid nexus-services--<?php echo esc_attr( $card_style ); ?> nexus-services--icon-<?php echo esc_attr( $icon_pos ); ?>">
-			<?php foreach ( $services as $service ) : ?>
-				<?php
-				$has_link = ! empty( $service['link']['url'] );
-				$tag      = $has_link ? 'a' : 'div';
-				$attrs    = '';
-				if ( $has_link ) {
-					$attrs = ' href="' . esc_url( $service['link']['url'] ) . '"';
-					if ( ! empty( $service['link']['is_external'] ) ) {
-						$attrs .= ' target="_blank" rel="noopener noreferrer"';
-					}
-				}
-				$inline_icon_color = $service['icon_color'] ? ' style="color:' . esc_attr( $service['icon_color'] ) . ';"' : '';
-				?>
+			<?php if ( $heading ) : ?>
+				<h2 class="nexus-sg__heading"><?php echo esc_html( $heading ); ?></h2>
+			<?php endif; ?>
 
-				<<?php echo esc_attr( $tag . $attrs ); ?> class="nexus-service-card nexus-service-card--hover-<?php echo esc_attr( $hover ); ?>">
+			<?php if ( $subheading ) : ?>
+				<p class="nexus-sg__subheading"><?php echo wp_kses_post( $subheading ); ?></p>
+			<?php endif; ?>
+		</div>
+		<?php
+	}
 
-					<div class="nexus-service-card__icon-wrap">
-						<span class="nexus-service-card__icon"<?php echo $inline_icon_color; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
-							<?php \Elementor\Icons_Manager::render_icon( $service['icon'], array( 'aria-hidden' => 'true' ) ); ?>
-						</span>
-					</div>
+	// -----------------------------------------------------------------
+	// 1. Clean Minimal — Standard vertical cards, round icon, clean
+	// -----------------------------------------------------------------
 
-					<div class="nexus-service-card__body">
+	private function render_clean_minimal( $settings, $services ) {
+		$c = $this->get_preset_colors( 'clean-minimal' );
+		?>
+		<div class="nexus-sg nexus-sg--clean-minimal" style="<?php echo esc_attr( $this->get_css_vars( $c ) ); ?>">
+			<?php $this->render_section_header( $settings ); ?>
+
+			<div class="nexus-sg__grid">
+				<?php foreach ( $services as $service ) :
+					$has_link  = ! empty( $service['link']['url'] );
+					$tag       = $has_link ? 'a' : 'div';
+					$link_attr = $this->get_link_attrs( $service );
+					?>
+					<<?php echo $tag . $link_attr; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> class="nexus-sg-card nexus-sg-card--clean">
+
+						<div class="nexus-sg-card__icon-wrap">
+							<span class="nexus-sg-card__icon">
+								<?php $this->render_icon( $service ); ?>
+							</span>
+						</div>
+
 						<?php if ( $service['title'] ) : ?>
-							<h3 class="nexus-service-card__title"><?php echo esc_html( $service['title'] ); ?></h3>
+							<h3 class="nexus-sg-card__title"><?php echo esc_html( $service['title'] ); ?></h3>
 						<?php endif; ?>
 
 						<?php if ( $service['description'] ) : ?>
-							<p class="nexus-service-card__desc"><?php echo wp_kses_post( $service['description'] ); ?></p>
+							<p class="nexus-sg-card__desc"><?php echo wp_kses_post( $service['description'] ); ?></p>
 						<?php endif; ?>
 
-						<?php if ( $service['link_text'] && $has_link ) : ?>
-							<span class="nexus-service-card__link">
-								<?php echo esc_html( $service['link_text'] ); ?>
-								<i class="ri ri-arrow-right-line" aria-hidden="true"></i>
+						<?php if ( ! empty( $service['link_text'] ) ) : ?>
+							<span class="nexus-sg-card__link">
+								<?php echo esc_html( $service['link_text'] ); ?> <i class="ri-arrow-right-line" aria-hidden="true"></i>
 							</span>
 						<?php endif; ?>
-					</div>
 
-				</<?php echo esc_attr( $tag ); ?>>
+					</<?php echo esc_attr( $tag ); ?>>
+				<?php endforeach; ?>
+			</div>
+		</div>
+		<?php
+	}
 
-			<?php endforeach; ?>
+	// -----------------------------------------------------------------
+	// 2. Corporate Numbered — Big step numbers, left accent bar
+	// -----------------------------------------------------------------
+
+	private function render_corporate_numbered( $settings, $services ) {
+		$c = $this->get_preset_colors( 'corporate-numbered' );
+		?>
+		<div class="nexus-sg nexus-sg--corporate-numbered" style="<?php echo esc_attr( $this->get_css_vars( $c ) ); ?>">
+			<?php $this->render_section_header( $settings ); ?>
+
+			<div class="nexus-sg__grid">
+				<?php foreach ( $services as $idx => $service ) :
+					$has_link  = ! empty( $service['link']['url'] );
+					$tag       = $has_link ? 'a' : 'div';
+					$link_attr = $this->get_link_attrs( $service );
+					$num       = str_pad( $idx + 1, 2, '0', STR_PAD_LEFT );
+					?>
+					<<?php echo $tag . $link_attr; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> class="nexus-sg-card nexus-sg-card--numbered">
+
+						<div class="nexus-sg-card__accent-bar"></div>
+
+						<span class="nexus-sg-card__number"><?php echo esc_html( $num ); ?></span>
+
+						<div class="nexus-sg-card__top">
+							<span class="nexus-sg-card__icon nexus-sg-card__icon--small">
+								<?php $this->render_icon( $service ); ?>
+							</span>
+							<?php if ( $service['title'] ) : ?>
+								<h3 class="nexus-sg-card__title"><?php echo esc_html( $service['title'] ); ?></h3>
+							<?php endif; ?>
+						</div>
+
+						<?php if ( $service['description'] ) : ?>
+							<p class="nexus-sg-card__desc"><?php echo wp_kses_post( $service['description'] ); ?></p>
+						<?php endif; ?>
+
+						<?php if ( ! empty( $service['link_text'] ) ) : ?>
+							<span class="nexus-sg-card__link">
+								<?php echo esc_html( $service['link_text'] ); ?> <i class="ri-arrow-right-s-line" aria-hidden="true"></i>
+							</span>
+						<?php endif; ?>
+
+					</<?php echo esc_attr( $tag ); ?>>
+				<?php endforeach; ?>
+			</div>
+		</div>
+		<?php
+	}
+
+	// -----------------------------------------------------------------
+	// 3. Flip Hover — White cards, full color transform on hover
+	// -----------------------------------------------------------------
+
+	private function render_flip_hover( $settings, $services ) {
+		$c = $this->get_preset_colors( 'flip-hover' );
+		?>
+		<div class="nexus-sg nexus-sg--flip-hover" style="<?php echo esc_attr( $this->get_css_vars( $c ) ); ?>">
+			<?php $this->render_section_header( $settings ); ?>
+
+			<div class="nexus-sg__grid">
+				<?php foreach ( $services as $service ) :
+					$has_link  = ! empty( $service['link']['url'] );
+					$tag       = $has_link ? 'a' : 'div';
+					$link_attr = $this->get_link_attrs( $service );
+					?>
+					<<?php echo $tag . $link_attr; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> class="nexus-sg-card nexus-sg-card--flip">
+
+						<div class="nexus-sg-card__icon-wrap nexus-sg-card__icon-wrap--flip">
+							<span class="nexus-sg-card__icon nexus-sg-card__icon--large">
+								<?php $this->render_icon( $service ); ?>
+							</span>
+						</div>
+
+						<?php if ( $service['title'] ) : ?>
+							<h3 class="nexus-sg-card__title"><?php echo esc_html( $service['title'] ); ?></h3>
+						<?php endif; ?>
+
+						<?php if ( $service['description'] ) : ?>
+							<p class="nexus-sg-card__desc"><?php echo wp_kses_post( $service['description'] ); ?></p>
+						<?php endif; ?>
+
+						<span class="nexus-sg-card__flip-arrow">
+							<i class="ri-arrow-right-up-line" aria-hidden="true"></i>
+						</span>
+
+					</<?php echo esc_attr( $tag ); ?>>
+				<?php endforeach; ?>
+			</div>
+		</div>
+		<?php
+	}
+
+	// -----------------------------------------------------------------
+	// 4. Horizontal List — Full-width rows, icon left, arrow right
+	// -----------------------------------------------------------------
+
+	private function render_horizontal_list( $settings, $services ) {
+		$c = $this->get_preset_colors( 'horizontal-list' );
+		?>
+		<div class="nexus-sg nexus-sg--horizontal-list" style="<?php echo esc_attr( $this->get_css_vars( $c ) ); ?>">
+			<?php $this->render_section_header( $settings ); ?>
+
+			<div class="nexus-sg__list">
+				<?php foreach ( $services as $idx => $service ) :
+					$has_link  = ! empty( $service['link']['url'] );
+					$tag       = $has_link ? 'a' : 'div';
+					$link_attr = $this->get_link_attrs( $service );
+					$num       = str_pad( $idx + 1, 2, '0', STR_PAD_LEFT );
+					?>
+					<<?php echo $tag . $link_attr; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> class="nexus-sg-row">
+
+						<span class="nexus-sg-row__number"><?php echo esc_html( $num ); ?></span>
+
+						<div class="nexus-sg-row__icon-wrap">
+							<span class="nexus-sg-row__icon">
+								<?php $this->render_icon( $service ); ?>
+							</span>
+						</div>
+
+						<div class="nexus-sg-row__body">
+							<?php if ( $service['title'] ) : ?>
+								<h3 class="nexus-sg-row__title"><?php echo esc_html( $service['title'] ); ?></h3>
+							<?php endif; ?>
+							<?php if ( $service['description'] ) : ?>
+								<p class="nexus-sg-row__desc"><?php echo wp_kses_post( $service['description'] ); ?></p>
+							<?php endif; ?>
+						</div>
+
+						<span class="nexus-sg-row__arrow">
+							<i class="ri-arrow-right-line" aria-hidden="true"></i>
+						</span>
+
+					</<?php echo esc_attr( $tag ); ?>>
+				<?php endforeach; ?>
+			</div>
+		</div>
+		<?php
+	}
+
+	// -----------------------------------------------------------------
+	// 5. Overlapping Icon — Icon overlaps card top edge
+	// -----------------------------------------------------------------
+
+	private function render_overlapping_icon( $settings, $services ) {
+		$c = $this->get_preset_colors( 'overlapping-icon' );
+		?>
+		<div class="nexus-sg nexus-sg--overlapping-icon" style="<?php echo esc_attr( $this->get_css_vars( $c ) ); ?>">
+			<?php $this->render_section_header( $settings ); ?>
+
+			<div class="nexus-sg__grid nexus-sg__grid--overlap">
+				<?php foreach ( $services as $service ) :
+					$has_link  = ! empty( $service['link']['url'] );
+					$tag       = $has_link ? 'a' : 'div';
+					$link_attr = $this->get_link_attrs( $service );
+					?>
+					<<?php echo $tag . $link_attr; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> class="nexus-sg-card nexus-sg-card--overlap">
+
+						<div class="nexus-sg-card__icon-wrap nexus-sg-card__icon-wrap--overlap">
+							<span class="nexus-sg-card__icon">
+								<?php $this->render_icon( $service ); ?>
+							</span>
+						</div>
+
+						<div class="nexus-sg-card__content">
+							<?php if ( $service['title'] ) : ?>
+								<h3 class="nexus-sg-card__title"><?php echo esc_html( $service['title'] ); ?></h3>
+							<?php endif; ?>
+
+							<?php if ( $service['description'] ) : ?>
+								<p class="nexus-sg-card__desc"><?php echo wp_kses_post( $service['description'] ); ?></p>
+							<?php endif; ?>
+
+							<?php if ( ! empty( $service['link_text'] ) ) : ?>
+								<span class="nexus-sg-card__link">
+									<?php echo esc_html( $service['link_text'] ); ?> <i class="ri-arrow-right-line" aria-hidden="true"></i>
+								</span>
+							<?php endif; ?>
+						</div>
+
+					</<?php echo esc_attr( $tag ); ?>>
+				<?php endforeach; ?>
+			</div>
+		</div>
+		<?php
+	}
+
+	// -----------------------------------------------------------------
+	// 6. Dark Glassmorphism — Dark bg, glass cards, glowing icons
+	// -----------------------------------------------------------------
+
+	private function render_dark_glass( $settings, $services ) {
+		$c = $this->get_preset_colors( 'dark-glass' );
+		?>
+		<div class="nexus-sg nexus-sg--dark-glass" style="<?php echo esc_attr( $this->get_css_vars( $c ) ); ?>">
+			<?php $this->render_section_header( $settings ); ?>
+
+			<div class="nexus-sg__grid">
+				<?php foreach ( $services as $service ) :
+					$has_link  = ! empty( $service['link']['url'] );
+					$tag       = $has_link ? 'a' : 'div';
+					$link_attr = $this->get_link_attrs( $service );
+					?>
+					<<?php echo $tag . $link_attr; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> class="nexus-sg-card nexus-sg-card--glass">
+
+						<span class="nexus-sg-card__icon nexus-sg-card__icon--glow">
+							<?php $this->render_icon( $service ); ?>
+						</span>
+
+						<?php if ( $service['title'] ) : ?>
+							<h3 class="nexus-sg-card__title"><?php echo esc_html( $service['title'] ); ?></h3>
+						<?php endif; ?>
+
+						<?php if ( $service['description'] ) : ?>
+							<p class="nexus-sg-card__desc"><?php echo wp_kses_post( $service['description'] ); ?></p>
+						<?php endif; ?>
+
+						<div class="nexus-sg-card__glass-line"></div>
+
+						<?php if ( ! empty( $service['link_text'] ) ) : ?>
+							<span class="nexus-sg-card__link">
+								<?php echo esc_html( $service['link_text'] ); ?> <i class="ri-arrow-right-line" aria-hidden="true"></i>
+							</span>
+						<?php endif; ?>
+
+					</<?php echo esc_attr( $tag ); ?>>
+				<?php endforeach; ?>
+			</div>
 		</div>
 		<?php
 	}
