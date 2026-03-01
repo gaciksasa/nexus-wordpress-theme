@@ -183,7 +183,7 @@
 .nexus-hero-slider {
 	position: relative;
 
-	// Bottom-vignette: ensures legibility regardless of overlay transparency
+	// Bottom-vignette (hidden for certain presets via modifier)
 	&::after {
 		content: '';
 		position: absolute;
@@ -195,19 +195,22 @@
 		pointer-events: none;
 	}
 
+	// Hide vignette for presets that handle their own overlay
+	&--creative-split::after,
+	&--minimal-center::after,
+	&--editorial-bottom::after,
+	&--cinematic-dark::after,
+	&--bold-startup::after {
+		display: none;
+	}
+
+	// ---- Base slide styles ----
 	.nexus-hero-slide {
 		position: relative;
 		overflow: hidden;
 		background-size: cover;
 		background-position: center;
 		background-repeat: no-repeat;
-
-		&__bg {
-			position: absolute;
-			inset: 0;
-			background-size: cover;
-			background-position: center;
-		}
 
 		&__overlay {
 			position: absolute;
@@ -226,125 +229,51 @@
 			position: relative;
 			display: flex;
 			flex-direction: column;
-			align-items: center;
-			text-align: center;
 			justify-content: center;
 			padding: 6rem 2rem;
 			color: #fff;
 			width: 100%;
 		}
 
-		&__tagline {
-			display: inline-flex;
-			align-items: center;
-			gap: 0.75rem;
-			font-size: 0.75rem;
-			font-weight: 700;
-			text-transform: uppercase;
-			letter-spacing: 0.22em;
-			color: var(--nexus-color-secondary);
-			margin-block-end: 1.25rem;
-
-			&::before,
-			&::after {
-				content: '';
-				display: block;
-				width: 32px;
-				height: 1px;
-				background: var(--nexus-color-secondary);
-				opacity: 0.7;
-			}
-		}
-
-		&__title {
-			font-size: clamp(2.25rem, 5.5vw, 4.5rem);
-			font-weight: 800;
-			line-height: 1.08;
-			color: #fff;
-			margin-block: 0 1.25rem;
-			max-width: 860px;
-			letter-spacing: -0.02em;
-		}
-
-		&__text {
-			font-size: clamp(1rem, 1.8vw, 1.175rem);
-			line-height: 1.75;
-			color: rgba(255 255 255 / 0.8);
-			margin-block-end: 2.25rem;
-			max-width: 560px;
-			font-weight: 400;
-		}
-
 		&__actions {
 			display: flex;
 			gap: 1rem;
 			flex-wrap: wrap;
-			justify-content: center;
 
-			// Override buttons for hero context — pill shape, larger
 			.nexus-btn {
-				border-radius: 50rem;
-				padding: 0.85em 2.25em;
-				font-size: 0.9375rem;
-				font-weight: 600;
-				letter-spacing: 0.01em;
+				transition: all 0.3s ease;
 			}
 
-			.nexus-btn--primary {
-				background: var(--nexus-color-secondary);
-				border-color: var(--nexus-color-secondary);
-				box-shadow: 0 4px 24px rgba(233 69 96 / 0.4);
-
-				&:hover {
-					background: #fff;
-					border-color: #fff;
-					color: var(--nexus-color-primary);
-					box-shadow: 0 8px 32px rgba(233 69 96 / 0.3);
-				}
+			.nexus-btn--hero-pri:hover {
+				opacity: 0.9;
+				transform: translateY(-2px);
 			}
 
-			.nexus-btn--outline-white {
-				border-color: rgba(255 255 255 / 0.5);
-				backdrop-filter: blur(4px);
-				background: rgba(255 255 255 / 0.08);
-
-				&:hover {
-					background: rgba(255 255 255 / 0.18);
-					border-color: rgba(255 255 255 / 0.8);
-				}
+			.nexus-btn--hero-sec:hover {
+				opacity: 0.85;
 			}
 		}
 	}
 
-	// Content alignment variants
+	// ---- Content alignment variants ----
 	&.content-left .nexus-hero-slide__content {
 		align-items: flex-start;
 		text-align: left;
-
-		.nexus-hero-slide__tagline::before { display: none; }
-		.nexus-hero-slide__tagline::after  { display: none; }
-		.nexus-hero-slide__tagline         { padding-inline-start: 0; }
-		.nexus-hero-slide__text            { margin-inline: 0; }
-		.nexus-hero-slide__actions         { justify-content: flex-start; }
 	}
 
 	&.content-center .nexus-hero-slide__content {
 		align-items: center;
 		text-align: center;
-
 		.nexus-hero-slide__text { margin-inline: auto; }
 	}
 
 	&.content-right .nexus-hero-slide__content {
 		align-items: flex-end;
 		text-align: right;
-
-		.nexus-hero-slide__tagline::before { display: none; }
-		.nexus-hero-slide__text            { margin-inline: 0 0 0 auto; }
-		.nexus-hero-slide__actions         { justify-content: flex-end; }
+		.nexus-hero-slide__text { margin-inline-start: auto; }
 	}
 
-	// Custom navigation arrows — glassmorphism circular
+	// ---- Default glassmorphism arrows ----
 	.swiper-button-prev,
 	.swiper-button-next {
 		width: 52px;
@@ -376,12 +305,12 @@
 	.swiper-button-prev { left: 1.75rem; }
 	.swiper-button-next { right: 1.75rem; }
 
-	// Line pagination — thin animated lines
-	.swiper-pagination {
+	// ---- Default line pagination ----
+	&__dots {
 		bottom: 1.75rem;
 		z-index: 10;
 
-		&-bullet {
+		.swiper-pagination-bullet {
 			width: 28px;
 			height: 3px;
 			border-radius: 2px;
@@ -389,12 +318,324 @@
 			opacity: 1;
 			margin: 0 4px;
 			transition: width 0.35s ease, background 0.25s ease;
+		}
 
-			&-active {
-				width: 52px;
-				background: #fff;
+		.swiper-pagination-bullet-active {
+			width: 52px;
+			background: #fff;
+		}
+	}
+
+	// ==================================================================
+	// 1. Classic Corporate — left gradient, accent bar
+	// ==================================================================
+	&--classic-corporate {
+		.nexus-hero-slide__accent-bar {
+			transition: height 0.4s ease;
+		}
+
+		&:hover .nexus-hero-slide__accent-bar {
+			height: 80px !important;
+		}
+	}
+
+	// ==================================================================
+	// 2. Creative Split — solid panel + image
+	// ==================================================================
+	&--creative-split {
+		.nexus-hero-slide--split {
+			display: flex;
+			height: 100%;
+		}
+
+		.nexus-hero-slide__split-panel {
+			flex: 0 0 45%;
+			display: flex;
+			align-items: center;
+			position: relative;
+			z-index: 2;
+		}
+
+		.nexus-hero-slide__split-image {
+			flex: 0 0 55%;
+			position: relative;
+		}
+
+		// Progress counter
+		.nexus-hero-slider__progress {
+			position: absolute;
+			bottom: 2rem;
+			right: 3rem;
+			display: flex;
+			align-items: center;
+			gap: 0.75rem;
+			z-index: 10;
+			color: rgba(255, 255, 255, 0.5);
+			font-size: 0.875rem;
+			font-weight: 600;
+			letter-spacing: 0.05em;
+		}
+
+		.nexus-hero-slider__progress-current {
+			color: #fff;
+			font-size: 1.125rem;
+		}
+
+		.nexus-hero-slider__progress-bar {
+			width: 48px;
+			height: 2px;
+			background: rgba(255, 255, 255, 0.2);
+			border-radius: 1px;
+			overflow: hidden;
+
+			span {
+				display: block;
+				width: 50%;
+				height: 100%;
+				background: var(--nexus-color-secondary);
+				border-radius: 1px;
+				transition: width 0.3s ease;
 			}
 		}
+
+		@include respond-below(md) {
+			.nexus-hero-slide--split {
+				flex-direction: column;
+			}
+
+			.nexus-hero-slide__split-panel {
+				flex: 0 0 55%;
+			}
+
+			.nexus-hero-slide__split-image {
+				flex: 0 0 45%;
+			}
+
+			.nexus-hero-slide__content {
+				padding: 2.5rem 2rem !important;
+			}
+
+			.nexus-hero-slider__progress {
+				right: 1.5rem;
+				bottom: 1rem;
+			}
+		}
+	}
+
+	// ==================================================================
+	// 3. Minimal Center — blurred bg, side dots
+	// ==================================================================
+	&--minimal-center {
+		// Vertical dots on the right
+		.nexus-hero-slider__side-dots {
+			position: absolute;
+			right: 2rem;
+			top: 50%;
+			transform: translateY(-50%);
+			z-index: 10;
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+
+			.swiper-pagination-bullet {
+				width: 10px;
+				height: 10px;
+				border-radius: 50%;
+				background: rgba(255, 255, 255, 0.3);
+				opacity: 1;
+				margin: 0;
+				transition: all 0.3s ease;
+			}
+
+			.swiper-pagination-bullet-active {
+				background: transparent;
+				box-shadow: 0 0 0 2px #fff;
+				transform: scale(1.2);
+			}
+		}
+
+		@include respond-below(md) {
+			.nexus-hero-slider__side-dots {
+				right: 1rem;
+				gap: 8px;
+			}
+		}
+	}
+
+	// ==================================================================
+	// 4. Editorial Bottom — bottom-anchored, numbered nav
+	// ==================================================================
+	&--editorial-bottom {
+		.nexus-hero-slide__bottom-row {
+			.nexus-btn--hero-pri {
+				text-decoration: none;
+
+				&:hover {
+					text-decoration: underline;
+				}
+			}
+		}
+
+		// Numbered navigation
+		.nexus-hero-slider__nav-numbers {
+			position: absolute;
+			bottom: 2.5rem;
+			right: 3rem;
+			z-index: 10;
+			display: flex;
+			align-items: center;
+			gap: 0;
+		}
+
+		.nexus-hero-slider__nav-num {
+			font-size: 0.875rem;
+			font-weight: 600;
+			color: rgba(255, 255, 255, 0.4);
+			cursor: pointer;
+			padding: 0.25rem 0.5rem;
+			transition: color 0.3s ease;
+
+			&.is-active {
+				color: var(--nexus-color-secondary);
+				font-weight: 700;
+			}
+
+			&:hover {
+				color: #fff;
+			}
+		}
+
+		.nexus-hero-slider__nav-line {
+			display: inline-block;
+			width: 24px;
+			height: 1px;
+			background: rgba(255, 255, 255, 0.2);
+			margin: 0 0.25rem;
+		}
+
+		@include respond-below(md) {
+			.nexus-hero-slide__content {
+				padding-bottom: 6rem !important;
+			}
+
+			.nexus-hero-slide__title {
+				font-size: clamp(2rem, 6vw, 3.5rem) !important;
+			}
+
+			.nexus-hero-slider__nav-numbers {
+				right: 1.5rem;
+				bottom: 1.5rem;
+			}
+		}
+	}
+
+	// ==================================================================
+	// 5. Cinematic Dark — frame border, Ken Burns, vertical lines
+	// ==================================================================
+	&--cinematic-dark {
+		// Ken Burns on background
+		.nexus-hero-slide--cinematic {
+			& > *:first-child {
+				// The background-image on the slide itself
+			}
+		}
+
+		.swiper-slide-active.nexus-hero-slide--cinematic {
+			animation: nexusKenBurns 15s ease infinite alternate;
+		}
+
+		// Vertical line pagination
+		.nexus-hero-slider__lines {
+			position: absolute;
+			bottom: 2rem;
+			left: 50%;
+			transform: translateX(-50%);
+			z-index: 10;
+			display: flex;
+			gap: 12px;
+			align-items: flex-end;
+
+			.swiper-pagination-bullet {
+				width: 2px;
+				height: 24px;
+				border-radius: 1px;
+				background: rgba(255, 255, 255, 0.3);
+				opacity: 1;
+				margin: 0;
+				transition: height 0.35s ease, background 0.25s ease;
+			}
+
+			.swiper-pagination-bullet-active {
+				height: 40px;
+				background: var(--nexus-color-secondary);
+			}
+		}
+
+		.nexus-hero-slide__frame {
+			transition: border-color 0.5s ease;
+		}
+
+		@include respond-below(md) {
+			.nexus-hero-slide__frame {
+				inset: 12px !important;
+			}
+
+			.nexus-hero-slider__lines {
+				bottom: 1.5rem;
+			}
+		}
+	}
+
+	// ==================================================================
+	// 6. Bold Startup — geometric shape, gradient CTA
+	// ==================================================================
+	&--bold-startup {
+		.swiper-button-prev,
+		.swiper-button-next {
+			background: #fff;
+			border: none;
+			box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+
+			&::after {
+				color: var(--nexus-color-primary);
+			}
+
+			&:hover {
+				background: var(--nexus-color-secondary);
+				box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
+
+				&::after {
+					color: #fff;
+				}
+			}
+		}
+
+		.nexus-hero-slide__shape {
+			transition: opacity 0.6s ease;
+		}
+	}
+
+	// ---- Responsive: hide arrows on mobile ----
+	@include respond-below(md) {
+		.swiper-button-prev,
+		.swiper-button-next {
+			display: none;
+		}
+
+		.nexus-hero-slide__content {
+			padding: 4rem 1.5rem !important;
+		}
+	}
+}
+
+// Ken Burns keyframes for cinematic preset
+@keyframes nexusKenBurns {
+	0% {
+		background-size: 100%;
+	}
+
+	100% {
+		background-size: 112%;
 	}
 }
 
