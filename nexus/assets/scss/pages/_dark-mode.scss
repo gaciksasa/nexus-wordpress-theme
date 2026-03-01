@@ -9,14 +9,16 @@ html.nexus-dark {
 	color-scheme: dark;
 
 	// ---- Core colors ----
-	--nexus-bg:             #0f172a;
-	--nexus-bg-subtle:      #1e293b;
-	--nexus-bg-muted:       #162032;
-	--nexus-surface:        #1e293b;
-	--nexus-body-color:     #cbd5e1;    // overrides default dark body color
-	--nexus-body-bg:        #0f172a;
-	--nexus-color-light:    #1e293b;    // hover bg in dark mode
-	--nexus-color-white:    #1e293b;    // surfaces (cards, header, etc.)
+	// These defaults match the "Crimson Night" palette.
+	// nexus_output_critical_css() overrides them with palette-derived values.
+	--nexus-bg:             var(--nexus-dm-bg, #0f172a);
+	--nexus-bg-subtle:      var(--nexus-dm-surface, #1e293b);
+	--nexus-bg-muted:       var(--nexus-dm-muted, #162032);
+	--nexus-surface:        var(--nexus-dm-surface, #1e293b);
+	--nexus-body-color:     #cbd5e1;
+	--nexus-body-bg:        var(--nexus-dm-bg, #0f172a);
+	--nexus-color-light:    var(--nexus-dm-surface, #1e293b);
+	--nexus-color-white:    var(--nexus-dm-surface, #1e293b);
 	--nexus-text-color:     #cbd5e1;
 	--nexus-text-secondary: #94a3b8;
 	--nexus-text-muted:     #64748b;
@@ -27,12 +29,12 @@ html.nexus-dark {
 	--nexus-link-hover:     #60a5fa;
 
 	// ---- Header ----
-	--nexus-header-bg:      #0f172a;
+	--nexus-header-bg:      var(--nexus-dm-header, #0f172a);
 	--nexus-header-border:  rgba(148 163 184 / 10%);
 	--nexus-header-shadow:  0 1px 20px rgba(0 0 0 / 0.4);
 
 	// ---- Footer ----
-	--nexus-footer-bg:      #020617;
+	--nexus-footer-bg:      var(--nexus-dm-footer, #020617);
 	--nexus-footer-text:    rgba(148 163 184 / 0.8);
 
 	// ---- Shadows ----
@@ -71,7 +73,7 @@ html.nexus-dark {
 
 	// ---- Code blocks ----
 	code {
-		background-color: #1e293b;
+		background-color: var(--nexus-dm-surface, #1e293b);
 		border-color: var(--nexus-border-color);
 	}
 
@@ -142,7 +144,8 @@ html.nexus-dark {
 
 	// ---- Search popup ----
 	.nexus-search-popup {
-		background-color: rgba(15 23 42 / 0.97);
+		background-color: var(--nexus-dm-bg, #0f172a);
+		opacity: 0.97;
 	}
 
 	// ---- Comment form ----

@@ -1,0 +1,93 @@
+// =============================================================================
+// CSS Custom Properties — emitted once in main.scss only.
+// Palette colors are overridden at runtime by nexus_output_critical_css().
+// =============================================================================
+
+@use 'variables' as *;
+
+:root {
+  --nexus-color-primary:   #{$color-primary};
+  --nexus-color-secondary: #{$color-secondary};
+  --nexus-color-accent:    #{$color-dark};
+  --nexus-color-dark:      #{$color-dark-alt};
+  --nexus-color-light:     #{$color-light};
+  --nexus-color-white:     #{$color-white};
+  --nexus-color-muted:     #{$color-muted};
+  --nexus-body-color:      #{$body-color};
+  --nexus-body-bg:         #{$body-bg};
+  --nexus-link-color:      #{$link-color};
+  --nexus-link-hover:      #{$link-hover};
+
+  // Typography — fonts
+  --nexus-font-body:       'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --nexus-font-heading:    'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  // Typography — sizes (fluid scale)
+  --nexus-font-size-base:  1rem;
+  --nexus-font-size-sm:    0.875rem;
+  --nexus-font-size-lg:    1.125rem;
+  --nexus-font-size-xl:    1.25rem;
+  --nexus-font-size-2xl:   clamp(1.25rem, 2.5vw, 1.75rem);  // h3
+  --nexus-font-size-3xl:   clamp(1.5rem,  3vw,   2.25rem);  // h2
+  --nexus-font-size-4xl:   clamp(2rem,    4vw,   3rem);     // h1
+
+  // Typography — line-heights
+  --nexus-line-height:      1.6;
+  --nexus-line-height-base: 1.6;
+  --nexus-line-height-tight: 1.25;
+
+  // Typography — text colors
+  --nexus-text-color:     #{$body-color};
+  --nexus-text-secondary: #495057;
+  --nexus-text-muted:     #{$color-muted};
+  --nexus-heading-color:  #{$color-primary};
+
+  // Semantic color aliases (used throughout components)
+  --nexus-primary:        #{$color-primary};
+  --nexus-secondary:      #{$color-secondary};
+  --nexus-primary-rgb:    26, 26, 46;
+  --nexus-secondary-rgb:  233, 69, 96;
+
+  // Backgrounds
+  --nexus-bg:             #{$body-bg};
+  --nexus-bg-subtle:      #f8f9fa;
+  --nexus-bg-dark:        #{$color-primary};
+
+  // Spacing
+  --nexus-spacing-xs:      0.25rem;
+  --nexus-spacing-sm:      0.5rem;
+  --nexus-spacing-md:      1rem;
+  --nexus-spacing-lg:      1.5rem;
+  --nexus-spacing-xl:      2rem;
+  --nexus-spacing-2xl:     3rem;
+  --nexus-spacing-3xl:     4rem;
+  --nexus-spacing-4xl:     6rem;
+
+  // Border
+  --nexus-border-radius:       6px;
+  --nexus-border-radius-sm:    4px;
+  --nexus-border-radius-lg:    12px;
+  --nexus-border-radius-xl:    20px;
+  --nexus-border-radius-pill:  50rem;
+  --nexus-border-color:        #e9ecef;
+  --nexus-border-width:        1px;
+
+  // Shadows
+  --nexus-shadow-sm:     0 1px 3px rgba(0, 0, 0, 0.08);
+  --nexus-shadow-md:     0 4px 12px rgba(0, 0, 0, 0.1);
+  --nexus-shadow-lg:     0 8px 24px rgba(0, 0, 0, 0.12);
+  --nexus-shadow-xl:     0 20px 60px rgba(0, 0, 0, 0.15);
+
+  // Transitions
+  --nexus-transition:       all 0.3s ease;
+  --nexus-transition-base:  all 0.3s ease;
+  --nexus-transition-fast:  all 0.15s ease;
+
+  // Layout
+  --nexus-container-max:     1200px;
+  --nexus-container-padding: 1.5rem;
+  --nexus-header-height:     80px;
+
+  // Admin bar compensation
+  --nexus-admin-bar-height: 0px;
+}

@@ -2606,3 +2606,269 @@ html.nexus-dark {
 		border-color: var(--nexus-border-color) !important;
 	}
 }
+
+// -------------------------------------------------------------------------
+// Content Carousel (.nexus-cc)
+// -------------------------------------------------------------------------
+.nexus-cc {
+
+	// ---- Standard card hover (clean-cards) ----
+	&__card--standard {
+		&:hover {
+			transform: translateY(-4px);
+			box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12) !important;
+		}
+
+		&:hover img {
+			transform: scale(1.05);
+		}
+	}
+
+	// ---- Overlay card hover (cinema-overlay) ----
+	&__card--overlay {
+		&:hover {
+			transform: translateY(-4px);
+			box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
+		}
+
+		&:hover img {
+			transform: scale(1.08);
+		}
+	}
+
+	// ---- Pill card hover (soft-rounded) ----
+	&__card--pill {
+		&:hover {
+			transform: translateY(-4px);
+			box-shadow: 0 8px 32px rgba(15, 52, 96, 0.12) !important;
+		}
+
+		&:hover img {
+			transform: scale(1.05);
+		}
+	}
+
+	// ---- Split card hover (fullwidth-focus) ----
+	&__card--split {
+		&:hover {
+			box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+		}
+
+		&:hover img {
+			transform: scale(1.05);
+		}
+	}
+
+	// ---- Caption card hover (bordered-minimal) ----
+	&__card--caption {
+		&:hover {
+			transform: translateY(-2px);
+		}
+
+		&:hover .nexus-cc__card-thumb {
+			border-top-color: var(--nexus-color-secondary) !important;
+		}
+
+		&:hover img {
+			transform: scale(1.05);
+		}
+	}
+
+	// ---- Neon card hover (neon-dark) ----
+	&__card--neon {
+		&:hover {
+			border-color: rgba(var(--nexus-secondary-rgb), 0.5) !important;
+			box-shadow: 0 0 24px rgba(var(--nexus-secondary-rgb), 0.25),
+			             0 0 48px rgba(var(--nexus-secondary-rgb), 0.1);
+			transform: translateY(-4px);
+		}
+
+		&:hover .nexus-cc__neon-overlay {
+			opacity: 0.85 !important;
+		}
+
+		&:hover .nexus-cc__neon-content {
+			opacity: 1 !important;
+			transform: translateY(0) !important;
+		}
+	}
+
+	// ---- Swiper arrows ----
+	&__arrow {
+		width: 48px !important;
+		height: 48px !important;
+		border-radius: 50% !important;
+		background: rgba(255, 255, 255, 0.85) !important;
+		backdrop-filter: blur(8px);
+		border: 1px solid rgba(0, 0, 0, 0.08) !important;
+		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+		transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+		z-index: 10;
+		top: 50%;
+		margin-top: 0;
+		transform: translateY(-50%);
+
+		&::after {
+			font-size: 14px !important;
+			font-weight: 700;
+			color: var(--nexus-color-primary);
+		}
+
+		&:hover {
+			background: var(--nexus-color-secondary) !important;
+			border-color: var(--nexus-color-secondary) !important;
+			box-shadow: 0 6px 24px rgba(var(--nexus-secondary-rgb), 0.3);
+			transform: translateY(-50%) scale(1.08);
+
+			&::after {
+				color: #fff;
+			}
+		}
+
+		&--prev {
+			left: 1rem;
+		}
+
+		&--next {
+			right: 1rem;
+		}
+	}
+
+	// Dark presets: glassmorphism arrows.
+	&--cinema-overlay &__arrow,
+	&--neon-dark &__arrow,
+	&--fullwidth-focus &__arrow {
+		background: rgba(255, 255, 255, 0.12) !important;
+		border-color: rgba(255, 255, 255, 0.2) !important;
+		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+
+		&::after {
+			color: #fff;
+		}
+
+		&:hover {
+			background: rgba(255, 255, 255, 0.25) !important;
+			border-color: rgba(255, 255, 255, 0.4) !important;
+			box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
+		}
+	}
+
+	// ---- Pagination dots ----
+	&__dots {
+		margin-top: 1.5rem !important;
+		position: relative !important;
+		bottom: auto !important;
+
+		.swiper-pagination-bullet {
+			width: 10px;
+			height: 10px;
+			opacity: 0.3;
+			transition: opacity 0.3s ease, transform 0.3s ease;
+		}
+
+		.swiper-pagination-bullet-active {
+			opacity: 1;
+			transform: scale(1.2);
+		}
+	}
+
+	&--clean-cards &__dots .swiper-pagination-bullet-active,
+	&--bordered-minimal &__dots .swiper-pagination-bullet-active {
+		background: var(--nexus-color-secondary);
+	}
+
+	&--cinema-overlay &__dots .swiper-pagination-bullet-active {
+		background: var(--nexus-color-secondary);
+	}
+
+	&--soft-rounded &__dots .swiper-pagination-bullet-active {
+		background: var(--nexus-color-accent);
+	}
+
+	&--fullwidth-focus &__dots .swiper-pagination-bullet {
+		background: #fff;
+	}
+
+	&--fullwidth-focus &__dots .swiper-pagination-bullet-active {
+		background: #fff;
+	}
+
+	&--neon-dark &__dots .swiper-pagination-bullet-active {
+		background: var(--nexus-color-secondary);
+		box-shadow: 0 0 8px rgba(var(--nexus-secondary-rgb), 0.5);
+	}
+
+	// ---- Split layout mobile ----
+	&__card--split {
+		@include respond-below(md) {
+			flex-direction: column !important;
+
+			.nexus-cc__card-img-col {
+				flex: 0 0 auto !important;
+				min-height: 220px !important;
+			}
+
+			.nexus-cc__card-text-col {
+				padding: 2rem 1.5rem !important;
+			}
+		}
+	}
+
+	// ---- Responsive ----
+	@include respond-below(md) {
+		padding: 3rem 0 !important;
+
+		&__header {
+			margin-bottom: 1.5rem !important;
+		}
+
+		&__arrow {
+			display: none !important;
+		}
+	}
+
+	@include respond-below(sm) {
+		&__card--standard,
+		&__card--pill {
+			border-radius: 8px !important;
+		}
+
+		&__dots {
+			margin-top: 1rem !important;
+		}
+	}
+}
+
+// Dark mode overrides for content carousel light-bg presets.
+.nexus-dark {
+	.nexus-cc--clean-cards,
+	.nexus-cc--soft-rounded,
+	.nexus-cc--bordered-minimal {
+		background-color: var(--nexus-bg) !important;
+
+		.nexus-cc__card--standard,
+		.nexus-cc__card--pill {
+			background: var(--nexus-bg-subtle) !important;
+		}
+
+		.nexus-cc__card-title {
+			color: var(--nexus-heading-color) !important;
+		}
+
+		.nexus-cc__title {
+			color: var(--nexus-heading-color) !important;
+		}
+
+		.nexus-cc__desc {
+			color: var(--nexus-text-color) !important;
+		}
+
+		.nexus-cc__card-desc {
+			color: var(--nexus-text-secondary) !important;
+		}
+
+		.nexus-cc__card--caption .nexus-cc__card-thumb {
+			border-top-color: transparent;
+		}
+	}
+}

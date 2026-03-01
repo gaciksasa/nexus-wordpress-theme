@@ -6,6 +6,9 @@
 @use 'abstracts/variables' as *;
 @use 'abstracts/mixins' as *;
 
+// CSS custom properties — only emitted here (not in secondary entry points)
+@use 'abstracts/root';
+
 // Base styles
 @use 'base/reset';
 @use 'base/typography';

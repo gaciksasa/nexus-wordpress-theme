@@ -223,6 +223,42 @@ function nexus_hex_to_rgb( $hex ) {
 }
 
 /**
+ * Lightens a hex color by a given amount.
+ *
+ * @param string $hex    Hex color (e.g. '#0f172a').
+ * @param int    $amount Amount to lighten each channel (0-255).
+ * @return string Hex color.
+ */
+function nexus_lighten_hex( $hex, $amount ) {
+	$hex = ltrim( $hex, '#' );
+	if ( strlen( $hex ) === 3 ) {
+		$hex = $hex[0] . $hex[0] . $hex[1] . $hex[1] . $hex[2] . $hex[2];
+	}
+	$r = min( 255, hexdec( substr( $hex, 0, 2 ) ) + $amount );
+	$g = min( 255, hexdec( substr( $hex, 2, 2 ) ) + $amount );
+	$b = min( 255, hexdec( substr( $hex, 4, 2 ) ) + $amount );
+	return sprintf( '#%02x%02x%02x', $r, $g, $b );
+}
+
+/**
+ * Darkens a hex color by a given amount.
+ *
+ * @param string $hex    Hex color (e.g. '#f8f9fa').
+ * @param int    $amount Amount to darken each channel (0-255).
+ * @return string Hex color.
+ */
+function nexus_darken_hex( $hex, $amount ) {
+	$hex = ltrim( $hex, '#' );
+	if ( strlen( $hex ) === 3 ) {
+		$hex = $hex[0] . $hex[0] . $hex[1] . $hex[1] . $hex[2] . $hex[2];
+	}
+	$r = max( 0, hexdec( substr( $hex, 0, 2 ) ) - $amount );
+	$g = max( 0, hexdec( substr( $hex, 2, 2 ) ) - $amount );
+	$b = max( 0, hexdec( substr( $hex, 4, 2 ) ) - $amount );
+	return sprintf( '#%02x%02x%02x', $r, $g, $b );
+}
+
+/**
  * Outputs inline critical CSS variables.
  * This prevents layout shift before main stylesheet loads.
  */
@@ -235,8 +271,16 @@ function nexus_output_critical_css() {
 	$font_body       = nexus_option( 'nexus_font_body', 'Inter' );
 	$font_heading    = nexus_option( 'nexus_font_heading', 'Poppins' );
 
-	$primary_rgb   = nexus_hex_to_rgb( $primary_color );
-	$secondary_rgb = nexus_hex_to_rgb( $secondary_color );
+	$footer_bg_color = nexus_option( 'nexus_footer_bg_color', $primary_color );
+	$primary_rgb     = nexus_hex_to_rgb( $primary_color );
+	$secondary_rgb   = nexus_hex_to_rgb( $secondary_color );
+
+	// Derive dark mode surfaces from the palette dark color.
+	$dm_bg      = nexus_darken_hex( $dark_color, 10 );
+	$dm_surface = $dark_color;
+	$dm_muted   = nexus_lighten_hex( $dark_color, 4 );
+	$dm_header  = $dm_bg;
+	$dm_footer  = nexus_darken_hex( $dark_color, 20 );
 
 	$css = sprintf(
 		':root {
@@ -253,18 +297,32 @@ function nexus_output_critical_css() {
 			--nexus-text-color: %1$s;
 			--nexus-bg-subtle: %5$s;
 			--nexus-bg-dark: %1$s;
+			--nexus-footer-bg: %10$s;
 			--nexus-font-body: "%8$s", -apple-system, BlinkMacSystemFont, sans-serif;
 			--nexus-font-heading: "%9$s", -apple-system, BlinkMacSystemFont, sans-serif;
+		}
+		html.nexus-dark {
+			--nexus-dm-bg: %11$s;
+			--nexus-dm-surface: %12$s;
+			--nexus-dm-muted: %13$s;
+			--nexus-dm-header: %14$s;
+			--nexus-dm-footer: %15$s;
 		}',
-		sanitize_hex_color( $primary_color ),
-		sanitize_hex_color( $secondary_color ),
-		sanitize_hex_color( $accent_color ),
-		sanitize_hex_color( $dark_color ),
-		sanitize_hex_color( $light_color ),
-		esc_attr( $primary_rgb ),
-		esc_attr( $secondary_rgb ),
-		esc_attr( $font_body ),
-		esc_attr( $font_heading )
+		sanitize_hex_color( $primary_color ),    // 1.
+		sanitize_hex_color( $secondary_color ),  // 2.
+		sanitize_hex_color( $accent_color ),     // 3.
+		sanitize_hex_color( $dark_color ),       // 4.
+		sanitize_hex_color( $light_color ),      // 5.
+		esc_attr( $primary_rgb ),                // 6.
+		esc_attr( $secondary_rgb ),              // 7.
+		esc_attr( $font_body ),                  // 8.
+		esc_attr( $font_heading ),               // 9.
+		sanitize_hex_color( $footer_bg_color ),  // 10.
+		sanitize_hex_color( $dm_bg ),            // 11.
+		sanitize_hex_color( $dm_surface ),       // 12.
+		sanitize_hex_color( $dm_muted ),         // 13.
+		sanitize_hex_color( $dm_header ),        // 14.
+		sanitize_hex_color( $dm_footer )         // 15.
 	);
 
 	wp_add_inline_style( 'nexus-main', $css );

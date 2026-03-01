@@ -116,6 +116,14 @@ final class Nexus_Elementor {
 		);
 
 		$elements_manager->add_category(
+			'nexus-blocks',
+			array(
+				'title' => esc_html__( 'Nexus Blocks', 'nexus' ),
+				'icon'  => 'eicon-inner-section',
+			)
+		);
+
+		$elements_manager->add_category(
 			'nexus-woocommerce',
 			array(
 				'title' => esc_html__( 'Nexus WooCommerce', 'nexus' ),
@@ -150,6 +158,7 @@ final class Nexus_Elementor {
 			'widget-testimonials-slider'    => 'Nexus_Widget_Testimonials_Slider',
 			'widget-feature-list'           => 'Nexus_Widget_Feature_List',
 			'widget-image-cards-scroller'   => 'Nexus_Widget_Image_Cards_Scroller',
+			'widget-content-carousel'       => 'Nexus_Widget_Content_Carousel',
 			'widget-team-grid'              => 'Nexus_Widget_Team_Grid',
 		);
 
