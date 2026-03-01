@@ -95,6 +95,15 @@ add_action(
 	1 // Priority 1 — load before individual field registrations.
 );
 
+// Remove the default WordPress "Colors" section — Nexus has its own Colors panel.
+add_action(
+	'customize_register',
+	function ( $wp_customize ) {
+		$wp_customize->remove_section( 'colors' );
+	},
+	20
+);
+
 // -------------------------------------------------------------------------
 // 5. Custom Post Types.
 // -------------------------------------------------------------------------

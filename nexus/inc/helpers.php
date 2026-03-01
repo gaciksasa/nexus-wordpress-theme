@@ -204,7 +204,7 @@ function nexus_get_layout() {
 		return $page_layout;
 	}
 
-	if ( is_singular( 'post' ) ) {
+	if ( is_singular( 'post' ) || is_home() || is_category() || is_tag() || is_author() ) {
 		return nexus_option( 'nexus_blog_layout', 'right-sidebar' );
 	}
 

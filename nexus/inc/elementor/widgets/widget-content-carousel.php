@@ -31,7 +31,7 @@ class Nexus_Widget_Content_Carousel extends \Elementor\Widget_Base {
 	}
 
 	public function get_categories() {
-		return array( 'nexus-blocks' );
+		return array( 'nexus-elements' );
 	}
 
 	public function get_keywords() {

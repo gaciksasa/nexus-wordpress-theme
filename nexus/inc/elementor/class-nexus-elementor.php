@@ -116,14 +116,6 @@ final class Nexus_Elementor {
 		);
 
 		$elements_manager->add_category(
-			'nexus-blocks',
-			array(
-				'title' => esc_html__( 'Nexus Blocks', 'nexus' ),
-				'icon'  => 'eicon-inner-section',
-			)
-		);
-
-		$elements_manager->add_category(
 			'nexus-woocommerce',
 			array(
 				'title' => esc_html__( 'Nexus WooCommerce', 'nexus' ),

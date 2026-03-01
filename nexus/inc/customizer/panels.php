@@ -33,14 +33,6 @@ Kirki::add_config(
 // Register Panels.
 // -------------------------------------------------------------------------
 Kirki::add_panel(
-	'nexus_panel_general',
-	array(
-		'priority' => 10,
-		'title'    => esc_html__( 'General Settings', 'nexus' ),
-	)
-);
-
-Kirki::add_panel(
 	'nexus_panel_header',
 	array(
 		'priority' => 20,
@@ -61,22 +53,6 @@ Kirki::add_panel(
 	array(
 		'priority' => 40,
 		'title'    => esc_html__( 'Colors', 'nexus' ),
-	)
-);
-
-Kirki::add_panel(
-	'nexus_panel_footer',
-	array(
-		'priority' => 50,
-		'title'    => esc_html__( 'Footer', 'nexus' ),
-	)
-);
-
-Kirki::add_panel(
-	'nexus_panel_blog',
-	array(
-		'priority' => 60,
-		'title'    => esc_html__( 'Blog', 'nexus' ),
 	)
 );
 
@@ -113,8 +89,7 @@ Kirki::add_field(
 Kirki::add_section(
 	'nexus_section_general',
 	array(
-		'title'    => esc_html__( 'General', 'nexus' ),
-		'panel'    => 'nexus_panel_general',
+		'title'    => esc_html__( 'General Settings', 'nexus' ),
 		'priority' => 10,
 	)
 );
@@ -580,9 +555,8 @@ Kirki::add_field(
 Kirki::add_section(
 	'nexus_section_footer_general',
 	array(
-		'title'    => esc_html__( 'Footer General', 'nexus' ),
-		'panel'    => 'nexus_panel_footer',
-		'priority' => 10,
+		'title'    => esc_html__( 'Footer', 'nexus' ),
+		'priority' => 50,
 	)
 );
 
@@ -629,9 +603,8 @@ Kirki::add_field(
 Kirki::add_section(
 	'nexus_section_blog',
 	array(
-		'title'    => esc_html__( 'Blog Settings', 'nexus' ),
-		'panel'    => 'nexus_panel_blog',
-		'priority' => 10,
+		'title'    => esc_html__( 'Blog', 'nexus' ),
+		'priority' => 60,
 	)
 );
 
