@@ -317,6 +317,9 @@ Kirki::add_field(
 			'royal-purple' => esc_html__( 'Royal Purple', 'nexus' ),
 			'sunset-warm'  => esc_html__( 'Sunset Warm', 'nexus' ),
 			'slate-modern' => esc_html__( 'Slate Modern', 'nexus' ),
+			'corporate-blue'  => esc_html__( 'Corporate Blue', 'nexus' ),
+			'executive-dark'  => esc_html__( 'Executive Dark', 'nexus' ),
+			'consulting-gold' => esc_html__( 'Consulting Gold', 'nexus' ),
 		),
 	)
 );

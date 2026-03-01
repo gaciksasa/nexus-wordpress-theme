@@ -52,6 +52,27 @@
 			accent:    '#6366f1',
 			dark:      '#0f172a',
 			light:     '#f1f5f9'
+		},
+		'corporate-blue': {
+			primary:   '#003366',
+			secondary: '#0066cc',
+			accent:    '#4a90d9',
+			dark:      '#00244d',
+			light:     '#f4f7fb'
+		},
+		'executive-dark': {
+			primary:   '#1c1c1c',
+			secondary: '#c8a961',
+			accent:    '#8b7d3c',
+			dark:      '#111111',
+			light:     '#f7f6f3'
+		},
+		'consulting-gold': {
+			primary:   '#2c3e50',
+			secondary: '#d4a843',
+			accent:    '#1abc9c',
+			dark:      '#1a252f',
+			light:     '#faf8f4'
 		}
 	};
 

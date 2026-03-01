@@ -206,6 +206,20 @@ function nexus_customizer_controls_scripts() {
 add_action( 'customize_controls_enqueue_scripts', 'nexus_customizer_controls_scripts' );
 
 /**
+ * Enqueues the live-preview script inside the Customizer preview iframe.
+ */
+function nexus_customizer_preview_scripts() {
+	wp_enqueue_script(
+		'nexus-customizer-preview',
+		NEXUS_ASSETS_URI . '/js/customizer-preview.js',
+		array( 'customize-preview' ),
+		NEXUS_VERSION,
+		true
+	);
+}
+add_action( 'customize_preview_init', 'nexus_customizer_preview_scripts' );
+
+/**
  * Converts a hex color to comma-separated RGB values.
  *
  * @param string $hex Hex color string (e.g. '#1a1a2e').
