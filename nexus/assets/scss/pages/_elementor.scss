@@ -5567,6 +5567,473 @@ html.nexus-dark {
 	}
 }
 
+// -------------------------------------------------------------------------
+// Timeline (.nexus-tl)
+// -------------------------------------------------------------------------
+.nexus-tl {
+	--tl-bg: var(--nexus-bg);
+	--tl-heading: var(--nexus-heading-color);
+	--tl-tagline: var(--nexus-color-secondary);
+	--tl-text: var(--nexus-text-secondary);
+	--tl-card-bg: var(--nexus-surface);
+	--tl-card-title: var(--nexus-heading-color);
+	--tl-year: var(--nexus-color-secondary);
+	--tl-line: var(--nexus-border-color);
+	--tl-marker-bg: var(--nexus-color-secondary);
+	--tl-marker-icon: #fff;
+	--tl-border: var(--nexus-border-color);
+
+	background: var(--tl-bg);
+	padding: 5rem 0;
+
+	// ---- Section Header ----
+	&__header {
+		margin-bottom: 3rem;
+
+		&--center { text-align: center; }
+		&--left   { text-align: left; }
+	}
+
+	&__tagline {
+		display: inline-block;
+		font-size: 0.85rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		color: var(--tl-tagline);
+		margin-bottom: 0.75rem;
+	}
+
+	&__title {
+		font-size: clamp(1.75rem, 3vw, 2.5rem);
+		font-weight: 700;
+		color: var(--tl-heading);
+		margin: 0 0 0.75rem;
+		line-height: 1.2;
+	}
+
+	&__desc {
+		font-size: 1.05rem;
+		color: var(--tl-text);
+		max-width: 600px;
+		margin: 0 auto;
+		line-height: 1.6;
+	}
+
+	&__header--left &__desc {
+		margin-left: 0;
+	}
+
+	// ---- Track (line + items) ----
+	&__track {
+		position: relative;
+		padding: 1rem 0;
+	}
+
+	&__line {
+		position: absolute;
+		width: 2px;
+		background: var(--tl-line);
+		top: 0;
+		bottom: 0;
+	}
+
+	// ---- Centered layout ----
+	&--centered &__line {
+		left: 50%;
+		transform: translateX(-50%);
+	}
+
+	// ---- Left layout ----
+	&--left &__line {
+		left: 24px;
+	}
+
+	// ---- Item shared ----
+	.nexus-tl-item {
+		position: relative;
+		display: flex;
+		align-items: flex-start;
+		margin-bottom: 3rem;
+
+		&:last-child { margin-bottom: 0; }
+	}
+
+	// ---- Marker ----
+	.nexus-tl-item__marker {
+		flex-shrink: 0;
+		width: 48px;
+		height: 48px;
+		border-radius: 50%;
+		background: var(--tl-marker-bg);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		z-index: 2;
+		position: relative;
+	}
+
+	.nexus-tl-item__icon {
+		color: var(--tl-marker-icon);
+		font-size: 1.25rem;
+		line-height: 1;
+	}
+
+	.nexus-tl-item__dot {
+		width: 12px;
+		height: 12px;
+		border-radius: 50%;
+		background: var(--tl-marker-icon);
+	}
+
+	// ---- Card ----
+	.nexus-tl-item__card {
+		background: var(--tl-card-bg);
+		border-radius: 12px;
+		padding: 1.75rem 2rem;
+		border: 1px solid var(--tl-border);
+		flex-grow: 1;
+		transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+		&:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+		}
+	}
+
+	.nexus-tl-item__year {
+		display: inline-block;
+		font-size: 0.8rem;
+		font-weight: 700;
+		color: var(--tl-year);
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		margin-bottom: 0.4rem;
+	}
+
+	.nexus-tl-item__title {
+		font-size: 1.15rem;
+		font-weight: 700;
+		color: var(--tl-card-title);
+		margin: 0 0 0.5rem;
+	}
+
+	.nexus-tl-item__text {
+		font-size: 0.95rem;
+		color: var(--tl-text);
+		margin: 0;
+		line-height: 1.6;
+	}
+
+	// ---- Centered layout positioning ----
+	&--centered .nexus-tl-item {
+		width: 50%;
+
+		&--left {
+			margin-left: 0;
+			margin-right: auto;
+			padding-right: 3rem;
+			flex-direction: row-reverse;
+
+			.nexus-tl-item__marker {
+				margin-left: -24px;
+			}
+
+			.nexus-tl-item__card {
+				margin-right: 1.5rem;
+				text-align: right;
+			}
+		}
+
+		&--right {
+			margin-left: auto;
+			margin-right: 0;
+			padding-left: 3rem;
+
+			.nexus-tl-item__marker {
+				margin-right: -24px;
+				order: -1;
+			}
+
+			.nexus-tl-item__card {
+				margin-left: 1.5rem;
+			}
+		}
+	}
+
+	// ---- Left layout positioning ----
+	&--left .nexus-tl-item {
+		padding-left: 4rem;
+
+		.nexus-tl-item__marker {
+			position: absolute;
+			left: 0;
+			top: 0;
+		}
+	}
+
+	// ---- Entrance animation ----
+	.nexus-tl-item--anim {
+		opacity: 0;
+		transform: translateY(32px);
+		transition: opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+		            transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+		&.is-visible {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	// =================================================================
+	// Style 1: Clean Centered — white cards, secondary markers
+	// =================================================================
+	&--clean-centered {
+		--tl-tagline: var(--nexus-color-secondary);
+	}
+
+	// =================================================================
+	// Style 2: Left Lined — left-aligned, accent line, subtle cards
+	// =================================================================
+	&--left-lined {
+		--tl-tagline: var(--nexus-color-accent);
+		--tl-line: var(--nexus-color-accent);
+		--tl-marker-bg: var(--nexus-color-accent);
+
+		.nexus-tl-item__card {
+			border-left: 3px solid var(--nexus-color-accent);
+		}
+	}
+
+	// =================================================================
+	// Style 3: Dark Glow — dark bg, glowing markers, glass cards
+	// =================================================================
+	&--dark-glow {
+		--tl-bg: var(--nexus-color-primary);
+		--tl-heading: #fff;
+		--tl-tagline: var(--nexus-color-secondary);
+		--tl-text: #94a3b8;
+		--tl-card-bg: rgba(255, 255, 255, 0.05);
+		--tl-card-title: #f1f5f9;
+		--tl-year: var(--nexus-color-secondary);
+		--tl-line: rgba(255, 255, 255, 0.1);
+		--tl-marker-bg: var(--nexus-color-secondary);
+		--tl-border: rgba(255, 255, 255, 0.08);
+
+		.nexus-tl-item__marker {
+			box-shadow: 0 0 20px rgba(var(--nexus-secondary-rgb), 0.35);
+		}
+
+		.nexus-tl-item__card {
+			backdrop-filter: blur(12px);
+
+			&:hover {
+				box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+				border-color: rgba(var(--nexus-secondary-rgb), 0.25);
+			}
+		}
+	}
+
+	// =================================================================
+	// Style 4: Card Alternate — elevated cards with shadow, primary year
+	// =================================================================
+	&--card-alternate {
+		--tl-tagline: var(--nexus-color-primary);
+		--tl-year: var(--nexus-color-primary);
+		--tl-marker-bg: var(--nexus-color-primary);
+
+		.nexus-tl-item__card {
+			border: none;
+			box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+			border-radius: 16px;
+			padding: 2rem;
+
+			&:hover {
+				box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+			}
+		}
+	}
+
+	// =================================================================
+	// Style 5: Minimal Dots — small dot markers, no card bg, clean
+	// =================================================================
+	&--minimal-dots {
+		--tl-tagline: var(--nexus-color-secondary);
+		--tl-marker-bg: transparent;
+		--tl-card-bg: transparent;
+		--tl-border: transparent;
+
+		.nexus-tl-item__marker {
+			width: 20px;
+			height: 20px;
+			background: var(--nexus-color-secondary);
+			box-shadow: 0 0 0 4px var(--tl-bg), 0 0 0 6px var(--nexus-color-secondary);
+		}
+
+		.nexus-tl-item__icon { display: none; }
+
+		.nexus-tl-item__dot {
+			width: 8px;
+			height: 8px;
+			background: #fff;
+		}
+
+		.nexus-tl-item__card {
+			padding: 1rem 1.5rem;
+
+			&:hover {
+				transform: none;
+				box-shadow: none;
+			}
+		}
+
+		&.nexus-tl--left .nexus-tl-item {
+			padding-left: 3rem;
+
+			.nexus-tl-item__marker {
+				left: 15px;
+				top: 4px;
+			}
+		}
+
+		&.nexus-tl--left .nexus-tl__line {
+			left: 24px;
+		}
+	}
+
+	// =================================================================
+	// Style 6: Glass Modern — dark bg, glass cards, neon accents
+	// =================================================================
+	&--glass-modern {
+		--tl-bg: var(--nexus-color-primary);
+		--tl-heading: #fff;
+		--tl-tagline: var(--nexus-color-secondary);
+		--tl-text: #94a3b8;
+		--tl-card-bg: rgba(255, 255, 255, 0.05);
+		--tl-card-title: #f1f5f9;
+		--tl-year: var(--nexus-color-secondary);
+		--tl-line: rgba(var(--nexus-secondary-rgb), 0.2);
+		--tl-marker-bg: rgba(var(--nexus-secondary-rgb), 0.15);
+		--tl-marker-icon: var(--nexus-color-secondary);
+		--tl-border: rgba(255, 255, 255, 0.08);
+
+		.nexus-tl-item__marker {
+			border: 2px solid rgba(var(--nexus-secondary-rgb), 0.4);
+			backdrop-filter: blur(8px);
+		}
+
+		.nexus-tl-item__card {
+			border-radius: 20px;
+			backdrop-filter: blur(16px);
+
+			&:hover {
+				box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+				border-color: rgba(var(--nexus-secondary-rgb), 0.2);
+			}
+		}
+	}
+
+	// ---- Responsive ----
+	@include respond-below(md) {
+		padding: 3.5rem 0;
+
+		&__header { margin-bottom: 2rem; }
+
+		// Force left layout on mobile for centered.
+		&--centered .nexus-tl__line {
+			left: 24px;
+			transform: none;
+		}
+
+		&--centered .nexus-tl-item {
+			width: 100%;
+			padding-left: 4rem;
+			padding-right: 0;
+			flex-direction: row;
+
+			&--left, &--right {
+				margin-left: 0;
+				margin-right: 0;
+			}
+
+			&--left .nexus-tl-item__card,
+			&--right .nexus-tl-item__card {
+				text-align: left;
+				margin-left: 0;
+				margin-right: 0;
+			}
+
+			.nexus-tl-item__marker {
+				position: absolute;
+				left: 0;
+				top: 0;
+				margin-left: 0;
+				margin-right: 0;
+				order: unset;
+			}
+		}
+	}
+}
+
+// Dark mode overrides for timeline.
+html.nexus-dark {
+	// Light-bg presets (1, 2, 4, 5) → adapt to dark theme.
+	.nexus-tl--clean-centered,
+	.nexus-tl--left-lined,
+	.nexus-tl--card-alternate,
+	.nexus-tl--minimal-dots {
+		--tl-bg: var(--nexus-bg);
+		--tl-card-bg: var(--nexus-surface);
+		--tl-heading: var(--nexus-heading-color);
+		--tl-card-title: var(--nexus-heading-color);
+		--tl-text: var(--nexus-text-secondary);
+		--tl-line: var(--nexus-border-color);
+		--tl-border: var(--nexus-border-color);
+	}
+
+	// Style 5 minimal dots — transparent card bg in dark mode too.
+	.nexus-tl--minimal-dots {
+		--tl-card-bg: transparent;
+		--tl-border: transparent;
+	}
+
+	// Style 4 card alternate — shadow adapts.
+	.nexus-tl--card-alternate .nexus-tl-item__card {
+		box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+	}
+
+	// Dark-bg presets (3, 6) → light in dark mode (inverted).
+	.nexus-tl--dark-glow,
+	.nexus-tl--glass-modern {
+		--tl-bg: var(--nexus-color-light);
+		--tl-card-bg: var(--nexus-bg);
+		--tl-heading: var(--nexus-color-primary);
+		--tl-card-title: var(--nexus-color-primary);
+		--tl-text: var(--nexus-text-secondary);
+		--tl-line: var(--nexus-border-color);
+		--tl-border: var(--nexus-border-color);
+		--tl-marker-icon: #fff;
+
+		.nexus-tl-item__marker {
+			box-shadow: none;
+		}
+
+		.nexus-tl-item__card {
+			backdrop-filter: none;
+		}
+	}
+
+	// Style 6 glass → restore marker color for inverted.
+	.nexus-tl--glass-modern {
+		--tl-marker-bg: var(--nexus-color-secondary);
+		--tl-marker-icon: #fff;
+
+		.nexus-tl-item__marker {
+			border-color: var(--nexus-color-secondary);
+		}
+	}
+}
+
 // Dark mode overrides for content carousel light-bg presets.
 .nexus-dark {
 	.nexus-cc--clean-cards,
