@@ -259,3 +259,132 @@ function nexus_declare_woocommerce_hpos_compatibility() {
 	}
 }
 add_action( 'before_woocommerce_init', 'nexus_declare_woocommerce_hpos_compatibility' );
+
+// -------------------------------------------------------------------------
+// Default demo navigation (runs once on theme activation).
+// -------------------------------------------------------------------------
+
+/**
+ * Creates a demo primary navigation menu with a mega menu example.
+ * Runs on `after_switch_theme` so the user sees a working navigation
+ * immediately after activating the theme.
+ */
+function nexus_create_default_menus() {
+
+	// Bail if primary menu is already assigned.
+	$locations = get_nav_menu_locations();
+	if ( ! empty( $locations['primary'] ) ) {
+		return;
+	}
+
+	// Check if menu already exists.
+	$menu_name = 'Primary Navigation';
+	$menu_obj  = wp_get_nav_menu_object( $menu_name );
+
+	if ( $menu_obj ) {
+		// Menu exists but not assigned — just assign it.
+		set_theme_mod( 'nav_menu_locations', array_merge(
+			$locations,
+			array( 'primary' => $menu_obj->term_id )
+		) );
+		return;
+	}
+
+	$menu_id = wp_create_nav_menu( $menu_name );
+	if ( is_wp_error( $menu_id ) ) {
+		return;
+	}
+
+	// Helper: create a menu item.
+	$add = function ( $title, $url = '#', $parent = 0, $order = 0, $classes = array() ) use ( $menu_id ) {
+		return wp_update_nav_menu_item(
+			$menu_id,
+			0,
+			array(
+				'menu-item-title'    => $title,
+				'menu-item-url'      => $url,
+				'menu-item-status'   => 'publish',
+				'menu-item-type'     => 'custom',
+				'menu-item-parent-id' => $parent,
+				'menu-item-position' => $order,
+				'menu-item-classes'  => implode( ' ', $classes ),
+			)
+		);
+	};
+
+	// --- Home ---
+	$home_url = home_url( '/' );
+	$add( 'Home', $home_url, 0, 1 );
+
+	// --- Pages (mega menu) ---
+	$pages_id = $add( 'Pages', '#', 0, 2, array( 'mega-menu' ) );
+
+	// Column 1: Company.
+	$col1 = $add( 'Company', '#', $pages_id, 1 );
+	$add( 'About Us', '#', $col1, 1 );
+	$add( 'Our Team', '#', $col1, 2 );
+	$add( 'Careers', '#', $col1, 3 );
+	$add( 'Contact', '#', $col1, 4 );
+
+	// Column 2: Services.
+	$col2 = $add( 'Services', '#', $pages_id, 2 );
+	$add( 'Web Design', '#', $col2, 1 );
+	$add( 'Development', '#', $col2, 2 );
+	$add( 'SEO & Marketing', '#', $col2, 3 );
+	$add( 'Consulting', '#', $col2, 4 );
+
+	// Column 3: Portfolio.
+	$col3 = $add( 'Portfolio', '#', $pages_id, 3 );
+	$add( 'Case Studies', '#', $col3, 1 );
+	$add( 'Recent Work', '#', $col3, 2 );
+	$add( 'Clients', '#', $col3, 3 );
+
+	// Column 4: Support.
+	$col4 = $add( 'Support', '#', $pages_id, 4 );
+	$add( 'Help Center', '#', $col4, 1 );
+	$add( 'Documentation', '#', $col4, 2 );
+	$add( 'FAQ', '#', $col4, 3 );
+	$add( 'Status Page', '#', $col4, 4 );
+
+	// --- Features (mega menu) ---
+	$features_id = $add( 'Features', '#', 0, 3, array( 'mega-menu' ) );
+
+	// Column 1: Platform.
+	$fcol1 = $add( 'Platform', '#', $features_id, 1 );
+	$add( 'Analytics Dashboard', '#', $fcol1, 1 );
+	$add( 'Reporting Tools', '#', $fcol1, 2 );
+	$add( 'API Platform', '#', $fcol1, 3 );
+	$add( 'Integrations', '#', $fcol1, 4 );
+
+	// Column 2: Solutions.
+	$fcol2 = $add( 'Solutions', '#', $features_id, 2 );
+	$add( 'For Startups', '#', $fcol2, 1 );
+	$add( 'For Enterprise', '#', $fcol2, 2 );
+	$add( 'For Agencies', '#', $fcol2, 3 );
+
+	// Column 3: Resources.
+	$fcol3 = $add( 'Resources', '#', $features_id, 3 );
+	$add( 'Blog', '#', $fcol3, 1 );
+	$add( 'Webinars', '#', $fcol3, 2 );
+	$add( 'Guides', '#', $fcol3, 3 );
+	$add( 'Templates', '#', $fcol3, 4 );
+
+	// --- Blog (regular) ---
+	$add( 'Blog', '#', 0, 4 );
+
+	// --- Shop (regular dropdown) ---
+	$shop_id = $add( 'Shop', '#', 0, 5 );
+	$add( 'All Products', '#', $shop_id, 1 );
+	$add( 'Categories', '#', $shop_id, 2 );
+	$add( 'Sale', '#', $shop_id, 3 );
+
+	// --- Contact (regular) ---
+	$add( 'Contact', '#', 0, 6 );
+
+	// Assign to primary location.
+	set_theme_mod( 'nav_menu_locations', array_merge(
+		$locations,
+		array( 'primary' => $menu_id )
+	) );
+}
+add_action( 'after_switch_theme', 'nexus_create_default_menus' );

@@ -441,6 +441,26 @@
         font-weight: 400;
         font-size: 0.9375rem;
       }
+
+      // Third-level links (mega menu grandchildren).
+      .sub-menu a {
+        padding-left: 3.5rem;
+        font-size: 0.875rem;
+      }
+    }
+
+    // Mega menu column headings in mobile drawer.
+    .mega-menu > .sub-menu > li > a {
+      font-weight: 700;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--nexus-heading-color);
+      padding-left: 2.5rem;
+      padding-top: 1rem;
+      padding-bottom: 0.5rem;
+      pointer-events: none;
+      border-bottom: none;
     }
   }
 
@@ -691,6 +711,122 @@
       color: var(--nexus-color-secondary);
     }
   }
+}
+
+// =============================================================================
+// Mega Menu
+// =============================================================================
+
+.nexus-menu-item--mega {
+	position: relative;
+
+	> .nexus-mega-menu {
+		position: absolute;
+		top: calc(var(--nexus-header-height) - 4px);
+		left: 50%;
+		transform: translateX(-50%) translateY(10px);
+		z-index: $z-dropdown;
+		width: 780px;
+		background: var(--nexus-color-white);
+		border-radius: var(--nexus-border-radius-lg);
+		box-shadow: var(--nexus-shadow-xl);
+		border: 1px solid var(--nexus-border-color);
+		padding: 2rem;
+		opacity: 0;
+		visibility: hidden;
+		@include transition(opacity, visibility, transform);
+	}
+
+	&:hover > .nexus-mega-menu,
+	&:focus-within > .nexus-mega-menu,
+	> a[aria-expanded="true"] + .nexus-mega-menu {
+		opacity: 1;
+		visibility: visible;
+		transform: translateX(-50%) translateY(0);
+	}
+
+	&:hover > a .nexus-dropdown-arrow {
+		transform: rotate(180deg);
+	}
+}
+
+.nexus-mega-menu {
+	&__inner {
+		display: flex;
+		gap: 2rem;
+	}
+
+	&__col {
+		flex: 1;
+		min-width: 0;
+	}
+
+	&__col-title {
+		font-size: 0.8rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.06em;
+		color: var(--nexus-heading-color);
+		margin: 0 0 0.75rem;
+		padding-bottom: 0.5rem;
+		border-bottom: 2px solid var(--nexus-color-secondary);
+	}
+
+	&__col-link {
+		display: block;
+		font-size: 0.8rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.06em;
+		color: var(--nexus-heading-color);
+		text-decoration: none;
+		margin: 0 0 0.75rem;
+		padding-bottom: 0.5rem;
+		border-bottom: 2px solid var(--nexus-color-secondary);
+		@include transition(color);
+
+		&:hover {
+			color: var(--nexus-color-secondary);
+		}
+	}
+
+	&__col-desc {
+		font-size: 0.8rem;
+		color: var(--nexus-text-muted);
+		margin: -0.5rem 0 0.75rem;
+		line-height: 1.4;
+	}
+
+	&__links {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+
+		li {
+			margin: 0 !important;
+			padding: 0 !important;
+			list-style: none;
+		}
+
+		a {
+			display: block;
+			padding: 0.4rem 0;
+			font-size: 0.9rem;
+			color: var(--nexus-text-secondary);
+			text-decoration: none;
+			@include transition(color, transform);
+
+			&:hover {
+				color: var(--nexus-color-secondary);
+				transform: translateX(4px);
+			}
+		}
+	}
+
+	// Responsive: hide mega menu on mobile (mobile drawer handles nav).
+	@include respond-below(lg) {
+		display: none !important;
+	}
 }
 
 // =============================================================================
@@ -1001,20 +1137,57 @@
 
   &__inner {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 1rem;
-
-    @include respond-below(md) {
-      flex-direction: column;
-      align-items: flex-start;
-    }
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
   }
 
   &__title {
     margin: 0;
     font-size: 1.75rem;
     font-weight: 700;
+  }
+}
+
+// Breadcrumb
+.nexus-breadcrumb {
+  &__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0;
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    font-size: 0.875rem;
+    color: var(--nexus-text-muted);
+
+    a {
+      color: var(--nexus-text-secondary);
+      text-decoration: none;
+      @include transition(color);
+
+      &:hover {
+        color: var(--nexus-color-secondary);
+      }
+    }
+
+    // Separator.
+    &:not(:last-child)::after {
+      content: '›';
+      margin: 0 0.5rem;
+      color: var(--nexus-text-muted);
+      font-size: 1rem;
+    }
+
+    &--current {
+      color: var(--nexus-heading-color);
+      font-weight: 500;
+    }
   }
 }
