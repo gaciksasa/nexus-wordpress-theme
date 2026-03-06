@@ -4107,6 +4107,738 @@ html.nexus-dark {
 }
 
 // -------------------------------------------------------------------------
+// Icon Cards Grid (.nexus-icg)
+// -------------------------------------------------------------------------
+.nexus-icg {
+	--icg-bg: var(--nexus-bg);
+	--icg-card-bg: var(--nexus-surface);
+	--icg-heading: var(--nexus-heading-color);
+	--icg-title: var(--nexus-heading-color);
+	--icg-text: var(--nexus-text-secondary);
+	--icg-tagline: var(--nexus-color-secondary);
+	--icg-icon: var(--nexus-color-secondary);
+	--icg-icon-bg: rgba(var(--nexus-secondary-rgb), 0.1);
+	--icg-border: var(--nexus-border-color);
+	--icg-arrow: var(--nexus-color-secondary);
+
+	padding: 5rem 0;
+	background-color: var(--icg-bg);
+
+	// ---- Section header ----
+	&__header {
+		margin-bottom: 3rem;
+		max-width: 680px;
+
+		&--center {
+			text-align: center;
+			margin-left: auto;
+			margin-right: auto;
+		}
+	}
+
+	&__tagline {
+		display: inline-block;
+		font-size: 0.875rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+		color: var(--icg-tagline);
+		margin-bottom: 0.75rem;
+	}
+
+	&__title {
+		font-size: clamp(1.5rem, 3vw, 2.25rem);
+		font-weight: 700;
+		color: var(--icg-heading);
+		margin: 0 0 0.75rem;
+	}
+
+	&__desc {
+		font-size: 1.0625rem;
+		line-height: 1.7;
+		color: var(--icg-text);
+		margin: 0;
+	}
+
+	// ---- Grid ----
+	&__grid {
+		display: grid;
+		grid-template-columns: repeat(var(--nexus-icg-cols, 3), 1fr);
+		gap: 30px;
+	}
+
+	// ---- Entrance animation ----
+	.nexus-icg-card--anim {
+		opacity: 0;
+		transform: translateY(30px);
+		transition: opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+		            transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+		&.is-visible {
+			opacity: 1;
+			transform: none;
+		}
+	}
+
+	// ---- Shared card styles ----
+	.nexus-icg-card {
+		display: flex;
+		flex-direction: column;
+		text-decoration: none;
+		color: inherit;
+	}
+
+	.nexus-icg-card__icon-wrap {
+		margin-bottom: 1.25rem;
+	}
+
+	.nexus-icg-card__icon {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 56px;
+		height: 56px;
+		border-radius: 12px;
+		font-size: 1.5rem;
+		color: var(--icg-icon);
+		background: var(--icg-icon-bg);
+		transition: transform 0.3s ease, box-shadow 0.3s ease;
+	}
+
+	.nexus-icg-card__title {
+		font-size: 1.125rem;
+		font-weight: 700;
+		color: var(--icg-title);
+		margin: 0 0 0.5rem;
+		line-height: 1.35;
+	}
+
+	.nexus-icg-card__desc {
+		font-size: 0.9375rem;
+		line-height: 1.65;
+		color: var(--icg-text);
+		margin: 0;
+		flex: 1;
+	}
+
+	.nexus-icg-card__arrow {
+		display: inline-flex;
+		align-items: center;
+		margin-top: 1rem;
+		color: var(--icg-arrow);
+		font-size: 1.125rem;
+		transition: transform 0.3s ease;
+	}
+
+	.nexus-icg-card__accent-bar {
+		height: 3px;
+		background: var(--nexus-color-secondary);
+		border-radius: 3px 3px 0 0;
+		margin-bottom: 1.5rem;
+		transition: width 0.3s ease;
+		width: 40px;
+	}
+
+	// =================================================================
+	// Style 1: Clean Flat — white bg, secondary icon circles, clean cards
+	// =================================================================
+	&--clean-flat {
+		--icg-bg: var(--nexus-bg);
+		--icg-card-bg: var(--nexus-surface);
+		--icg-tagline: var(--nexus-color-secondary);
+		--icg-icon: var(--nexus-color-secondary);
+		--icg-icon-bg: rgba(var(--nexus-secondary-rgb), 0.1);
+		--icg-arrow: var(--nexus-color-secondary);
+
+		.nexus-icg-card {
+			background: var(--icg-card-bg);
+			border-radius: 12px;
+			padding: 2rem;
+			box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+			transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+			&:hover {
+				transform: translateY(-4px);
+				box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+			}
+
+			&:hover .nexus-icg-card__icon {
+				transform: scale(1.1);
+			}
+		}
+
+		.nexus-icg-card__icon {
+			border-radius: 50%;
+		}
+	}
+
+	// =================================================================
+	// Style 2: Gradient Icon — light bg, gradient icon bg (secondary→accent)
+	// =================================================================
+	&--gradient-icon {
+		--icg-bg: var(--nexus-color-light);
+		--icg-card-bg: var(--nexus-bg);
+		--icg-tagline: var(--nexus-color-accent);
+		--icg-icon: #fff;
+		--icg-arrow: var(--nexus-color-accent);
+
+		.nexus-icg-card {
+			background: var(--icg-card-bg);
+			border-radius: 16px;
+			padding: 2rem;
+			box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+			transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+			&:hover {
+				transform: translateY(-4px);
+				box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+			}
+
+			&:hover .nexus-icg-card__icon {
+				transform: scale(1.1) rotate(5deg);
+				box-shadow: 0 6px 20px rgba(var(--nexus-secondary-rgb), 0.3);
+			}
+		}
+
+		.nexus-icg-card__icon {
+			background: linear-gradient(135deg, var(--nexus-color-secondary), var(--nexus-color-accent));
+			border-radius: 14px;
+			color: #fff;
+		}
+	}
+
+	// =================================================================
+	// Style 3: Dark Elevated — primary bg, elevated dark cards
+	// =================================================================
+	&--dark-elevated {
+		--icg-bg: var(--nexus-color-primary);
+		--icg-card-bg: var(--nexus-color-dark);
+		--icg-heading: var(--nexus-color-light);
+		--icg-title: var(--nexus-color-light);
+		--icg-text: var(--nexus-text-muted);
+		--icg-tagline: var(--nexus-color-secondary);
+		--icg-icon: var(--nexus-color-secondary);
+		--icg-icon-bg: rgba(var(--nexus-secondary-rgb), 0.15);
+		--icg-border: rgba(255, 255, 255, 0.08);
+		--icg-arrow: var(--nexus-color-secondary);
+
+		.nexus-icg-card {
+			background: var(--icg-card-bg);
+			border-radius: 12px;
+			padding: 2rem;
+			border: 1px solid var(--icg-border);
+			transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+
+			&:hover {
+				transform: translateY(-4px);
+				box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+				border-color: var(--nexus-color-secondary);
+			}
+
+			&:hover .nexus-icg-card__icon {
+				box-shadow: 0 0 20px rgba(var(--nexus-secondary-rgb), 0.3);
+			}
+		}
+
+		.nexus-icg-card__icon {
+			border-radius: 12px;
+		}
+	}
+
+	// =================================================================
+	// Style 4: Bordered Minimal — white bg, bordered cards, left accent
+	// =================================================================
+	&--bordered-minimal {
+		--icg-bg: var(--nexus-bg);
+		--icg-card-bg: var(--nexus-bg);
+		--icg-tagline: var(--nexus-color-secondary);
+		--icg-icon: var(--nexus-color-accent);
+		--icg-icon-bg: transparent;
+		--icg-arrow: var(--nexus-color-secondary);
+
+		.nexus-icg-card {
+			background: var(--icg-card-bg);
+			border-radius: 8px;
+			padding: 1.75rem;
+			border: 1px solid var(--icg-border);
+			border-left: 3px solid var(--nexus-color-secondary);
+			transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+
+			&:hover {
+				transform: translateY(-2px);
+				box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+			}
+		}
+
+		.nexus-icg-card__icon {
+			width: 48px;
+			height: 48px;
+			font-size: 1.375rem;
+			background: rgba(var(--nexus-secondary-rgb), 0.08);
+			border-radius: 8px;
+		}
+	}
+
+	// =================================================================
+	// Style 5: Accent Top — light bg, colored top bar on each card
+	// =================================================================
+	&--accent-top {
+		--icg-bg: var(--nexus-color-light);
+		--icg-card-bg: var(--nexus-bg);
+		--icg-tagline: var(--nexus-color-secondary);
+		--icg-icon: var(--nexus-color-secondary);
+		--icg-icon-bg: rgba(var(--nexus-secondary-rgb), 0.08);
+		--icg-arrow: var(--nexus-color-secondary);
+
+		.nexus-icg-card {
+			background: var(--icg-card-bg);
+			border-radius: 12px;
+			padding: 0 2rem 2rem;
+			box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+			transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+			&:hover {
+				transform: translateY(-4px);
+				box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+			}
+
+			&:hover .nexus-icg-card__accent-bar {
+				width: 100%;
+			}
+		}
+
+		.nexus-icg-card__icon-wrap {
+			margin-top: 1.5rem;
+		}
+	}
+
+	// =================================================================
+	// Style 6: Glass Modern — primary bg, glassmorphism cards, glow icon
+	// =================================================================
+	&--glass-modern {
+		--icg-bg: var(--nexus-color-primary);
+		--icg-card-bg: rgba(255, 255, 255, 0.05);
+		--icg-heading: #fff;
+		--icg-title: #f1f5f9;
+		--icg-text: #94a3b8;
+		--icg-tagline: var(--nexus-color-secondary);
+		--icg-icon: var(--nexus-color-secondary);
+		--icg-icon-bg: rgba(var(--nexus-secondary-rgb), 0.15);
+		--icg-border: rgba(255, 255, 255, 0.08);
+		--icg-arrow: var(--nexus-color-secondary);
+
+		.nexus-icg-card {
+			background: var(--icg-card-bg);
+			border-radius: 16px;
+			padding: 2rem;
+			border: 1px solid var(--icg-border);
+			backdrop-filter: blur(12px);
+			transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+
+			&:hover {
+				transform: translateY(-4px);
+				box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+				border-color: rgba(var(--nexus-secondary-rgb), 0.3);
+			}
+
+			&:hover .nexus-icg-card__icon {
+				box-shadow: 0 0 24px rgba(var(--nexus-secondary-rgb), 0.4);
+				transform: scale(1.1);
+			}
+		}
+
+		.nexus-icg-card__icon {
+			border-radius: 50%;
+		}
+	}
+
+	// ---- Responsive ----
+	@include respond-below(md) {
+		padding: 3rem 0;
+
+		&__header {
+			margin-bottom: 2rem;
+		}
+
+		&__grid {
+			grid-template-columns: repeat(2, 1fr) !important;
+		}
+	}
+
+	@include respond-below(sm) {
+		&__grid {
+			grid-template-columns: 1fr !important;
+		}
+	}
+}
+
+// Dark mode overrides for Icon Cards Grid — inverse theme system.
+html.nexus-dark {
+	// Light-bg presets (1, 2, 4, 5) → dark in dark mode.
+	.nexus-icg--clean-flat,
+	.nexus-icg--gradient-icon,
+	.nexus-icg--bordered-minimal,
+	.nexus-icg--accent-top {
+		--icg-bg: var(--nexus-bg);
+		--icg-card-bg: var(--nexus-surface);
+		--icg-heading: var(--nexus-heading-color);
+		--icg-title: var(--nexus-heading-color);
+		--icg-text: var(--nexus-text-color);
+		--icg-border: var(--nexus-border-color);
+	}
+
+	.nexus-icg--bordered-minimal .nexus-icg-card {
+		border-left-color: var(--nexus-color-secondary);
+	}
+
+	// Dark-bg presets (3, 6) → light in dark mode (inverted).
+	.nexus-icg--dark-elevated,
+	.nexus-icg--glass-modern {
+		--icg-bg: var(--nexus-color-light);
+		--icg-card-bg: var(--nexus-bg);
+		--icg-heading: var(--nexus-color-primary);
+		--icg-title: var(--nexus-color-secondary);
+		--icg-text: var(--nexus-text-secondary);
+		--icg-border: var(--nexus-border-color);
+		--icg-icon-bg: rgba(var(--nexus-secondary-rgb), 0.1);
+
+		.nexus-icg-card {
+			backdrop-filter: none;
+		}
+	}
+}
+
+// -------------------------------------------------------------------------
+// Logos Grid (.nexus-lg)
+// -------------------------------------------------------------------------
+.nexus-lg {
+	--lg-bg: var(--nexus-bg);
+	--lg-cell-bg: transparent;
+	--lg-heading: var(--nexus-heading-color);
+	--lg-text: var(--nexus-text-secondary);
+	--lg-tagline: var(--nexus-color-secondary);
+	--lg-border: var(--nexus-border-color);
+
+	padding: 5rem 0;
+	background-color: var(--lg-bg);
+
+	// ---- Section header ----
+	&__header {
+		margin-bottom: 3rem;
+		max-width: 680px;
+
+		&--center {
+			text-align: center;
+			margin-left: auto;
+			margin-right: auto;
+		}
+	}
+
+	&__tagline {
+		display: inline-block;
+		font-size: 0.875rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+		color: var(--lg-tagline);
+		margin-bottom: 0.75rem;
+	}
+
+	&__title {
+		font-size: clamp(1.5rem, 3vw, 2.25rem);
+		font-weight: 700;
+		color: var(--lg-heading);
+		margin: 0 0 0.75rem;
+	}
+
+	&__desc {
+		font-size: 1.0625rem;
+		line-height: 1.7;
+		color: var(--lg-text);
+		margin: 0;
+	}
+
+	// ---- Grid ----
+	&__grid {
+		display: grid;
+		grid-template-columns: repeat(var(--nexus-lg-cols, 5), 1fr);
+		gap: 24px;
+		align-items: center;
+	}
+
+	// ---- Entrance animation ----
+	.nexus-lg-item--anim {
+		opacity: 0;
+		transform: translateY(20px);
+		transition: opacity 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+		            transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+		&.is-visible {
+			opacity: 1;
+			transform: none;
+		}
+	}
+
+	// ---- Logo item base ----
+	.nexus-lg-item {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 1.5rem;
+		background: var(--lg-cell-bg);
+		text-decoration: none;
+		transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.4s ease, opacity 0.4s ease;
+	}
+
+	.nexus-lg-item__img {
+		max-height: 48px;
+		width: auto;
+		max-width: 100%;
+		object-fit: contain;
+		display: block;
+	}
+
+	// ---- Grayscale modifier ----
+	&--grayscale .nexus-lg-item {
+		.nexus-lg-item__img {
+			filter: grayscale(100%);
+			opacity: 0.6;
+			transition: filter 0.4s ease, opacity 0.4s ease;
+		}
+
+		&:hover .nexus-lg-item__img {
+			filter: grayscale(0%);
+			opacity: 1;
+		}
+	}
+
+	// =================================================================
+	// Style 1: Clean Grid — white bg, subtle borders, grayscale→color
+	// =================================================================
+	&--clean-grid {
+		--lg-bg: var(--nexus-bg);
+		--lg-cell-bg: transparent;
+		--lg-tagline: var(--nexus-color-secondary);
+
+		.nexus-lg-item {
+			border: 1px solid var(--lg-border);
+			border-radius: 8px;
+
+			&:hover {
+				transform: translateY(-2px);
+				box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+			}
+		}
+	}
+
+	// =================================================================
+	// Style 2: Bordered Cells — light bg, bordered grid cells
+	// =================================================================
+	&--bordered-cells {
+		--lg-bg: var(--nexus-color-light);
+		--lg-cell-bg: var(--nexus-bg);
+		--lg-tagline: var(--nexus-color-accent);
+
+		.nexus-lg-item {
+			border: 1px solid var(--lg-border);
+			border-radius: 12px;
+			padding: 2rem;
+
+			&:hover {
+				transform: translateY(-4px);
+				box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+				border-color: var(--nexus-color-secondary);
+			}
+		}
+	}
+
+	// =================================================================
+	// Style 3: Dark Showcase — primary bg, light logos
+	// =================================================================
+	&--dark-showcase {
+		--lg-bg: var(--nexus-color-primary);
+		--lg-cell-bg: rgba(255, 255, 255, 0.05);
+		--lg-heading: var(--nexus-color-light);
+		--lg-text: var(--nexus-text-muted);
+		--lg-tagline: var(--nexus-color-secondary);
+		--lg-border: rgba(255, 255, 255, 0.08);
+
+		.nexus-lg-item {
+			border: 1px solid var(--lg-border);
+			border-radius: 12px;
+
+			&:hover {
+				box-shadow: 0 0 20px rgba(var(--nexus-secondary-rgb), 0.15);
+				border-color: rgba(var(--nexus-secondary-rgb), 0.3);
+			}
+		}
+
+		.nexus-lg-item__img {
+			filter: brightness(0) invert(1);
+			opacity: 0.6;
+			transition: opacity 0.3s ease;
+		}
+
+		.nexus-lg-item:hover .nexus-lg-item__img {
+			opacity: 1;
+		}
+	}
+
+	// =================================================================
+	// Style 4: Card Elevated — white bg, shadowed cards, grayscale
+	// =================================================================
+	&--card-elevated {
+		--lg-bg: var(--nexus-bg);
+		--lg-cell-bg: var(--nexus-surface);
+		--lg-tagline: var(--nexus-color-secondary);
+
+		.nexus-lg-item {
+			border-radius: 12px;
+			padding: 2rem;
+			box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+
+			&:hover {
+				transform: translateY(-4px);
+				box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+			}
+		}
+	}
+
+	// =================================================================
+	// Style 5: Minimal Strip — no card bg, just logos with separators
+	// =================================================================
+	&--minimal-strip {
+		--lg-bg: var(--nexus-bg);
+		--lg-tagline: var(--nexus-color-secondary);
+		padding: 3rem 0;
+
+		.nexus-lg__header {
+			margin-bottom: 2rem;
+		}
+
+		.nexus-lg__title {
+			font-size: clamp(1rem, 2vw, 1.25rem);
+			font-weight: 600;
+			color: var(--lg-text);
+		}
+
+		.nexus-lg__grid {
+			gap: 0;
+		}
+
+		.nexus-lg-item {
+			padding: 1.5rem 2rem;
+			border-right: 1px solid var(--lg-border);
+
+			&:last-child {
+				border-right: none;
+			}
+
+			&:hover {
+				transform: scale(1.05);
+			}
+		}
+	}
+
+	// =================================================================
+	// Style 6: Glass Modern — primary bg, glassmorphism cells
+	// =================================================================
+	&--glass-modern {
+		--lg-bg: var(--nexus-color-primary);
+		--lg-cell-bg: rgba(255, 255, 255, 0.06);
+		--lg-heading: var(--nexus-color-light);
+		--lg-text: var(--nexus-text-muted);
+		--lg-tagline: var(--nexus-color-secondary);
+		--lg-border: rgba(255, 255, 255, 0.1);
+
+		.nexus-lg-item {
+			border: 1px solid var(--lg-border);
+			border-radius: 16px;
+			padding: 2rem;
+			backdrop-filter: blur(12px);
+
+			&:hover {
+				transform: translateY(-4px);
+				box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+				border-color: rgba(var(--nexus-secondary-rgb), 0.3);
+			}
+		}
+
+		.nexus-lg-item__img {
+			filter: brightness(0) invert(1);
+			opacity: 0.7;
+			transition: opacity 0.3s ease;
+		}
+
+		.nexus-lg-item:hover .nexus-lg-item__img {
+			opacity: 1;
+		}
+	}
+
+	// ---- Responsive ----
+	@include respond-below(md) {
+		padding: 3rem 0;
+
+		&__header {
+			margin-bottom: 2rem;
+		}
+
+		&__grid {
+			grid-template-columns: repeat(3, 1fr) !important;
+		}
+
+		&--minimal-strip .nexus-lg-item {
+			border-right: none;
+			border-bottom: 1px solid var(--lg-border);
+		}
+	}
+
+	@include respond-below(sm) {
+		&__grid {
+			grid-template-columns: repeat(2, 1fr) !important;
+		}
+	}
+}
+
+// Dark mode overrides for Logos Grid — inverse theme system.
+html.nexus-dark {
+	// Light-bg presets (1, 2, 4, 5) → dark in dark mode.
+	.nexus-lg--clean-grid,
+	.nexus-lg--bordered-cells,
+	.nexus-lg--card-elevated,
+	.nexus-lg--minimal-strip {
+		--lg-bg: var(--nexus-bg);
+		--lg-cell-bg: var(--nexus-surface);
+		--lg-heading: var(--nexus-heading-color);
+		--lg-text: var(--nexus-text-color);
+		--lg-border: var(--nexus-border-color);
+	}
+
+	// Dark-bg presets (3, 6) → light in dark mode (inverted).
+	.nexus-lg--dark-showcase,
+	.nexus-lg--glass-modern {
+		--lg-bg: var(--nexus-color-light);
+		--lg-cell-bg: var(--nexus-bg);
+		--lg-heading: var(--nexus-color-primary);
+		--lg-text: var(--nexus-text-secondary);
+		--lg-border: var(--nexus-border-color);
+
+		.nexus-lg-item__img {
+			filter: none;
+			opacity: 0.7;
+		}
+
+		.nexus-lg-item:hover .nexus-lg-item__img {
+			opacity: 1;
+		}
+
+		.nexus-lg-item {
+			backdrop-filter: none;
+		}
+	}
+}
+
+// -------------------------------------------------------------------------
 // Content Carousel (.nexus-cc)
 // -------------------------------------------------------------------------
 .nexus-cc {
