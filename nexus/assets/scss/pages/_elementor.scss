@@ -3513,6 +3513,600 @@ html.nexus-dark {
 }
 
 // -------------------------------------------------------------------------
+// Team Scroller (.nexus-ts)
+// -------------------------------------------------------------------------
+.nexus-ts {
+	--ts-bg: var(--nexus-bg);
+	--ts-card-bg: var(--nexus-surface);
+	--ts-heading: var(--nexus-heading-color);
+	--ts-name: var(--nexus-heading-color);
+	--ts-position: var(--nexus-text-muted);
+	--ts-text: var(--nexus-text-secondary);
+	--ts-tagline: var(--nexus-color-secondary);
+	--ts-social: var(--nexus-text-muted);
+	--ts-social-hover: var(--nexus-color-secondary);
+	--ts-border: var(--nexus-border-color);
+	--ts-overlay: var(--nexus-color-secondary);
+
+	padding: 5rem 0;
+	background-color: var(--ts-bg);
+	overflow: hidden;
+
+	// ---- Section header ----
+	&__header {
+		margin-bottom: 2.5rem;
+		max-width: 680px;
+	}
+
+	&__tagline {
+		display: inline-block;
+		font-size: 0.875rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+		color: var(--ts-tagline);
+		margin-bottom: 0.75rem;
+	}
+
+	&__title {
+		font-size: clamp(1.5rem, 3vw, 2.25rem);
+		font-weight: 700;
+		color: var(--ts-heading);
+		margin: 0 0 0.75rem;
+	}
+
+	&__desc {
+		font-size: 1.0625rem;
+		line-height: 1.7;
+		color: var(--ts-text);
+		margin: 0;
+	}
+
+	// ---- Slider container ----
+	&__slider {
+		overflow: hidden;
+		position: relative;
+	}
+
+	// ---- Shared card styles ----
+	&__name {
+		font-size: 1.0625rem;
+		font-weight: 700;
+		line-height: 1.35;
+		margin: 0 0 0.25rem;
+		color: var(--ts-name);
+
+		a {
+			color: inherit;
+			text-decoration: none;
+		}
+	}
+
+	&__position {
+		display: block;
+		font-size: 0.875rem;
+		color: var(--ts-position);
+	}
+
+	&__bio {
+		font-size: 0.875rem;
+		line-height: 1.6;
+		color: var(--ts-text);
+		margin: 0.5rem 0 0;
+	}
+
+	// ---- Social ----
+	&__social {
+		display: flex;
+		gap: 0.5rem;
+		align-items: center;
+		margin-top: 0.75rem;
+	}
+
+	&__social-link {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 32px;
+		height: 32px;
+		border-radius: 50%;
+		color: var(--ts-social);
+		transition: color 0.3s ease, background 0.3s ease;
+
+		&:hover {
+			color: var(--ts-social-hover);
+			background: rgba(var(--nexus-secondary-rgb), 0.08);
+		}
+	}
+
+	// ---- Style 1: Clean Slide — white bg, secondary overlay on hover ----
+	&--clean-slide {
+		--ts-bg: var(--nexus-bg);
+		--ts-card-bg: var(--nexus-surface);
+		--ts-tagline: var(--nexus-color-secondary);
+		--ts-overlay: var(--nexus-color-secondary);
+		--ts-social-hover: var(--nexus-color-secondary);
+	}
+
+	&__card--below {
+		background: var(--ts-card-bg);
+		border-radius: 12px;
+		overflow: hidden;
+		box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+		transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+		&:hover {
+			transform: translateY(-4px);
+			box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+		}
+
+		&:hover img {
+			transform: scale(1.05);
+		}
+
+		&:hover .nexus-ts__photo-overlay {
+			opacity: 1;
+		}
+	}
+
+	&__photo-wrap {
+		position: relative;
+		overflow: hidden;
+
+		img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			display: block;
+			transition: transform 0.4s ease;
+		}
+	}
+
+	&__photo-overlay {
+		position: absolute;
+		inset: 0;
+		background: var(--ts-overlay);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		opacity: 0;
+		transition: opacity 0.3s ease;
+
+		.nexus-ts__social-link {
+			color: #fff;
+
+			&:hover {
+				color: #fff;
+				background: rgba(255, 255, 255, 0.2);
+			}
+		}
+	}
+
+	&__info {
+		padding: 1.25rem;
+		text-align: center;
+	}
+
+	// ---- Style 2: Circle Minimal — light bg, accent tagline, accent social hover ----
+	&--circle-minimal {
+		--ts-bg: var(--nexus-color-light);
+		--ts-card-bg: var(--nexus-bg);
+		--ts-tagline: var(--nexus-color-accent);
+		--ts-social-hover: var(--nexus-color-accent);
+	}
+
+	&__card--circle {
+		background: var(--ts-card-bg);
+		border-radius: 16px;
+		padding: 2.5rem 1.5rem;
+		text-align: center;
+		box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+		transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+		&:hover {
+			transform: translateY(-4px);
+			box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+		}
+
+		.nexus-ts__social {
+			justify-content: center;
+		}
+	}
+
+	&__circle-photo {
+		width: 140px;
+		height: 140px;
+		margin: 0 auto 1.25rem;
+		border-radius: 50%;
+		overflow: hidden;
+
+		img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			display: block;
+		}
+	}
+
+	// ---- Style 3: Dark Overlay — primary bg, overlay reveal on hover ----
+	&--dark-overlay {
+		--ts-bg: var(--nexus-color-primary);
+		--ts-heading: var(--nexus-color-light);
+		--ts-text: var(--nexus-text-muted);
+		--ts-tagline: var(--nexus-color-secondary);
+	}
+
+	&__card--overlay {
+		position: relative;
+		overflow: hidden;
+		border-radius: 12px;
+		transition: transform 0.3s ease;
+
+		img {
+			position: absolute;
+			inset: 0;
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			transition: transform 0.5s ease;
+		}
+
+		&:hover img {
+			transform: scale(1.08);
+		}
+
+		&:hover .nexus-ts__overlay-content {
+			opacity: 1;
+		}
+	}
+
+	&__overlay-content {
+		position: absolute;
+		inset: 0;
+		background: rgba(0, 0, 0, 0.7);
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-end;
+		align-items: flex-start;
+		padding: 1.5rem;
+		opacity: 0;
+		transition: opacity 0.3s ease;
+
+		.nexus-ts__name {
+			color: #fff;
+		}
+
+		.nexus-ts__position {
+			color: rgba(255, 255, 255, 0.8);
+			margin-bottom: 0.5rem;
+		}
+
+		.nexus-ts__social-link {
+			color: rgba(255, 255, 255, 0.8);
+
+			&:hover {
+				color: #fff;
+				background: rgba(255, 255, 255, 0.15);
+			}
+		}
+	}
+
+	// ---- Style 4: Horizontal Row — white bg, accent tagline, secondary social ----
+	&--horizontal-row {
+		--ts-bg: var(--nexus-bg);
+		--ts-card-bg: var(--nexus-bg);
+		--ts-tagline: var(--nexus-color-secondary);
+		--ts-position: var(--nexus-color-secondary);
+		--ts-social-hover: var(--nexus-color-accent);
+		--ts-border: var(--nexus-border-color);
+	}
+
+	&__card--horizontal {
+		display: flex;
+		align-items: center;
+		gap: 1.25rem;
+		padding: 1.5rem;
+		background: var(--ts-card-bg);
+		border-radius: 12px;
+		border: 1px solid var(--ts-border);
+		transition: background-color 0.3s ease, box-shadow 0.3s ease;
+
+		&:hover {
+			box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+		}
+	}
+
+	&__horiz-photo {
+		flex-shrink: 0;
+		width: 80px;
+		height: 80px;
+		border-radius: 50%;
+		overflow: hidden;
+
+		img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			display: block;
+		}
+	}
+
+	&__horiz-info {
+		min-width: 0;
+		flex: 1;
+	}
+
+	// ---- Style 5: Bordered Peek — light grey bg, secondary hover border ----
+	&--bordered-peek {
+		--ts-bg: var(--nexus-color-light);
+		--ts-card-bg: var(--nexus-bg);
+		--ts-tagline: var(--nexus-color-secondary);
+		--ts-social-hover: var(--nexus-color-secondary);
+	}
+
+	&__card--bordered {
+		background: var(--ts-card-bg);
+		border: 1px solid var(--ts-border);
+		border-radius: 12px;
+		padding: 1.5rem;
+		text-align: center;
+		transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+
+		&:hover {
+			transform: translateY(-4px);
+			box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+			border-color: var(--nexus-color-secondary);
+		}
+
+		.nexus-ts__social {
+			justify-content: center;
+		}
+	}
+
+	&__bordered-photo {
+		width: 120px;
+		height: 120px;
+		margin: 0 auto 1rem;
+		border-radius: 12px;
+		overflow: hidden;
+
+		img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			display: block;
+		}
+	}
+
+	// ---- Style 6: Accent Bar — primary bg, dark cards, secondary accent border ----
+	&--accent-bar {
+		--ts-bg: var(--nexus-color-primary);
+		--ts-card-bg: var(--nexus-color-dark);
+		--ts-heading: var(--nexus-color-light);
+		--ts-name: var(--nexus-color-light);
+		--ts-tagline: var(--nexus-color-secondary);
+		--ts-position: var(--nexus-text-muted);
+		--ts-text: var(--nexus-text-muted);
+		--ts-social: var(--nexus-text-muted);
+		--ts-social-hover: var(--nexus-color-secondary);
+	}
+
+	&__card--accent {
+		background: var(--ts-card-bg);
+		border-radius: 12px;
+		overflow: hidden;
+		border-bottom: 3px solid var(--nexus-color-secondary);
+		transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+		&:hover {
+			transform: translateY(-4px);
+			box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+		}
+
+		&:hover img {
+			transform: scale(1.05);
+		}
+	}
+
+	&__accent-photo {
+		overflow: hidden;
+
+		img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			display: block;
+			transition: transform 0.4s ease;
+		}
+	}
+
+	&__accent-info {
+		padding: 1.25rem;
+	}
+
+	// ---- Swiper arrows ----
+	&__arrow {
+		width: 48px !important;
+		height: 48px !important;
+		border-radius: 50% !important;
+		background: rgba(255, 255, 255, 0.85) !important;
+		backdrop-filter: blur(8px);
+		border: 1px solid rgba(0, 0, 0, 0.08) !important;
+		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+		transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+		z-index: 10;
+		top: 50%;
+		margin-top: 0;
+		transform: translateY(-50%);
+
+		&::after {
+			font-size: 14px !important;
+			font-weight: 700;
+			color: var(--nexus-color-primary);
+		}
+
+		&:hover {
+			background: var(--nexus-color-secondary) !important;
+			border-color: var(--nexus-color-secondary) !important;
+			box-shadow: 0 6px 24px rgba(var(--nexus-secondary-rgb), 0.3);
+			transform: translateY(-50%) scale(1.08);
+
+			&::after {
+				color: #fff;
+			}
+		}
+
+		&--prev {
+			left: 1rem;
+		}
+
+		&--next {
+			right: 1rem;
+		}
+	}
+
+	// Dark-bg presets: glassmorphism arrows.
+	&--dark-overlay &__arrow,
+	&--accent-bar &__arrow {
+		background: rgba(255, 255, 255, 0.12) !important;
+		border-color: rgba(255, 255, 255, 0.2) !important;
+		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+
+		&::after {
+			color: #fff;
+		}
+
+		&:hover {
+			background: rgba(255, 255, 255, 0.25) !important;
+			border-color: rgba(255, 255, 255, 0.4) !important;
+			box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
+		}
+	}
+
+	// ---- Pagination dots ----
+	&__dots {
+		margin-top: 1.5rem !important;
+		position: relative !important;
+		bottom: auto !important;
+
+		.swiper-pagination-bullet {
+			width: 10px;
+			height: 10px;
+			opacity: 0.3;
+			transition: opacity 0.3s ease, transform 0.3s ease;
+		}
+
+		.swiper-pagination-bullet-active {
+			opacity: 1;
+			transform: scale(1.2);
+			background: var(--nexus-color-secondary);
+		}
+	}
+
+	// ---- Section button ----
+	&__footer {
+		text-align: center;
+		margin-top: 2.5rem;
+	}
+
+	// ---- Responsive ----
+	@include respond-below(md) {
+		padding: 3rem 0;
+
+		&__header {
+			margin-bottom: 1.5rem;
+		}
+
+		&__arrow {
+			display: none !important;
+		}
+	}
+
+	@include respond-below(sm) {
+		&__card--below,
+		&__card--bordered {
+			border-radius: 8px;
+		}
+
+		&__dots {
+			margin-top: 1rem !important;
+		}
+	}
+}
+
+// Dark mode overrides for Team Scroller — inverse theme system.
+html.nexus-dark {
+	// Light-bg presets (1, 2, 4, 5) → dark in dark mode.
+	.nexus-ts--clean-slide,
+	.nexus-ts--circle-minimal,
+	.nexus-ts--horizontal-row,
+	.nexus-ts--bordered-peek {
+		--ts-bg: var(--nexus-bg);
+		--ts-card-bg: var(--nexus-surface);
+		--ts-heading: var(--nexus-heading-color);
+		--ts-name: var(--nexus-heading-color);
+		--ts-text: var(--nexus-text-color);
+		--ts-position: var(--nexus-text-muted);
+		--ts-border: var(--nexus-border-color);
+		--ts-social: var(--nexus-text-muted);
+
+		.nexus-ts__arrow {
+			background: var(--nexus-surface) !important;
+			border-color: var(--nexus-border-color) !important;
+
+			&::after {
+				color: var(--nexus-heading-color);
+			}
+
+			&:hover {
+				background: var(--nexus-color-secondary) !important;
+				border-color: var(--nexus-color-secondary) !important;
+
+				&::after {
+					color: #fff;
+				}
+			}
+		}
+	}
+
+	// Dark-bg presets (3, 6) → light in dark mode (inverted).
+	.nexus-ts--dark-overlay,
+	.nexus-ts--accent-bar {
+		--ts-bg: var(--nexus-color-light);
+		--ts-heading: var(--nexus-color-primary);
+		--ts-tagline: var(--nexus-color-secondary);
+		--ts-text: var(--nexus-text-secondary);
+		--ts-name: var(--nexus-color-primary);
+		--ts-position: var(--nexus-text-muted);
+		--ts-social: var(--nexus-text-muted);
+		--ts-social-hover: var(--nexus-color-secondary);
+
+		.nexus-ts__arrow {
+			background: rgba(0, 0, 0, 0.06) !important;
+			border-color: rgba(0, 0, 0, 0.12) !important;
+			box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+
+			&::after {
+				color: var(--nexus-color-primary);
+			}
+
+			&:hover {
+				background: var(--nexus-color-secondary) !important;
+				border-color: var(--nexus-color-secondary) !important;
+
+				&::after {
+					color: #fff;
+				}
+			}
+		}
+	}
+
+	.nexus-ts--accent-bar {
+		--ts-card-bg: var(--nexus-bg);
+	}
+}
+
+// -------------------------------------------------------------------------
 // Content Carousel (.nexus-cc)
 // -------------------------------------------------------------------------
 .nexus-cc {

@@ -152,6 +152,7 @@ final class Nexus_Elementor {
 			'widget-image-cards-scroller'   => 'Nexus_Widget_Image_Cards_Scroller',
 			'widget-content-carousel'       => 'Nexus_Widget_Content_Carousel',
 			'widget-team-grid'              => 'Nexus_Widget_Team_Grid',
+			'widget-team-scroller'          => 'Nexus_Widget_Team_Scroller',
 		);
 
 		// WooCommerce-specific widgets.
