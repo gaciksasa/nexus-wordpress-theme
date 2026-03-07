@@ -154,6 +154,7 @@ final class Nexus_Elementor {
 			'widget-team-grid'              => 'Nexus_Widget_Team_Grid',
 			'widget-team-scroller'          => 'Nexus_Widget_Team_Scroller',
 			'widget-icon-cards-grid'        => 'Nexus_Widget_Icon_Cards_Grid',
+			'widget-icon-cards-scroller'    => 'Nexus_Widget_Icon_Cards_Scroller',
 			'widget-logos-grid'             => 'Nexus_Widget_Logos_Grid',
 			'widget-timeline'               => 'Nexus_Widget_Timeline',
 		);
