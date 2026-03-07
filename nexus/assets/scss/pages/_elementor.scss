@@ -6109,20 +6109,25 @@ html.nexus-dark {
 		transform: translateX(4px);
 	}
 
-	// Swiper arrows
+	// Slider wrapper — positions arrows outside
+	.nexus-icsc__wrap {
+		position: relative;
+	}
+
+	// Swiper arrows — outside the swiper container
 	.nexus-icsc__arrow {
+		position: absolute;
+		top: 50%;
 		width: 48px !important;
 		height: 48px !important;
+		margin-top: -24px;
 		border-radius: 50% !important;
-		background: rgba(255, 255, 255, 0.85) !important;
+		background: rgba(255, 255, 255, 0.92) !important;
 		backdrop-filter: blur(8px);
 		border: 1px solid rgba(0, 0, 0, 0.08) !important;
 		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
 		transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 		z-index: 10;
-		top: 50%;
-		margin-top: 0;
-		transform: translateY(-50%);
 
 		&::after {
 			font-size: 14px !important;
@@ -6134,7 +6139,7 @@ html.nexus-dark {
 			background: var(--nexus-color-secondary) !important;
 			border-color: var(--nexus-color-secondary) !important;
 			box-shadow: 0 6px 24px rgba(var(--nexus-secondary-rgb), 0.3);
-			transform: translateY(-50%) scale(1.08);
+			transform: scale(1.08);
 
 			&::after {
 				color: #fff;
@@ -6142,15 +6147,30 @@ html.nexus-dark {
 		}
 
 		&:active {
-			transform: translateY(-50%) scale(0.96);
+			transform: scale(0.96);
 		}
 
 		&--prev {
-			left: -8px;
+			left: -60px;
 		}
 
 		&--next {
-			right: -8px;
+			right: -60px;
+		}
+
+		// On smaller screens, tuck arrows closer
+		@media (max-width: 1400px) {
+			&--prev { left: -52px; }
+			&--next { right: -52px; }
+		}
+
+		// On tablet and below, place arrows below the slider
+		@media (max-width: 1200px) {
+			position: static;
+			display: inline-flex;
+			margin-top: 1.5rem;
+
+			&--prev { margin-right: 0.75rem; }
 		}
 	}
 
@@ -6239,5 +6259,51 @@ html.nexus-dark {
 		.nexus-icsc-card {
 			background-color: var(--nexus-surface) !important;
 		}
+	}
+}
+
+// =========================================================================
+// Universal dark mode — widget titles & descriptions
+// Covers ALL Nexus Elementor widgets so inline heading colors adapt to dark.
+// =========================================================================
+html.nexus-dark {
+
+	// Section headings
+	[class*="nexus-"][class*="__title"],
+	[class*="nexus-"][class*="__headline"] {
+		color: var(--nexus-heading-color) !important;
+	}
+
+	// Section taglines
+	[class*="nexus-"][class*="__tagline"] {
+		color: var(--nexus-color-secondary) !important;
+	}
+
+	// Section descriptions
+	[class*="nexus-"][class*="__desc"] {
+		color: var(--nexus-text-color) !important;
+	}
+
+	// Card titles (all patterns: __card-title, -card__title)
+	[class*="nexus-"][class*="card-title"],
+	[class*="nexus-"][class*="card__title"] {
+		color: var(--nexus-heading-color) !important;
+
+		a {
+			color: var(--nexus-heading-color) !important;
+		}
+	}
+
+	// Card descriptions
+	[class*="nexus-"][class*="card-desc"],
+	[class*="nexus-"][class*="card__desc"],
+	[class*="nexus-"][class*="card-excerpt"] {
+		color: var(--nexus-text-color) !important;
+	}
+
+	// Item titles (feature list, timeline items, etc.)
+	[class*="nexus-"][class*="item-title"],
+	[class*="nexus-"][class*="item__title"] {
+		color: var(--nexus-heading-color) !important;
 	}
 }

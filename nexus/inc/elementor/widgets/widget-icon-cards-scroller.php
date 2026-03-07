@@ -485,7 +485,8 @@ class Nexus_Widget_Icon_Cards_Scroller extends \Elementor\Widget_Base {
 			</div>
 
 			<div class="nexus-container">
-				<div class="nexus-icsc__slider swiper" id="<?php echo esc_attr( $widget_id ); ?>-swiper" style="overflow:hidden;position:relative;">
+				<div class="nexus-icsc__wrap" id="<?php echo esc_attr( $widget_id ); ?>-wrap">
+				<div class="nexus-icsc__slider swiper" id="<?php echo esc_attr( $widget_id ); ?>-swiper" style="overflow:hidden;">
 					<div class="swiper-wrapper">
 						<?php foreach ( $cards as $idx => $card ) :
 							$title    = $card['title'] ?? '';
@@ -558,11 +559,13 @@ class Nexus_Widget_Icon_Cards_Scroller extends \Elementor\Widget_Base {
 						<div class="swiper-pagination nexus-icsc__dots" style="margin-top:2rem;position:relative;"></div>
 					<?php endif; ?>
 
-					<?php if ( $arrows ) : ?>
-						<button class="swiper-button-prev nexus-icsc__arrow nexus-icsc__arrow--prev" aria-label="<?php esc_attr_e( 'Previous', 'nexus' ); ?>"></button>
-						<button class="swiper-button-next nexus-icsc__arrow nexus-icsc__arrow--next" aria-label="<?php esc_attr_e( 'Next', 'nexus' ); ?>"></button>
-					<?php endif; ?>
 				</div>
+
+				<?php if ( $arrows ) : ?>
+					<button class="swiper-button-prev nexus-icsc__arrow nexus-icsc__arrow--prev" aria-label="<?php esc_attr_e( 'Previous', 'nexus' ); ?>"></button>
+					<button class="swiper-button-next nexus-icsc__arrow nexus-icsc__arrow--next" aria-label="<?php esc_attr_e( 'Next', 'nexus' ); ?>"></button>
+				<?php endif; ?>
+			</div>
 			</div>
 
 		</section>
@@ -570,8 +573,10 @@ class Nexus_Widget_Icon_Cards_Scroller extends \Elementor\Widget_Base {
 		<script>
 		(function(){
 			var swiperId='<?php echo esc_js( $widget_id ); ?>-swiper';
+			var wrapId='<?php echo esc_js( $widget_id ); ?>-wrap';
 			function initICSC(){
 				var el=document.getElementById(swiperId);
+				var wrap=document.getElementById(wrapId);
 				if(!el)return;
 				if(!window.Swiper){setTimeout(initICSC,100);return;}
 				if(el.swiper)el.swiper.destroy(true,true);
@@ -584,7 +589,7 @@ class Nexus_Widget_Icon_Cards_Scroller extends \Elementor\Widget_Base {
 					loop:totalSlides>spv,
 					autoplay:autoplayOpt,
 					pagination:<?php echo $dots ? '{el:el.querySelector(\'.swiper-pagination\'),clickable:true}' : 'false'; ?>,
-					navigation:<?php echo $arrows ? '{nextEl:el.querySelector(\'.swiper-button-next\'),prevEl:el.querySelector(\'.swiper-button-prev\')}' : 'false'; ?>,
+					navigation:<?php echo $arrows ? '{nextEl:wrap.querySelector(\'.swiper-button-next\'),prevEl:wrap.querySelector(\'.swiper-button-prev\')}' : 'false'; ?>,
 					breakpoints:{
 						0:{slidesPerView:1,spaceBetween:16},
 						640:{slidesPerView:Math.min(2,spv),spaceBetween:20},
