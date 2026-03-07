@@ -75,6 +75,7 @@ require_once NEXUS_INC_DIR . '/class-nexus-theme.php';
 // -------------------------------------------------------------------------
 require_once NEXUS_INC_DIR . '/setup.php';
 require_once NEXUS_INC_DIR . '/walker-nav.php';
+require_once NEXUS_INC_DIR . '/class-nexus-nav-menu-fields.php';
 require_once NEXUS_INC_DIR . '/walker-comment.php';
 
 // -------------------------------------------------------------------------

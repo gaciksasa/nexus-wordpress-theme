@@ -718,15 +718,16 @@
 // =============================================================================
 
 .nexus-menu-item--mega {
-	position: relative;
+	position: static;
 
 	> .nexus-mega-menu {
-		position: absolute;
-		top: calc(var(--nexus-header-height) - 4px);
+		position: fixed;
+		top: calc(var(--nexus-header-height, 72px) + 15px);
 		left: 50%;
 		transform: translateX(-50%) translateY(10px);
 		z-index: $z-dropdown;
-		width: 780px;
+		width: var(--nexus-container-max, 1200px);
+		max-width: calc(100vw - 2 * var(--nexus-container-padding, 1.5rem));
 		background: var(--nexus-color-white);
 		border-radius: var(--nexus-border-radius-lg);
 		box-shadow: var(--nexus-shadow-xl);
@@ -797,6 +798,19 @@
 		line-height: 1.4;
 	}
 
+	&__col-image {
+		margin: 0 0 0.75rem;
+		border-radius: var(--nexus-border-radius);
+		overflow: hidden;
+
+		img {
+			display: block;
+			width: 100%;
+			height: auto;
+			border-radius: var(--nexus-border-radius);
+		}
+	}
+
 	&__links {
 		list-style: none;
 		padding: 0;
@@ -808,12 +822,18 @@
 			list-style: none;
 		}
 
+		.nexus-menu-item > a,
 		a {
-			display: block;
-			padding: 0.4rem 0;
+			display: flex;
+			align-items: flex-start;
+			gap: 0.5rem;
+			padding: 0.5rem 0;
 			font-size: 0.9rem;
 			color: var(--nexus-text-secondary);
 			text-decoration: none;
+			text-transform: none;
+			letter-spacing: normal;
+			font-weight: 400;
 			@include transition(color, transform);
 
 			&:hover {
@@ -827,6 +847,127 @@
 	@include respond-below(lg) {
 		display: none !important;
 	}
+}
+
+// Mega menu link sub-elements (icon, image, badge, description).
+.nexus-mega-link {
+	&__visual {
+		flex-shrink: 0;
+		width: 2rem;
+		height: 2rem;
+		display: flex;
+		align-items: flex-start;
+		justify-content: flex-start;
+		border-radius: var(--nexus-border-radius);
+		background: var(--nexus-bg-alt);
+		color: var(--nexus-color-secondary);
+		margin-top: 0.2rem;
+
+		.nexus-menu-image {
+			width: 100%;
+			height: 100%;
+
+			img {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+				border-radius: var(--nexus-border-radius);
+			}
+		}
+
+		.nexus-menu-icon svg {
+			width: 1rem;
+			height: 1rem;
+		}
+	}
+
+	&__content {
+		display: flex;
+		flex-direction: column;
+		gap: 0.125rem;
+		min-width: 0;
+	}
+
+	&__title {
+		font-weight: 500;
+		color: var(--nexus-heading-color);
+		line-height: 1.3;
+	}
+}
+
+// Menu icon (inline, for regular items and column headings).
+.nexus-menu-icon {
+	display: inline-flex;
+	align-items: center;
+	margin-right: 0.4rem;
+	vertical-align: middle;
+	color: var(--nexus-color-secondary);
+
+	svg {
+		width: 1em;
+		height: 1em;
+	}
+}
+
+// Menu image (inline thumbnail for regular items).
+.nexus-menu-image {
+	display: inline-flex;
+
+	img {
+		width: 1.5rem;
+		height: 1.5rem;
+		border-radius: 50%;
+		object-fit: cover;
+		vertical-align: middle;
+	}
+}
+
+// Menu badge (label next to title).
+.nexus-menu-badge {
+	display: inline-block;
+	font-size: 0.65rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+	line-height: 1;
+	padding: 0.2em 0.5em;
+	border-radius: 3px;
+	vertical-align: middle;
+	white-space: nowrap;
+
+	&--primary {
+		background: var(--nexus-color-primary);
+		color: #fff;
+	}
+	&--secondary {
+		background: var(--nexus-color-secondary);
+		color: #fff;
+	}
+	&--accent {
+		background: var(--nexus-color-accent);
+		color: #fff;
+	}
+	&--success {
+		background: #16a34a;
+		color: #fff;
+	}
+	&--warning {
+		background: #f59e0b;
+		color: #fff;
+	}
+	&--danger {
+		background: #dc2626;
+		color: #fff;
+	}
+}
+
+// Menu description (short text below link).
+.nexus-menu-desc {
+	display: block;
+	font-size: 0.78rem;
+	line-height: 1.35;
+	color: var(--nexus-text-muted);
+	font-weight: 400;
 }
 
 // =============================================================================

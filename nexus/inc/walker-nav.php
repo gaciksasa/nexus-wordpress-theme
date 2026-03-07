@@ -164,30 +164,97 @@ class Nexus_Walker_Nav_Menu extends Walker_Nav_Menu {
 		/** This filter is documented in wp-includes/class-walker-nav-menu.php */
 		$title = apply_filters( 'nav_menu_item_title', $title, $item, $args, $depth );
 
+		// Custom fields (icon, image, badge, description).
+		$menu_icon        = ! empty( $item->nexus_icon ) ? $item->nexus_icon : '';
+		$menu_image       = ! empty( $item->nexus_image ) ? $item->nexus_image : '';
+		$menu_badge       = ! empty( $item->nexus_badge ) ? $item->nexus_badge : '';
+		$menu_badge_color = ! empty( $item->nexus_badge_color ) ? $item->nexus_badge_color : 'primary';
+		$menu_desc        = ! empty( $item->nexus_desc ) ? $item->nexus_desc : '';
+
+		// Build icon HTML.
+		$icon_html = '';
+		if ( $menu_icon ) {
+			$icon_html = '<span class="nexus-menu-icon" aria-hidden="true">' . nexus_icon( $menu_icon ) . '</span>';
+		}
+
+		// Build image HTML.
+		$image_html = '';
+		if ( $menu_image ) {
+			$img_url = wp_get_attachment_image_url( $menu_image, 'thumbnail' );
+			if ( $img_url ) {
+				$image_html = '<span class="nexus-menu-image"><img src="' . esc_url( $img_url ) . '" alt="' . esc_attr( $title ) . '"></span>';
+			}
+		}
+
+		// Build badge HTML.
+		$badge_html = '';
+		if ( $menu_badge ) {
+			$badge_html = '<span class="nexus-menu-badge nexus-menu-badge--' . esc_attr( $menu_badge_color ) . '">' . esc_html( $menu_badge ) . '</span>';
+		}
+
+		// Build description HTML.
+		$desc_html = '';
+		if ( $menu_desc ) {
+			$desc_html = '<span class="nexus-menu-desc">' . esc_html( $menu_desc ) . '</span>';
+		}
+
 		$item_output = $args->before;
 
 		if ( $is_mega_col ) {
-			// Column heading: render as heading, not link (unless URL is set).
-			$heading_tag  = '<h5 class="nexus-mega-menu__col-title">';
-			$heading_tag .= esc_html( $title );
-			$heading_tag .= '</h5>';
+			// Column heading with optional icon/image.
+			$heading_content = $icon_html . esc_html( $title );
 
-			// If the column heading has a real URL (not just #), wrap in link.
 			if ( ! empty( $item->url ) && '#' !== trim( $item->url ) ) {
 				$item_output .= '<a' . $attributes . ' class="nexus-mega-menu__col-link">';
-				$item_output .= $args->link_before . $title . $args->link_after;
+				$item_output .= $args->link_before . $heading_content . $args->link_after;
 				$item_output .= '</a>';
 			} else {
-				$item_output .= $heading_tag;
+				$item_output .= '<h5 class="nexus-mega-menu__col-title">' . $heading_content . '</h5>';
 			}
 
-			// Column description from menu item description field.
-			if ( ! empty( $item->description ) ) {
-				$item_output .= '<p class="nexus-mega-menu__col-desc">' . esc_html( $item->description ) . '</p>';
+			// Column image (displayed as header image for the column).
+			if ( $image_html ) {
+				$item_output .= '<div class="nexus-mega-menu__col-image">' . $image_html . '</div>';
 			}
-		} else {
+
+			// Column description from custom field or WP description field.
+			$col_desc = $menu_desc ? $menu_desc : ( ! empty( $item->description ) ? $item->description : '' );
+			if ( $col_desc ) {
+				$item_output .= '<p class="nexus-mega-menu__col-desc">' . esc_html( $col_desc ) . '</p>';
+			}
+		} elseif ( $depth >= 2 && $this->is_mega ) {
+			// Mega menu grandchild links: icon + text + badge + description layout.
 			$item_output .= '<a' . $attributes . '>';
+
+			if ( $image_html || $icon_html ) {
+				$item_output .= '<span class="nexus-mega-link__visual">';
+				$item_output .= $image_html ? $image_html : $icon_html;
+				$item_output .= '</span>';
+			}
+
+			$item_output .= '<span class="nexus-mega-link__content">';
+			$item_output .= '<span class="nexus-mega-link__title">';
 			$item_output .= $args->link_before . $title . $args->link_after;
+			if ( $badge_html ) {
+				$item_output .= ' ' . $badge_html;
+			}
+			$item_output .= '</span>';
+
+			if ( $desc_html ) {
+				$item_output .= $desc_html;
+			}
+			$item_output .= '</span>';
+
+			$item_output .= '</a>';
+		} else {
+			// Regular menu items.
+			$item_output .= '<a' . $attributes . '>';
+			$item_output .= $icon_html;
+			$item_output .= $args->link_before . $title . $args->link_after;
+
+			if ( $badge_html ) {
+				$item_output .= ' ' . $badge_html;
+			}
 
 			// Add dropdown arrow for items with children (not mega columns).
 			if ( $has_children ) {
@@ -197,6 +264,11 @@ class Nexus_Walker_Nav_Menu extends Walker_Nav_Menu {
 			}
 
 			$item_output .= '</a>';
+
+			// Description below the link for regular dropdowns.
+			if ( $desc_html && $depth > 0 ) {
+				$item_output .= $desc_html;
+			}
 		}
 
 		$item_output .= $args->after;

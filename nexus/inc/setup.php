@@ -295,91 +295,100 @@ function nexus_create_default_menus() {
 		return;
 	}
 
-	// Helper: create a menu item.
-	$add = function ( $title, $url = '#', $parent = 0, $order = 0, $classes = array() ) use ( $menu_id ) {
-		return wp_update_nav_menu_item(
+	// Helper: create a menu item with optional Nexus custom meta.
+	$prefix = '_nexus_menu_';
+	$add    = function ( $title, $url = '#', $parent = 0, $order = 0, $classes = array(), $meta = array() ) use ( $menu_id, $prefix ) {
+		$item_id = wp_update_nav_menu_item(
 			$menu_id,
 			0,
 			array(
-				'menu-item-title'    => $title,
-				'menu-item-url'      => $url,
-				'menu-item-status'   => 'publish',
-				'menu-item-type'     => 'custom',
+				'menu-item-title'     => $title,
+				'menu-item-url'       => $url,
+				'menu-item-status'    => 'publish',
+				'menu-item-type'      => 'custom',
 				'menu-item-parent-id' => $parent,
-				'menu-item-position' => $order,
-				'menu-item-classes'  => implode( ' ', $classes ),
+				'menu-item-position'  => $order,
+				'menu-item-classes'   => implode( ' ', $classes ),
 			)
 		);
+
+		if ( ! is_wp_error( $item_id ) && ! empty( $meta ) ) {
+			foreach ( $meta as $key => $value ) {
+				update_post_meta( $item_id, $prefix . $key, $value );
+			}
+		}
+
+		return $item_id;
 	};
 
 	// --- Home ---
 	$home_url = home_url( '/' );
-	$add( 'Home', $home_url, 0, 1 );
+	$add( 'Home', $home_url, 0, 1, array(), array( 'icon' => 'home' ) );
 
 	// --- Pages (mega menu) ---
 	$pages_id = $add( 'Pages', '#', 0, 2, array( 'mega-menu' ) );
 
 	// Column 1: Company.
-	$col1 = $add( 'Company', '#', $pages_id, 1 );
-	$add( 'About Us', '#', $col1, 1 );
-	$add( 'Our Team', '#', $col1, 2 );
-	$add( 'Careers', '#', $col1, 3 );
-	$add( 'Contact', '#', $col1, 4 );
+	$col1 = $add( 'Company', '#', $pages_id, 1, array(), array( 'icon' => 'briefcase', 'desc' => 'Learn about our team and values' ) );
+	$add( 'About Us', '#', $col1, 1, array(), array( 'icon' => 'users', 'desc' => 'Our story and mission' ) );
+	$add( 'Our Team', '#', $col1, 2, array(), array( 'icon' => 'users' ) );
+	$add( 'Careers', '#', $col1, 3, array(), array( 'icon' => 'briefcase', 'badge' => 'Hiring', 'badge_color' => 'success' ) );
+	$add( 'Contact', '#', $col1, 4, array(), array( 'icon' => 'mail' ) );
 
 	// Column 2: Services.
-	$col2 = $add( 'Services', '#', $pages_id, 2 );
-	$add( 'Web Design', '#', $col2, 1 );
-	$add( 'Development', '#', $col2, 2 );
-	$add( 'SEO & Marketing', '#', $col2, 3 );
-	$add( 'Consulting', '#', $col2, 4 );
+	$col2 = $add( 'Services', '#', $pages_id, 2, array(), array( 'icon' => 'settings', 'desc' => 'What we offer' ) );
+	$add( 'Web Design', '#', $col2, 1, array(), array( 'icon' => 'palette', 'desc' => 'Beautiful, responsive designs' ) );
+	$add( 'Development', '#', $col2, 2, array(), array( 'icon' => 'code' ) );
+	$add( 'SEO & Marketing', '#', $col2, 3, array(), array( 'icon' => 'trending-up' ) );
+	$add( 'Consulting', '#', $col2, 4, array(), array( 'icon' => 'megaphone' ) );
 
 	// Column 3: Portfolio.
-	$col3 = $add( 'Portfolio', '#', $pages_id, 3 );
-	$add( 'Case Studies', '#', $col3, 1 );
-	$add( 'Recent Work', '#', $col3, 2 );
-	$add( 'Clients', '#', $col3, 3 );
+	$col3 = $add( 'Portfolio', '#', $pages_id, 3, array(), array( 'icon' => 'layers', 'desc' => 'Our recent projects' ) );
+	$add( 'Case Studies', '#', $col3, 1, array(), array( 'icon' => 'file', 'desc' => 'In-depth project reviews' ) );
+	$add( 'Recent Work', '#', $col3, 2, array(), array( 'icon' => 'image', 'badge' => 'New', 'badge_color' => 'secondary' ) );
+	$add( 'Clients', '#', $col3, 3, array(), array( 'icon' => 'heart' ) );
 
 	// Column 4: Support.
-	$col4 = $add( 'Support', '#', $pages_id, 4 );
-	$add( 'Help Center', '#', $col4, 1 );
-	$add( 'Documentation', '#', $col4, 2 );
-	$add( 'FAQ', '#', $col4, 3 );
-	$add( 'Status Page', '#', $col4, 4 );
+	$col4 = $add( 'Support', '#', $pages_id, 4, array(), array( 'icon' => 'shield', 'desc' => 'Help and documentation' ) );
+	$add( 'Help Center', '#', $col4, 1, array(), array( 'icon' => 'book', 'desc' => 'Browse support articles' ) );
+	$add( 'Documentation', '#', $col4, 2, array(), array( 'icon' => 'file' ) );
+	$add( 'FAQ', '#', $col4, 3, array(), array( 'icon' => 'check' ) );
+	$add( 'Status Page', '#', $col4, 4, array(), array( 'icon' => 'globe' ) );
 
 	// --- Features (mega menu) ---
 	$features_id = $add( 'Features', '#', 0, 3, array( 'mega-menu' ) );
 
 	// Column 1: Platform.
-	$fcol1 = $add( 'Platform', '#', $features_id, 1 );
-	$add( 'Analytics Dashboard', '#', $fcol1, 1 );
-	$add( 'Reporting Tools', '#', $fcol1, 2 );
-	$add( 'API Platform', '#', $fcol1, 3 );
-	$add( 'Integrations', '#', $fcol1, 4 );
+	$fcol1 = $add( 'Platform', '#', $features_id, 1, array(), array( 'icon' => 'grid', 'desc' => 'Core platform tools' ) );
+	$add( 'Analytics Dashboard', '#', $fcol1, 1, array(), array( 'icon' => 'chart', 'desc' => 'Real-time data insights', 'badge' => 'Popular', 'badge_color' => 'primary' ) );
+	$add( 'Reporting Tools', '#', $fcol1, 2, array(), array( 'icon' => 'trending-up' ) );
+	$add( 'API Platform', '#', $fcol1, 3, array(), array( 'icon' => 'code', 'badge' => 'New', 'badge_color' => 'success' ) );
+	$add( 'Integrations', '#', $fcol1, 4, array(), array( 'icon' => 'link' ) );
 
 	// Column 2: Solutions.
-	$fcol2 = $add( 'Solutions', '#', $features_id, 2 );
-	$add( 'For Startups', '#', $fcol2, 1 );
-	$add( 'For Enterprise', '#', $fcol2, 2 );
-	$add( 'For Agencies', '#', $fcol2, 3 );
+	$fcol2 = $add( 'Solutions', '#', $features_id, 2, array(), array( 'icon' => 'rocket', 'desc' => 'Tailored for your needs' ) );
+	$add( 'For Startups', '#', $fcol2, 1, array(), array( 'icon' => 'zap', 'desc' => 'Launch faster' ) );
+	$add( 'For Enterprise', '#', $fcol2, 2, array(), array( 'icon' => 'server', 'desc' => 'Scale with confidence' ) );
+	$add( 'For Agencies', '#', $fcol2, 3, array(), array( 'icon' => 'users', 'desc' => 'Manage multiple clients' ) );
 
 	// Column 3: Resources.
-	$fcol3 = $add( 'Resources', '#', $features_id, 3 );
-	$add( 'Blog', '#', $fcol3, 1 );
-	$add( 'Webinars', '#', $fcol3, 2 );
-	$add( 'Guides', '#', $fcol3, 3 );
-	$add( 'Templates', '#', $fcol3, 4 );
+	$fcol3 = $add( 'Resources', '#', $features_id, 3, array(), array( 'icon' => 'book', 'desc' => 'Learn and grow' ) );
+	$add( 'Blog', '#', $fcol3, 1, array(), array( 'icon' => 'pen' ) );
+	$add( 'Webinars', '#', $fcol3, 2, array(), array( 'icon' => 'video', 'badge' => 'Live', 'badge_color' => 'danger' ) );
+	$add( 'Guides', '#', $fcol3, 3, array(), array( 'icon' => 'book' ) );
+	$add( 'Templates', '#', $fcol3, 4, array(), array( 'icon' => 'folder', 'badge' => 'Hot', 'badge_color' => 'warning' ) );
 
 	// --- Blog (regular) ---
 	$add( 'Blog', '#', 0, 4 );
 
 	// --- Shop (regular dropdown) ---
 	$shop_id = $add( 'Shop', '#', 0, 5 );
-	$add( 'All Products', '#', $shop_id, 1 );
-	$add( 'Categories', '#', $shop_id, 2 );
-	$add( 'Sale', '#', $shop_id, 3 );
+	$add( 'All Products', '#', $shop_id, 1, array(), array( 'icon' => 'shopping-bag' ) );
+	$add( 'Categories', '#', $shop_id, 2, array(), array( 'icon' => 'grid' ) );
+	$add( 'Sale', '#', $shop_id, 3, array(), array( 'icon' => 'tag', 'badge' => 'Sale', 'badge_color' => 'danger' ) );
 
 	// --- Contact (regular) ---
-	$add( 'Contact', '#', 0, 6 );
+	$add( 'Contact', '#', 0, 6, array(), array( 'icon' => 'mail' ) );
 
 	// Assign to primary location.
 	set_theme_mod( 'nav_menu_locations', array_merge(
