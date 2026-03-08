@@ -432,7 +432,7 @@ function nexus_create_default_menus() {
 				'id'       => substr( md5( 'container-' . $widget_slug . $index ), 0, 7 ),
 				'elType'   => 'container',
 				'settings' => array(
-					'content_width' => 'boxed',
+					'content_width' => 'full',
 					'padding'       => array(
 						'unit'     => 'px',
 						'top'      => '60',
