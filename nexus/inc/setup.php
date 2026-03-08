@@ -378,17 +378,157 @@ function nexus_create_default_menus() {
 	$add( 'Guides', '#', $fcol3, 3, array(), array( 'icon' => 'book' ) );
 	$add( 'Templates', '#', $fcol3, 4, array(), array( 'icon' => 'folder', 'badge' => 'Hot', 'badge_color' => 'warning' ) );
 
+	// --- Blocks (mega menu) ---
+	// Widget slug → preset keys map (widgets without presets get a single empty-string entry).
+	$widget_presets = array(
+		'Hero Slider'          => array( 'nexus-hero-slider', array( 'classic-corporate', 'creative-split', 'minimal-center', 'editorial-bottom', 'cinematic-dark', 'bold-startup' ) ),
+		'Row with Image'       => array( 'nexus-row-with-image', array( 'image-left-light', 'image-right-light', 'image-left-dark', 'image-right-stats', 'card-shadow', 'accent-border' ) ),
+		'CTA Banner'           => array( 'nexus-cta-banner', array( 'centered-light', 'centered-dark', 'side-by-side', 'gradient', 'image-overlay', 'split-accent' ) ),
+		'Video Popup'          => array( 'nexus-video-popup', array() ),
+		'Feature List'         => array( 'nexus-feature-list', array( 'check-list', 'icon-bordered', 'dark-numbered', 'timeline', 'card-grid', 'minimal-accent' ) ),
+		'Counter'              => array( 'nexus-counter', array( 'minimal-row', 'dark-bold', 'icon-cards', 'gradient-bar', 'accent-top', 'circle-icon' ) ),
+		'Icon Cards Grid'      => array( 'nexus-icon-cards-grid', array( 'clean-flat', 'gradient-icon', 'dark-elevated', 'bordered-minimal', 'accent-top', 'glass-modern' ) ),
+		'Image Cards Grid'     => array( 'nexus-image-cards-grid', array( 'clean-grid', 'rounded-shadow', 'dark-overlay', 'masonry-dark', 'caption-below', 'hover-zoom' ) ),
+		'Services Grid'        => array( 'nexus-services-grid', array( 'clean-minimal', 'corporate-numbered', 'flip-hover', 'horizontal-list', 'overlapping-icon', 'dark-glass' ) ),
+		'Blog Posts'           => array( 'nexus-blog-posts', array( 'classic-light', 'minimal-bordered', 'dark-elegant', 'overlay-gradient', 'side-image', 'magazine-featured' ) ),
+		'Portfolio Grid'       => array( 'nexus-portfolio-grid', array() ),
+		'Pricing Table'        => array( 'nexus-pricing-table', array( 'clean-flat', 'gradient-header', 'dark-elevated', 'bordered-minimal', 'ribbon-accent', 'glass-modern' ) ),
+		'Image Cards Scroller' => array( 'nexus-image-cards-scroller', array( 'minimal-slide', 'dark-cinema', 'rounded-peek', 'fullwidth-hero', 'caption-card', 'gradient-hover' ) ),
+		'Icon Cards Scroller'  => array( 'nexus-icon-cards-scroller', array( 'clean-slide', 'gradient-cards', 'dark-neon', 'bordered-slim', 'accent-glow', 'glass-futuristic' ) ),
+		'Content Carousel'     => array( 'nexus-content-carousel', array( 'clean-cards', 'cinema-overlay', 'soft-rounded', 'fullwidth-focus', 'bordered-minimal', 'neon-dark' ) ),
+		'Testimonials Slider'  => array( 'nexus-testimonials-slider', array( 'classic-light', 'minimal-clean', 'dark-elegant', 'bubble-speech', 'large-quote', 'cards-accented' ) ),
+		'Team Scroller'        => array( 'nexus-team-scroller', array( 'clean-slide', 'circle-minimal', 'dark-overlay', 'horizontal-row', 'bordered-peek', 'accent-bar' ) ),
+		'Product Carousel'     => array( 'nexus-product-carousel', array() ),
+		'Team Grid'            => array( 'nexus-team-grid', array( 'clean-cards', 'rounded-photo', 'dark-overlay', 'minimal-row', 'bordered-hover', 'accent-bottom' ) ),
+		'Logos Grid'           => array( 'nexus-logos-grid', array( 'clean-grid', 'bordered-cells', 'dark-showcase', 'card-elevated', 'minimal-strip', 'glass-modern' ) ),
+		'Timeline'             => array( 'nexus-timeline', array( 'clean-centered', 'left-lined', 'dark-glow', 'card-alternate', 'minimal-dots', 'glass-modern' ) ),
+		'Icon Box'             => array( 'nexus-icon-box', array() ),
+	);
+
+	// Helper: build Elementor JSON data for a page with one container per preset.
+	$build_elementor_data = function ( $widget_slug, $presets ) {
+		$elements = array();
+
+		// Widgets without presets get a single container with just the widget.
+		if ( empty( $presets ) ) {
+			$presets = array( '' );
+		}
+
+		foreach ( $presets as $index => $preset_key ) {
+			$widget_settings = array( '_element_id' => '' );
+			if ( '' !== $preset_key ) {
+				$widget_settings['style_preset'] = $preset_key;
+			}
+
+			$widget_element = array(
+				'id'         => substr( md5( $widget_slug . $preset_key ), 0, 7 ),
+				'elType'     => 'widget',
+				'widgetType' => $widget_slug,
+				'settings'   => $widget_settings,
+				'elements'   => array(),
+			);
+
+			$container = array(
+				'id'       => substr( md5( 'container-' . $widget_slug . $index ), 0, 7 ),
+				'elType'   => 'container',
+				'settings' => array(
+					'content_width' => 'boxed',
+					'padding'       => array(
+						'unit'     => 'px',
+						'top'      => '60',
+						'right'    => '0',
+						'bottom'   => '60',
+						'left'     => '0',
+						'isLinked' => false,
+					),
+				),
+				'elements' => array( $widget_element ),
+			);
+
+			$elements[] = $container;
+		}
+
+		return wp_json_encode( $elements );
+	};
+
+	// Helper: create a page (child of $parent_page), set Elementor data, and return its permalink.
+	$blocks_parent_page = wp_insert_post( array(
+		'post_title'  => 'Blocks',
+		'post_status' => 'publish',
+		'post_type'   => 'page',
+	) );
+
+	$make_page = function ( $title ) use ( $blocks_parent_page, $widget_presets, $build_elementor_data ) {
+		$page_id = wp_insert_post( array(
+			'post_title'  => $title,
+			'post_status' => 'publish',
+			'post_type'   => 'page',
+			'post_parent' => $blocks_parent_page,
+		) );
+
+		// Full-width Elementor template with theme header & footer.
+		update_post_meta( $page_id, '_wp_page_template', 'elementor_header_footer' );
+
+		// Set Elementor content if widget presets are defined for this page.
+		if ( isset( $widget_presets[ $title ] ) ) {
+			list( $widget_slug, $presets ) = $widget_presets[ $title ];
+			$elementor_data = $build_elementor_data( $widget_slug, $presets );
+			update_post_meta( $page_id, '_elementor_data', $elementor_data );
+			update_post_meta( $page_id, '_elementor_edit_mode', 'builder' );
+			update_post_meta( $page_id, '_elementor_version', '3.25.0' );
+		}
+
+		return get_permalink( $page_id );
+	};
+
+	$blocks_url = get_permalink( $blocks_parent_page );
+	$blocks_id  = $add( 'Blocks', $blocks_url, 0, 4, array( 'mega-menu' ) );
+
+	// Column 1: Content.
+	$bcol1 = $add( 'Content', '#', $blocks_id, 1, array(), array( 'icon' => 'layers', 'desc' => 'Content display widgets' ) );
+	$add( 'Hero Slider', $make_page( 'Hero Slider' ), $bcol1, 1, array(), array( 'icon' => 'image', 'desc' => 'Full-width hero sections' ) );
+	$add( 'Row with Image', $make_page( 'Row with Image' ), $bcol1, 2, array(), array( 'icon' => 'image' ) );
+	$add( 'CTA Banner', $make_page( 'CTA Banner' ), $bcol1, 3, array(), array( 'icon' => 'megaphone' ) );
+	$add( 'Video Popup', $make_page( 'Video Popup' ), $bcol1, 4, array(), array( 'icon' => 'video' ) );
+	$add( 'Feature List', $make_page( 'Feature List' ), $bcol1, 5, array(), array( 'icon' => 'check' ) );
+	$add( 'Counter', $make_page( 'Counter' ), $bcol1, 6, array(), array( 'icon' => 'trending-up' ) );
+
+	// Column 2: Cards & Grids.
+	$bcol2 = $add( 'Cards & Grids', '#', $blocks_id, 2, array(), array( 'icon' => 'grid', 'desc' => 'Grid and card layouts' ) );
+	$add( 'Icon Cards Grid', $make_page( 'Icon Cards Grid' ), $bcol2, 1, array(), array( 'icon' => 'star', 'desc' => 'Feature cards with icons' ) );
+	$add( 'Image Cards Grid', $make_page( 'Image Cards Grid' ), $bcol2, 2, array(), array( 'icon' => 'image' ) );
+	$add( 'Services Grid', $make_page( 'Services Grid' ), $bcol2, 3, array(), array( 'icon' => 'settings' ) );
+	$add( 'Blog Posts', $make_page( 'Blog Posts' ), $bcol2, 4, array(), array( 'icon' => 'pen' ) );
+	$add( 'Portfolio Grid', $make_page( 'Portfolio Grid' ), $bcol2, 5, array(), array( 'icon' => 'layers' ) );
+	$add( 'Pricing Table', $make_page( 'Pricing Table' ), $bcol2, 6, array(), array( 'icon' => 'tag', 'badge' => 'Popular', 'badge_color' => 'primary' ) );
+
+	// Column 3: Sliders & Scrollers.
+	$bcol3 = $add( 'Sliders & Scrollers', '#', $blocks_id, 3, array(), array( 'icon' => 'play', 'desc' => 'Carousel & scroller widgets' ) );
+	$add( 'Image Cards Scroller', $make_page( 'Image Cards Scroller' ), $bcol3, 1, array(), array( 'icon' => 'image', 'desc' => 'Horizontal image carousel' ) );
+	$add( 'Icon Cards Scroller', $make_page( 'Icon Cards Scroller' ), $bcol3, 2, array(), array( 'icon' => 'star', 'badge' => 'New', 'badge_color' => 'success' ) );
+	$add( 'Content Carousel', $make_page( 'Content Carousel' ), $bcol3, 3, array(), array( 'icon' => 'layers' ) );
+	$add( 'Testimonials Slider', $make_page( 'Testimonials Slider' ), $bcol3, 4, array(), array( 'icon' => 'quote' ) );
+	$add( 'Team Scroller', $make_page( 'Team Scroller' ), $bcol3, 5, array(), array( 'icon' => 'users' ) );
+	$add( 'Product Carousel', $make_page( 'Product Carousel' ), $bcol3, 6, array(), array( 'icon' => 'shopping-cart' ) );
+
+	// Column 4: People & More.
+	$bcol4 = $add( 'People & More', '#', $blocks_id, 4, array(), array( 'icon' => 'users', 'desc' => 'Team, logos, timeline' ) );
+	$add( 'Team Grid', $make_page( 'Team Grid' ), $bcol4, 1, array(), array( 'icon' => 'users', 'desc' => 'Showcase your team' ) );
+	$add( 'Logos Grid', $make_page( 'Logos Grid' ), $bcol4, 2, array(), array( 'icon' => 'globe' ) );
+	$add( 'Timeline', $make_page( 'Timeline' ), $bcol4, 3, array(), array( 'icon' => 'clock' ) );
+	$add( 'Icon Box', $make_page( 'Icon Box' ), $bcol4, 4, array(), array( 'icon' => 'star' ) );
+
 	// --- Blog (regular) ---
-	$add( 'Blog', '#', 0, 4 );
+	$add( 'Blog', '#', 0, 5 );
 
 	// --- Shop (regular dropdown) ---
-	$shop_id = $add( 'Shop', '#', 0, 5 );
+	$shop_id = $add( 'Shop', '#', 0, 6 );
 	$add( 'All Products', '#', $shop_id, 1, array(), array( 'icon' => 'shopping-bag' ) );
 	$add( 'Categories', '#', $shop_id, 2, array(), array( 'icon' => 'grid' ) );
 	$add( 'Sale', '#', $shop_id, 3, array(), array( 'icon' => 'tag', 'badge' => 'Sale', 'badge_color' => 'danger' ) );
 
 	// --- Contact (regular) ---
-	$add( 'Contact', '#', 0, 6, array(), array( 'icon' => 'mail' ) );
+	$add( 'Contact', '#', 0, 7, array(), array( 'icon' => 'mail' ) );
 
 	// Assign to primary location.
 	set_theme_mod( 'nav_menu_locations', array_merge(
