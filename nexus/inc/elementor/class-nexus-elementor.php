@@ -135,7 +135,6 @@ final class Nexus_Elementor {
 		$widgets = array(
 			'widget-hero-slider'    => 'Nexus_Widget_Hero_Slider',
 			'widget-portfolio-grid' => 'Nexus_Widget_Portfolio_Grid',
-			'widget-team-members'   => 'Nexus_Widget_Team_Members',
 			'widget-services-grid'  => 'Nexus_Widget_Services_Grid',
 			'widget-pricing-table'  => 'Nexus_Widget_Pricing_Table',
 			'widget-counter'        => 'Nexus_Widget_Counter',
