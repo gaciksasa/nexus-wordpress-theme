@@ -65,7 +65,6 @@ class Nexus_WPBakery {
 			'vc-counter',
 			'vc-cta-banner',
 			'vc-blog-posts',
-			'vc-testimonials',
 			'vc-pricing-table',
 			'vc-services-grid',
 		);

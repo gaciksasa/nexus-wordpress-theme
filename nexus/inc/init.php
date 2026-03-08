@@ -109,7 +109,6 @@ add_action(
 // 5. Custom Post Types.
 // -------------------------------------------------------------------------
 require_once NEXUS_INC_DIR . '/custom-post-types/cpt-portfolio.php';
-require_once NEXUS_INC_DIR . '/custom-post-types/cpt-testimonials.php';
 require_once NEXUS_INC_DIR . '/custom-post-types/cpt-team.php';
 require_once NEXUS_INC_DIR . '/custom-post-types/cpt-services.php';
 

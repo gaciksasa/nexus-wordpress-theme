@@ -396,7 +396,7 @@ function nexus_create_default_menus() {
 		'Image Cards Scroller' => array( 'nexus-image-cards-scroller', array( 'minimal-slide', 'dark-cinema', 'rounded-peek', 'fullwidth-hero', 'caption-card', 'gradient-hover' ) ),
 		'Icon Cards Scroller'  => array( 'nexus-icon-cards-scroller', array( 'clean-slide', 'gradient-cards', 'dark-neon', 'bordered-slim', 'accent-glow', 'glass-futuristic' ) ),
 		'Content Carousel'     => array( 'nexus-content-carousel', array( 'clean-cards', 'cinema-overlay', 'soft-rounded', 'fullwidth-focus', 'bordered-minimal', 'neon-dark' ) ),
-		'Testimonials Slider'  => array( 'nexus-testimonials-slider', array( 'classic-light', 'minimal-clean', 'dark-elegant', 'bubble-speech', 'large-quote', 'cards-accented' ) ),
+		'Testimonials'         => array( 'nexus-testimonials', array( 'classic-light', 'minimal-clean', 'dark-elegant', 'bubble-speech', 'large-quote', 'cards-accented' ) ),
 		'Team Scroller'        => array( 'nexus-team-scroller', array( 'clean-slide', 'circle-minimal', 'dark-overlay', 'horizontal-row', 'bordered-peek', 'accent-bar' ) ),
 		'Product Carousel'     => array( 'nexus-product-carousel', array() ),
 		'Team Grid'            => array( 'nexus-team-grid', array( 'clean-cards', 'rounded-photo', 'dark-overlay', 'minimal-row', 'bordered-hover', 'accent-bottom' ) ),
@@ -507,7 +507,7 @@ function nexus_create_default_menus() {
 	$add( 'Image Cards Scroller', $make_page( 'Image Cards Scroller' ), $bcol3, 1, array(), array( 'icon' => 'image', 'desc' => 'Horizontal image carousel' ) );
 	$add( 'Icon Cards Scroller', $make_page( 'Icon Cards Scroller' ), $bcol3, 2, array(), array( 'icon' => 'star', 'badge' => 'New', 'badge_color' => 'success' ) );
 	$add( 'Content Carousel', $make_page( 'Content Carousel' ), $bcol3, 3, array(), array( 'icon' => 'layers' ) );
-	$add( 'Testimonials Slider', $make_page( 'Testimonials Slider' ), $bcol3, 4, array(), array( 'icon' => 'quote' ) );
+	$add( 'Testimonials', $make_page( 'Testimonials' ), $bcol3, 4, array(), array( 'icon' => 'quote' ) );
 	$add( 'Team Scroller', $make_page( 'Team Scroller' ), $bcol3, 5, array(), array( 'icon' => 'users' ) );
 	$add( 'Product Carousel', $make_page( 'Product Carousel' ), $bcol3, 6, array(), array( 'icon' => 'shopping-cart' ) );
 

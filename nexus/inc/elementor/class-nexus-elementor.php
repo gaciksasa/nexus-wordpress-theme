@@ -135,7 +135,6 @@ final class Nexus_Elementor {
 		$widgets = array(
 			'widget-hero-slider'    => 'Nexus_Widget_Hero_Slider',
 			'widget-portfolio-grid' => 'Nexus_Widget_Portfolio_Grid',
-			'widget-testimonials'   => 'Nexus_Widget_Testimonials',
 			'widget-team-members'   => 'Nexus_Widget_Team_Members',
 			'widget-services-grid'  => 'Nexus_Widget_Services_Grid',
 			'widget-pricing-table'  => 'Nexus_Widget_Pricing_Table',
@@ -146,7 +145,7 @@ final class Nexus_Elementor {
 			'widget-video-popup'       => 'Nexus_Widget_Video_Popup',
 			'widget-blog-posts'        => 'Nexus_Widget_Blog_Posts',
 			'widget-image-cards-grid'       => 'Nexus_Widget_Image_Cards_Grid',
-			'widget-testimonials-slider'    => 'Nexus_Widget_Testimonials_Slider',
+			'widget-testimonials'           => 'Nexus_Widget_Testimonials',
 			'widget-feature-list'           => 'Nexus_Widget_Feature_List',
 			'widget-image-cards-scroller'   => 'Nexus_Widget_Image_Cards_Scroller',
 			'widget-content-carousel'       => 'Nexus_Widget_Content_Carousel',

@@ -741,94 +741,6 @@
 }
 
 // -------------------------------------------------------------------------
-// Testimonials
-// -------------------------------------------------------------------------
-.nexus-testimonials {
-	&--slider { overflow: hidden; }
-
-	&__dots {
-		margin-block-start: 1.5rem;
-		text-align: center;
-	}
-}
-
-.nexus-testimonials-grid {
-	display: grid;
-	grid-template-columns: repeat(var(--nexus-testimonials-cols, 3), 1fr);
-	gap: 1.5rem;
-
-	@include respond-below(md) { grid-template-columns: repeat(2, 1fr); }
-	@include respond-below(sm) { grid-template-columns: 1fr; }
-}
-
-.nexus-testimonial-card {
-	background-color: var(--nexus-bg);
-	border: 1px solid var(--nexus-border-color);
-	border-radius: var(--nexus-border-radius-lg);
-	padding: 2rem;
-	position: relative;
-	transition: box-shadow var(--nexus-transition-base);
-
-	&:hover {
-		box-shadow: var(--nexus-shadow-md);
-	}
-
-	&__quote {
-		font-size: 3.5rem;
-		line-height: 0.75;
-		color: var(--nexus-primary);
-		font-family: Georgia, serif;
-		margin-block-end: 0.75rem;
-		opacity: 0.4;
-	}
-
-	&__stars {
-		display: flex;
-		gap: 0.15rem;
-		margin-block-end: 0.75rem;
-	}
-
-	&__star { color: #f5a623; font-size: 0.875rem;
-		&.is-empty { color: var(--nexus-border-color); }
-	}
-
-	&__text {
-		font-size: 0.9375rem;
-		line-height: 1.75;
-		color: var(--nexus-text-secondary);
-		margin-block-end: 1.5rem;
-		font-style: italic;
-	}
-
-	&__author {
-		display: flex;
-		align-items: center;
-		gap: 0.875rem;
-	}
-
-	&__avatar {
-		flex-shrink: 0;
-
-		img {
-			width: 48px;
-			height: 48px;
-			border-radius: 50%;
-			object-fit: cover;
-		}
-	}
-
-	&__name {
-		display: block;
-		font-weight: 700;
-		font-size: 0.9375rem;
-	}
-
-	&__position {
-		display: block;
-		font-size: 0.8125rem;
-		color: var(--nexus-text-muted);
-	}
-}
 
 // -------------------------------------------------------------------------
 // Team
@@ -2804,7 +2716,7 @@ html.nexus-dark {
 }
 
 // -------------------------------------------------------------------------
-// Testimonials Slider
+// Testimonials
 // -------------------------------------------------------------------------
 .nexus-ts {
 	position: relative;
@@ -2915,7 +2827,7 @@ html.nexus-dark {
 	}
 }
 
-// Dark mode overrides for testimonials slider light-bg presets.
+// Dark mode overrides for testimonials light-bg presets.
 .nexus-dark {
 	.nexus-ts--classic-light,
 	.nexus-ts--minimal-clean,

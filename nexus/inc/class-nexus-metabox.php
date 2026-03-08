@@ -59,7 +59,6 @@ class Nexus_Metabox {
 		$this->register_header_options();
 		$this->register_portfolio_meta();
 		$this->register_team_meta();
-		$this->register_testimonial_meta();
 	}
 
 	/**
@@ -282,54 +281,6 @@ class Nexus_Metabox {
 				)
 			);
 		}
-	}
-
-	/**
-	 * Testimonial meta fields.
-	 */
-	private function register_testimonial_meta() {
-		$cmb = new_cmb2_box(
-			array(
-				'id'           => 'nexus_testimonial_meta',
-				'title'        => esc_html__( 'Testimonial Details', 'nexus' ),
-				'object_types' => array( 'nexus_testimonial' ),
-				'context'      => 'normal',
-				'priority'     => 'high',
-			)
-		);
-
-		$cmb->add_field(
-			array(
-				'name' => esc_html__( 'Client Name', 'nexus' ),
-				'id'   => '_nexus_testimonial_name',
-				'type' => 'text',
-			)
-		);
-
-		$cmb->add_field(
-			array(
-				'name' => esc_html__( 'Client Position', 'nexus' ),
-				'id'   => '_nexus_testimonial_position',
-				'type' => 'text',
-				'desc' => esc_html__( 'e.g. CEO, Acme Corp', 'nexus' ),
-			)
-		);
-
-		$cmb->add_field(
-			array(
-				'name'    => esc_html__( 'Rating', 'nexus' ),
-				'id'      => '_nexus_testimonial_rating',
-				'type'    => 'select',
-				'default' => '5',
-				'options' => array(
-					'5' => esc_html__( '5 Stars', 'nexus' ),
-					'4' => esc_html__( '4 Stars', 'nexus' ),
-					'3' => esc_html__( '3 Stars', 'nexus' ),
-					'2' => esc_html__( '2 Stars', 'nexus' ),
-					'1' => esc_html__( '1 Star', 'nexus' ),
-				),
-			)
-		);
 	}
 }
 
