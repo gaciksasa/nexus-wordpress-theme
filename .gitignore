@@ -19,3 +19,6 @@ Thumbs.db
 
 # WordPress local install (not part of theme)
 wp-config.php
+
+# Third-party themes (reference only)
+The7/
