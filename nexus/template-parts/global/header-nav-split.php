@@ -77,7 +77,7 @@
 						</button>
 					<?php endif; ?>
 
-					<?php if ( nexus_option( 'nexus_dark_mode_enabled', false ) ) : ?>
+					<?php if ( nexus_option( 'nexus_dark_mode_enabled', true ) ) : ?>
 						<button
 							class="nexus-header__dark-toggle"
 							aria-label="<?php esc_attr_e( 'Toggle Dark Mode', 'nexus' ); ?>"

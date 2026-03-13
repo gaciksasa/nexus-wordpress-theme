@@ -156,7 +156,7 @@ function nexus_enqueue_assets() {
 				'darkMode' => esc_html__( 'Toggle dark mode', 'nexus' ),
 			),
 			'options'  => array(
-				'darkMode'  => nexus_option( 'nexus_dark_mode_enabled', false ),
+				'darkMode'  => nexus_option( 'nexus_dark_mode_enabled', true ),
 				'backToTop' => nexus_option( 'nexus_back_to_top', true ),
 				'preloader' => nexus_option( 'nexus_preloader', false ),
 			),

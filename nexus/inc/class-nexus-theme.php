@@ -101,7 +101,7 @@ final class Nexus_Theme {
 		$classes[]    = 'nexus-header--' . sanitize_html_class( $header_style );
 
 		// Add dark mode class.
-		if ( nexus_option( 'nexus_dark_mode_enabled', false ) ) {
+		if ( nexus_option( 'nexus_dark_mode_enabled', true ) ) {
 			$classes[] = 'nexus-dark-mode-enabled';
 		}
 

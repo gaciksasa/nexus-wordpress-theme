@@ -443,44 +443,6 @@ Kirki::add_field(
 	)
 );
 
-Kirki::add_field(
-	'nexus_theme',
-	array(
-		'type'            => 'color',
-		'settings'        => 'nexus_dark_mode_bg',
-		'label'           => esc_html__( 'Dark Mode Background', 'nexus' ),
-		'section'         => 'nexus_section_dark_mode',
-		'default'         => '#0d0d0d',
-		'priority'        => 20,
-		'active_callback' => array(
-			array(
-				'setting'  => 'nexus_dark_mode_enabled',
-				'operator' => '==',
-				'value'    => true,
-			),
-		),
-	)
-);
-
-Kirki::add_field(
-	'nexus_theme',
-	array(
-		'type'            => 'color',
-		'settings'        => 'nexus_dark_mode_text',
-		'label'           => esc_html__( 'Dark Mode Text Color', 'nexus' ),
-		'section'         => 'nexus_section_dark_mode',
-		'default'         => '#e0e0e0',
-		'priority'        => 30,
-		'active_callback' => array(
-			array(
-				'setting'  => 'nexus_dark_mode_enabled',
-				'operator' => '==',
-				'value'    => true,
-			),
-		),
-	)
-);
-
 // -------------------------------------------------------------------------
 // Typography Section: Body.
 // -------------------------------------------------------------------------
