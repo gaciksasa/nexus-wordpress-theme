@@ -1,0 +1,20 @@
+CREATE TABLE IF NOT EXISTS `activations` (
+    `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `license_id` INT UNSIGNED NOT NULL,
+    `domain` VARCHAR(255) NOT NULL,
+    `site_token` CHAR(64) NOT NULL,
+    `ip_address` VARCHAR(45) DEFAULT NULL,
+    `wp_version` VARCHAR(20) DEFAULT NULL,
+    `theme_version` VARCHAR(20) DEFAULT NULL,
+    `php_version` VARCHAR(20) DEFAULT NULL,
+    `is_local` TINYINT(1) NOT NULL DEFAULT 0,
+    `is_active` TINYINT(1) NOT NULL DEFAULT 1,
+    `activated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `last_verified_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `deactivated_at` DATETIME DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `idx_license_domain` (`license_id`, `domain`),
+    KEY `idx_domain` (`domain`),
+    KEY `idx_site_token` (`site_token`),
+    CONSTRAINT `fk_activations_license` FOREIGN KEY (`license_id`) REFERENCES `licenses` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

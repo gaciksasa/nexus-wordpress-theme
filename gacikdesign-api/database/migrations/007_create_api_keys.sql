@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS `api_keys` (
+    `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(100) NOT NULL,
+    `key_hash` VARCHAR(255) NOT NULL,
+    `permissions` JSON DEFAULT NULL,
+    `last_used_at` DATETIME DEFAULT NULL,
+    `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

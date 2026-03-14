@@ -1,0 +1,6 @@
+/vendor/
+.env
+/storage/logs/*.log
+/storage/nexus/demos/*.zip
+/storage/nexus/plugins/*.zip
+/storage/nexus/updates/*.zip

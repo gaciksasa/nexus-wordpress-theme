@@ -390,6 +390,39 @@ function nexus_class( $classes ) {
  * Called in WooCommerce archive-product.php.
  * JS in nexus-woocommerce.js persists preference via localStorage.
  */
+/**
+ * Checks whether the theme has an active license.
+ *
+ * @return bool
+ */
+function nexus_is_activated() {
+	return 'active' === get_option( 'nexus_license_status', 'inactive' );
+}
+
+/**
+ * Returns the stored purchase code.
+ *
+ * @return string
+ */
+function nexus_get_purchase_code() {
+	return (string) get_option( 'nexus_purchase_code', '' );
+}
+
+/**
+ * Returns the stored license data array.
+ *
+ * @return array
+ */
+function nexus_get_license_data() {
+	return (array) get_option( 'nexus_license_data', array() );
+}
+
+/**
+ * Outputs the shop view toggle (grid/list) buttons.
+ *
+ * Called in WooCommerce archive-product.php.
+ * JS in nexus-woocommerce.js persists preference via localStorage.
+ */
 function nexus_shop_view_toggle() {
 	?>
 	<div class="nexus-view-toggle" role="group" aria-label="<?php esc_attr_e( 'View mode', 'nexus' ); ?>">

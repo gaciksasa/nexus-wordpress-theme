@@ -146,3 +146,21 @@ if ( defined( 'WPB_VC_VERSION' ) ) {
 if ( is_admin() ) {
 	require_once NEXUS_INC_DIR . '/demo-importer/merlin-config.php';
 }
+
+// -------------------------------------------------------------------------
+// 10. Licensing system (GacikDesign API).
+// -------------------------------------------------------------------------
+require_once NEXUS_INC_DIR . '/licensing/class-nexus-license-client.php';
+require_once NEXUS_INC_DIR . '/licensing/class-nexus-license-cron.php';
+Nexus_License_Cron::init();
+
+if ( is_admin() ) {
+	require_once NEXUS_INC_DIR . '/licensing/class-nexus-license-admin.php';
+	Nexus_License_Admin::init();
+
+	require_once NEXUS_INC_DIR . '/licensing/class-nexus-auto-updater.php';
+	Nexus_Auto_Updater::init();
+
+	require_once NEXUS_INC_DIR . '/licensing/class-nexus-demo-proxy.php';
+	Nexus_Demo_Proxy::init();
+}
