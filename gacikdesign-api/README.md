@@ -17,10 +17,10 @@ No code changes needed.
 ## Tech Stack
 
 - **PHP 8.1+** with [Slim Framework 4](https://www.slimframework.com/)
-- **MySQL 8** (8 tables)
+- **MySQL 8** (9 tables)
 - **Composer** for dependency management
 - **nginx + php-fpm + Let's Encrypt SSL** (recommended production stack)
-- **Envato API** integration for purchase code verification
+- **Envato API** integration (optional — system works independently)
 
 ## Requirements
 
@@ -28,7 +28,7 @@ No code changes needed.
 - MySQL >= 8.0
 - Composer
 - cURL extension enabled
-- An [Envato Personal Token](https://build.envato.com/create-token/) with "View sales" permission
+- _(Optional)_ An [Envato Personal Token](https://build.envato.com/create-token/) with "View sales" permission
 
 ## Installation
 
@@ -54,7 +54,9 @@ DB_NAME=gacikdesign_api
 DB_USER=your_db_user
 DB_PASS=your_db_password
 
+# Optional: leave empty to run without Envato verification
 ENVATO_PERSONAL_TOKEN=your_envato_personal_token
+
 APP_SECRET=your_64_char_random_hex_string
 
 APP_ENV=production
@@ -78,7 +80,7 @@ CREATE DATABASE gacikdesign_api CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci
 php database/migrate.php
 ```
 
-This creates 8 tables: `products`, `licenses`, `activations`, `demos`, `bundled_plugins`, `download_logs`, `api_keys`, `rate_limits`, plus a `migrations` tracking table.
+This creates 9 tables: `products`, `licenses`, `activations`, `demos`, `bundled_plugins`, `download_logs`, `api_keys`, `rate_limits`, plus a `migrations` tracking table.
 
 ### 5. Seed initial data
 
@@ -165,8 +167,9 @@ gacikdesign-api/
 │   │   ├── SignatureMiddleware.php  # HMAC-SHA256 verification
 │   │   └── AdminAuthMiddleware.php # API key bearer auth
 │   ├── Services/
-│   │   ├── EnvatoApiService.php    # Envato purchase code verification
+│   │   ├── EnvatoApiService.php    # Envato purchase code verification (optional)
 │   │   ├── LicenseService.php      # Core business logic
+│   │   ├── LicenseKeyGenerator.php # GacikDesign-native key generation
 │   │   ├── DomainNormalizer.php    # Domain normalization & local detection
 │   │   └── SignatureService.php    # HMAC generation & verification
 │   └── Exceptions/
@@ -174,7 +177,7 @@ gacikdesign-api/
 │       └── RateLimitException.php  # Rate limit errors
 ├── database/
 │   ├── migrate.php                 # Migration runner
-│   ├── migrations/                 # Sequential SQL migration files
+│   ├── migrations/                 # Sequential SQL migration files (001-009)
 │   └── seeds/
 │       └── seed_initial.php        # Create admin key + first product
 └── storage/
@@ -186,6 +189,40 @@ gacikdesign-api/
         └── app.log                 # Application log (Monolog)
 ```
 
+## Dual-Mode Licensing
+
+The system supports two independent license key formats:
+
+| Format | Example | Origin | Envato Required? |
+|--------|---------|--------|------------------|
+| Envato UUID | `a1b2c3d4-e5f6-7890-abcd-ef1234567890` | ThemeForest purchase | Yes (on first activation) |
+| GacikDesign key | `GD-a1b2c3d4-e5f6-7890-abcd-ef1234567890` | Admin-created via API | No |
+
+### How it works
+
+- **Envato UUID**: When a new Envato code is submitted, the API verifies it against the Envato API (`api.envato.com/v3/market/author/sale`). On success, the license is stored locally with `source = 'envato'`. All subsequent operations use the local database — Envato is only contacted on first activation and periodic re-checks.
+
+- **GacikDesign key (GD-)**: Created by admin via `POST /api/v1/admin/licenses`. Stored with `source = 'manual'`. No Envato dependency at any point. Admin shares the key with the customer.
+
+### Envato independence
+
+The `ENVATO_PERSONAL_TOKEN` environment variable is **optional**:
+
+| Scenario | Envato UUIDs | GD- Keys |
+|----------|--------------|----------|
+| Token configured | Full support (verify on first use, re-check every 7 days) | Full support |
+| Token missing/empty | New UUIDs return 503 "Contact support"; existing ones in DB still work | Full support |
+| Envato shuts down | Same as "token missing" — graceful degradation | Unaffected |
+
+### License sources
+
+Each license record has a `source` field:
+
+| Source | Meaning |
+|--------|---------|
+| `envato` | Created via Envato API verification (ThemeForest purchase) |
+| `manual` | Created by admin via the API (direct sales, giveaways, beta keys) |
+
 ## API Endpoints
 
 All theme-facing endpoints are product-scoped: `/api/v1/{product}/...`
@@ -194,7 +231,7 @@ All theme-facing endpoints are product-scoped: `/api/v1/{product}/...`
 
 | Method | Endpoint | Description | Auth |
 |--------|----------|-------------|------|
-| `POST` | `/api/v1/{product}/activate` | Register purchase code + domain | HMAC (purchase code) |
+| `POST` | `/api/v1/{product}/activate` | Register license key + domain | HMAC (purchase code) |
 | `POST` | `/api/v1/{product}/deactivate` | Remove domain activation | HMAC (site token) |
 | `POST` | `/api/v1/{product}/verify` | Check if activation is still valid | HMAC (site token) |
 
@@ -208,13 +245,15 @@ Headers:
 
 Body:
 {
-  "purchase_code": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+  "purchase_code": "GD-a1b2c3d4-e5f6-7890-abcd-ef1234567890",
   "domain": "https://example.com",
   "wp_version": "6.7",
   "theme_version": "1.0.0",
   "php_version": "8.3.14"
 }
 ```
+
+Both `GD-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx` and `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx` (Envato UUID) formats are accepted.
 
 #### Activate Response (Success)
 
@@ -237,6 +276,26 @@ HTTP 403
   "message": "Activation limit reached. Maximum 1 production domain(s) allowed.",
   "active_domains": ["existingsite.com"],
   "max_domains": 1
+}
+```
+
+#### Activate Response (GD- Key Not Found)
+
+```json
+HTTP 404
+{
+  "error": "license_error",
+  "message": "License key not found."
+}
+```
+
+#### Activate Response (Envato Unavailable)
+
+```json
+HTTP 503
+{
+  "error": "license_error",
+  "message": "Envato verification is temporarily unavailable. Please contact support."
 }
 ```
 
@@ -295,9 +354,11 @@ All admin endpoints require a bearer API key.
 |--------|----------|-------------|
 | `GET` | `/api/v1/admin/products` | List all products |
 | `POST` | `/api/v1/admin/products` | Create/update a product |
-| `GET` | `/api/v1/admin/licenses?product=nexus&page=1` | List licenses (paginated, filterable) |
-| `POST` | `/api/v1/admin/licenses/{code}/block` | Block a purchase code |
-| `POST` | `/api/v1/admin/licenses/{code}/unblock` | Unblock a purchase code |
+| `GET` | `/api/v1/admin/licenses?product=nexus&source=manual&page=1` | List licenses (paginated, filterable) |
+| `POST` | `/api/v1/admin/licenses` | **Create a manual GD- license key** |
+| `GET` | `/api/v1/admin/licenses/{id}` | **Get full license detail (uncensored code)** |
+| `POST` | `/api/v1/admin/licenses/{code}/block` | Block a license |
+| `POST` | `/api/v1/admin/licenses/{code}/unblock` | Unblock a license |
 | `GET` | `/api/v1/admin/stats` | Dashboard statistics |
 
 #### Admin Auth Header
@@ -305,6 +366,46 @@ All admin endpoints require a bearer API key.
 ```
 Authorization: Bearer <your_api_key>
 ```
+
+#### Create Manual License
+
+```bash
+curl -X POST https://api.gacikdesign.com/api/v1/admin/licenses \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "product_slug": "nexus",
+    "license_type": "regular",
+    "buyer_username": "john_doe",
+    "buyer_email": "john@example.com",
+    "supported_until": "2027-03-15"
+  }'
+```
+
+Response:
+
+```json
+HTTP 201
+{
+  "status": "created",
+  "id": 42,
+  "purchase_code": "GD-a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+  "source": "manual",
+  "license_type": "regular",
+  "supported_until": "2027-03-15"
+}
+```
+
+**Important:** Save the `purchase_code` immediately — it is only shown in full once (censored in list views).
+
+#### Get License Detail
+
+```bash
+curl https://api.gacikdesign.com/api/v1/admin/licenses/42 \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+Returns full license record with uncensored `purchase_code` and all activations.
 
 #### Stats Response
 
@@ -314,6 +415,10 @@ Authorization: Bearer <your_api_key>
   "active_activations": 98,
   "blocked_licenses": 3,
   "downloads_30d": 267,
+  "licenses_by_source": [
+    { "source": "envato", "count": 130 },
+    { "source": "manual", "count": 12 }
+  ],
   "products": [
     {
       "slug": "nexus",
@@ -328,10 +433,10 @@ Authorization: Bearer <your_api_key>
 ## Database Schema
 
 ### `products`
-Registry of all themes/plugins sold. Each product has its own `envato_item_id` and configurable activation limits.
+Registry of all themes/plugins sold. Each product has an optional `envato_item_id` (nullable for non-Envato products) and configurable activation limits.
 
 ### `licenses`
-One row per Envato purchase code. Stores buyer info, license type, support expiry, and the raw Envato API response. Can be blocked by admin.
+One row per license key (Envato UUID or GD- key). Stores buyer info, license type, support expiry, source (`envato` or `manual`), and the raw Envato API response (for Envato-sourced licenses). Can be blocked by admin.
 
 ### `activations`
 Maps domains to licenses. Each activation gets a unique `site_token` for HMAC signing. Tracks whether the domain is local/staging (doesn't count against limits).
@@ -384,9 +489,11 @@ Per-IP limits (configurable via `.env`):
 
 ### Envato API Re-verification
 
-- Purchase codes are verified against the Envato API on first activation
+- Envato-sourced licenses are verified against the Envato API on first activation
 - Re-verified every 7 days during routine verify calls
 - If Envato returns 404 (refunded/chargedback), the license is auto-blocked
+- Manual (GD-) licenses are never sent to Envato — they skip re-verification entirely
+- If the Envato service is not configured, re-verification is silently skipped
 
 ### Domain Normalization
 
@@ -401,10 +508,11 @@ Local/staging domains (unlimited activations, don't count against limits):
 ### Additional Measures
 
 - PDO prepared statements for all SQL queries
-- UUID format validation before any database lookup
+- License key format validation before any database lookup (UUID and GD- patterns)
 - Storage files served through PHP (not directly via nginx) to enforce auth
 - HTTPS enforced at the web server level
-- Purchase codes censored in admin API responses and logs
+- Purchase codes censored in admin list responses and logs
+- Full purchase code visible only via `GET /admin/licenses/{id}` endpoint
 
 ## Adding a New Theme
 
@@ -424,6 +532,8 @@ curl -X POST https://api.gacikdesign.com/api/v1/admin/products \
   }'
 ```
 
+Note: `envato_item_id` is optional. Omit it for products sold outside ThemeForest.
+
 2. **Create storage folder:**
 
 ```bash
@@ -436,7 +546,7 @@ mkdir -p storage/flavor/{demos,plugins,updates}
 
 Application logs are written to `storage/logs/app.log` via Monolog. Key events logged:
 
-- New license created (censored purchase code, product, license type)
+- New license created — via Envato or manual (censored purchase code, product, license type)
 - Activation/deactivation events (domain, license ID)
 - Re-activation events
 - Auto-block after failed Envato re-verification

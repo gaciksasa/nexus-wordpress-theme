@@ -10,7 +10,7 @@ require __DIR__ . '/../vendor/autoload.php';
 // Load environment variables.
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
 $dotenv->load();
-$dotenv->required(['DB_HOST', 'DB_NAME', 'DB_USER', 'ENVATO_PERSONAL_TOKEN', 'APP_SECRET']);
+$dotenv->required(['DB_HOST', 'DB_NAME', 'DB_USER', 'APP_SECRET']);
 
 // Build DI container.
 $containerBuilder = new ContainerBuilder();

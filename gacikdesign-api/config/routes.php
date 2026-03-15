@@ -44,6 +44,8 @@ return function (App $app) {
 		$group->get('/products', [AdminController::class, 'listProducts']);
 		$group->post('/products', [AdminController::class, 'upsertProduct']);
 		$group->get('/licenses', [AdminController::class, 'listLicenses']);
+		$group->post('/licenses', [AdminController::class, 'createLicense']);
+		$group->get('/licenses/{id:\d+}', [AdminController::class, 'getLicense']);
 		$group->post('/licenses/{code}/block', [AdminController::class, 'blockLicense']);
 		$group->post('/licenses/{code}/unblock', [AdminController::class, 'unblockLicense']);
 		$group->get('/stats', [AdminController::class, 'stats']);

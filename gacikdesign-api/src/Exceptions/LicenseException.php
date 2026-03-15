@@ -63,4 +63,12 @@ class LicenseException extends RuntimeException {
 	public static function productNotFound(): self {
 		return new self('Product not found.', 404);
 	}
+
+	public static function envatoUnavailable(): self {
+		return new self('Envato verification is temporarily unavailable. Please contact support.', 503);
+	}
+
+	public static function keyNotFound(): self {
+		return new self('License key not found.', 404);
+	}
 }

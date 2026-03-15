@@ -80,7 +80,7 @@ class Nexus_License_Admin {
 			<?php else : ?>
 				<div class="nexus-license-status nexus-license-inactive" style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 12px 16px; margin: 20px 0;">
 					<p><strong><?php esc_html_e( 'Theme is not activated.', 'nexus' ); ?></strong></p>
-					<p><?php esc_html_e( 'Enter your Envato purchase code to unlock demo imports, auto-updates, and bundled plugins.', 'nexus' ); ?></p>
+					<p><?php esc_html_e( 'Enter your license key to unlock demo imports, auto-updates, and bundled plugins.', 'nexus' ); ?></p>
 				</div>
 				<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" style="max-width: 600px;">
 					<?php wp_nonce_field( 'nexus_license_activate', 'nexus_license_nonce' ); ?>
@@ -88,18 +88,18 @@ class Nexus_License_Admin {
 					<table class="form-table">
 						<tr>
 							<th scope="row">
-								<label for="nexus_purchase_code"><?php esc_html_e( 'Purchase Code', 'nexus' ); ?></label>
+								<label for="nexus_purchase_code"><?php esc_html_e( 'License Key', 'nexus' ); ?></label>
 							</th>
 							<td>
 								<input type="text" id="nexus_purchase_code" name="purchase_code"
-									class="regular-text" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
-									pattern="[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}"
+									class="regular-text" placeholder="GD-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+									pattern="(GD-)?[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}"
 									required>
 								<p class="description">
 									<?php
 									printf(
 										/* translators: %s: ThemeForest help URL. */
-										esc_html__( 'Find your purchase code in %s.', 'nexus' ),
+										esc_html__( 'Enter a GacikDesign license key (GD-xxx) or your Envato purchase code. Find your purchase code in %s.', 'nexus' ),
 										'<a href="https://help.market.envato.com/hc/en-us/articles/202822600" target="_blank" rel="noopener">' . esc_html__( 'your Envato account', 'nexus' ) . '</a>'
 									);
 									?>

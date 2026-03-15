@@ -18,7 +18,8 @@ class LicenseService {
 
 	public function __construct(
 		private readonly PDO $pdo,
-		private readonly EnvatoApiService $envato,
+		private readonly ?EnvatoApiService $envato,
+		private readonly LicenseKeyGenerator $keyGenerator,
 		private readonly DomainNormalizer $normalizer,
 		private readonly SignatureService $signature,
 		private readonly LoggerInterface $logger
@@ -164,7 +165,7 @@ class LicenseService {
 		$domain = $this->normalizer->normalize($raw_domain);
 
 		$stmt = $this->pdo->prepare("
-			SELECT a.*, l.is_blocked, l.license_type, l.supported_until, l.last_envato_check,
+			SELECT a.*, l.is_blocked, l.license_type, l.supported_until, l.last_envato_check, l.source,
 			       p.latest_version, p.slug as product_slug
 			FROM activations a
 			JOIN licenses l ON a.license_id = l.id
@@ -188,8 +189,10 @@ class LicenseService {
 			throw LicenseException::blocked('License has been revoked.');
 		}
 
-		// Periodic Envato re-check.
-		$this->periodicEnvatoRecheck($row);
+		// Periodic Envato re-check (only for Envato-sourced licenses).
+		if (($row['source'] ?? 'envato') === 'envato') {
+			$this->periodicEnvatoRecheck($row);
+		}
 
 		// Update last_verified_at.
 		$update = $this->pdo->prepare("UPDATE activations SET last_verified_at = NOW() WHERE id = :id");
@@ -237,6 +240,39 @@ class LicenseService {
 		]);
 	}
 
+	/**
+	 * Create a manual (GacikDesign-native) license.
+	 *
+	 * @return array The created license row including the full purchase_code.
+	 */
+	public function createManualLicense(array $product, string $license_type, ?string $buyer_username, ?string $buyer_email, ?string $supported_until): array {
+		$purchase_code = $this->keyGenerator->generate();
+
+		$stmt = $this->pdo->prepare("
+			INSERT INTO licenses (product_id, purchase_code, source, buyer_username, buyer_email, license_type, supported_until)
+			VALUES (:product_id, :code, 'manual', :buyer, :email, :license_type, :supported)
+		");
+		$stmt->execute([
+			'product_id'   => $product['id'],
+			'code'         => $purchase_code,
+			'buyer'        => $buyer_username,
+			'email'        => $buyer_email,
+			'license_type' => $license_type,
+			'supported'    => $supported_until,
+		]);
+
+		$id = (int) $this->pdo->lastInsertId();
+
+		$this->logger->info('Manual license created', [
+			'id'            => $id,
+			'purchase_code' => $this->censorCode($purchase_code),
+			'product'       => $product['slug'],
+			'license_type'  => $license_type,
+		]);
+
+		return $this->findLicenseById($id);
+	}
+
 	// -------------------------------------------------------------------------
 	// Private helpers.
 	// -------------------------------------------------------------------------
@@ -258,7 +294,17 @@ class LicenseService {
 			return $license;
 		}
 
-		// New code — verify against Envato API.
+		// New code not in DB — route based on format.
+		if ($this->keyGenerator->isGacikKey($purchase_code)) {
+			// GD- keys must be pre-created by admin; they cannot self-register.
+			throw LicenseException::keyNotFound();
+		}
+
+		// Envato UUID — verify against Envato API.
+		if ($this->envato === null) {
+			throw LicenseException::envatoUnavailable();
+		}
+
 		$result = $this->envato->verifySale($purchase_code);
 
 		if (!$result['valid']) {
@@ -266,15 +312,15 @@ class LicenseService {
 		}
 
 		// Check that item_id matches this product.
-		if ((int) $result['data']['item_id'] !== (int) $product['envato_item_id']) {
+		if ($product['envato_item_id'] !== null && (int) $result['data']['item_id'] !== (int) $product['envato_item_id']) {
 			throw LicenseException::wrongProduct($product['name']);
 		}
 
 		$license_type = $this->envato->parseLicenseType($result['data']['license'] ?? '');
 
 		$stmt = $this->pdo->prepare("
-			INSERT INTO licenses (product_id, purchase_code, buyer_username, buyer_email, license_type, supported_until, envato_raw_response, last_envato_check)
-			VALUES (:product_id, :code, :buyer, :email, :license_type, :supported, :raw, NOW())
+			INSERT INTO licenses (product_id, purchase_code, source, buyer_username, buyer_email, license_type, supported_until, envato_raw_response, last_envato_check)
+			VALUES (:product_id, :code, 'envato', :buyer, :email, :license_type, :supported, :raw, NOW())
 		");
 		$stmt->execute([
 			'product_id'   => $product['id'],
@@ -288,7 +334,7 @@ class LicenseService {
 
 		$id = (int) $this->pdo->lastInsertId();
 
-		$this->logger->info('New license created', [
+		$this->logger->info('New license created via Envato', [
 			'id'            => $id,
 			'purchase_code' => $this->censorCode($purchase_code),
 			'product'       => $product['slug'],
@@ -353,8 +399,14 @@ class LicenseService {
 
 	/**
 	 * Re-check with Envato API if enough time has passed.
+	 * Only called for Envato-sourced licenses.
 	 */
 	private function periodicEnvatoRecheck(array $row): void {
+		// Skip if Envato service is not configured.
+		if ($this->envato === null) {
+			return;
+		}
+
 		if (empty($row['last_envato_check'])) {
 			return;
 		}
@@ -398,7 +450,7 @@ class LicenseService {
 	}
 
 	private function validatePurchaseCodeFormat(string $code): void {
-		if (!preg_match('/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i', $code)) {
+		if (!$this->keyGenerator->isValidFormat($code)) {
 			throw LicenseException::invalidFormat();
 		}
 	}

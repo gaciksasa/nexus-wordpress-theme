@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace GacikDesign\Api\Controllers;
 
+use GacikDesign\Api\Services\LicenseService;
 use PDO;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -11,7 +12,8 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 class AdminController {
 
 	public function __construct(
-		private readonly PDO $pdo
+		private readonly PDO $pdo,
+		private readonly LicenseService $licenseService
 	) {
 	}
 
@@ -31,7 +33,7 @@ class AdminController {
 	public function upsertProduct(Request $request, Response $response): Response {
 		$body = $request->getParsedBody();
 
-		$required = ['slug', 'name', 'envato_item_id'];
+		$required = ['slug', 'name'];
 		foreach ($required as $field) {
 			if (empty($body[$field])) {
 				return $this->json($response, ['error' => "Missing required field: {$field}"], 400);
@@ -51,7 +53,7 @@ class AdminController {
 		$stmt->execute([
 			'slug'         => $body['slug'],
 			'name'         => $body['name'],
-			'item_id'      => (int) $body['envato_item_id'],
+			'item_id'      => isset($body['envato_item_id']) ? (int) $body['envato_item_id'] : null,
 			'version'      => $body['latest_version'] ?? '1.0.0',
 			'max_regular'  => (int) ($body['max_domains_regular'] ?? 1),
 			'max_extended' => (int) ($body['max_domains_extended'] ?? 5),
@@ -66,30 +68,39 @@ class AdminController {
 	public function listLicenses(Request $request, Response $response): Response {
 		$params  = $request->getQueryParams();
 		$product = $params['product'] ?? null;
+		$source  = $params['source'] ?? null;
 		$page    = max(1, (int) ($params['page'] ?? 1));
 		$limit   = min(100, max(1, (int) ($params['limit'] ?? 50)));
 		$offset  = ($page - 1) * $limit;
 
-		$where  = '';
+		$where  = [];
 		$binds  = [];
 
 		if ($product) {
-			$where          = 'WHERE p.slug = :product';
+			$where[]          = 'p.slug = :product';
 			$binds['product'] = $product;
 		}
 
-		$count_sql = "SELECT COUNT(*) FROM licenses l JOIN products p ON l.product_id = p.id {$where}";
+		if ($source) {
+			$where[]         = 'l.source = :source';
+			$binds['source'] = $source;
+		}
+
+		$where_sql = $where ? 'WHERE ' . implode(' AND ', $where) : '';
+
+		$count_sql = "SELECT COUNT(*) FROM licenses l JOIN products p ON l.product_id = p.id {$where_sql}";
 		$count_stmt = $this->pdo->prepare($count_sql);
 		$count_stmt->execute($binds);
 		$total = (int) $count_stmt->fetchColumn();
 
 		$sql = "
-			SELECT l.id, l.purchase_code, l.buyer_username, l.license_type, l.supported_until,
-			       l.is_blocked, l.block_reason, l.created_at, p.slug as product,
+			SELECT l.id, l.purchase_code, l.source, l.buyer_username, l.buyer_email, l.license_type,
+			       l.supported_until, l.is_blocked, l.block_reason, l.created_at,
+			       p.slug as product,
 			       (SELECT COUNT(*) FROM activations a WHERE a.license_id = l.id AND a.is_active = 1) as active_domains
 			FROM licenses l
 			JOIN products p ON l.product_id = p.id
-			{$where}
+			{$where_sql}
 			ORDER BY l.created_at DESC
 			LIMIT {$limit} OFFSET {$offset}
 		";
@@ -109,6 +120,79 @@ class AdminController {
 			'page'     => $page,
 			'pages'    => (int) ceil($total / $limit),
 		]);
+	}
+
+	/**
+	 * POST /api/v1/admin/licenses — Create a manual (GacikDesign-native) license.
+	 */
+	public function createLicense(Request $request, Response $response): Response {
+		$body = $request->getParsedBody();
+
+		if (empty($body['product_slug'])) {
+			return $this->json($response, ['error' => 'Missing required field: product_slug'], 400);
+		}
+
+		$product = $this->licenseService->findProduct($body['product_slug']);
+		if (!$product) {
+			return $this->json($response, ['error' => 'Product not found.'], 404);
+		}
+
+		$license_type    = in_array($body['license_type'] ?? '', ['regular', 'extended'], true)
+			? $body['license_type']
+			: 'regular';
+		$buyer_username  = $body['buyer_username'] ?? null;
+		$buyer_email     = $body['buyer_email'] ?? null;
+		$supported_until = $body['supported_until'] ?? null;
+
+		$license = $this->licenseService->createManualLicense(
+			$product,
+			$license_type,
+			$buyer_username,
+			$buyer_email,
+			$supported_until
+		);
+
+		return $this->json($response, [
+			'status'          => 'created',
+			'id'              => $license['id'],
+			'purchase_code'   => $license['purchase_code'],
+			'source'          => $license['source'],
+			'license_type'    => $license['license_type'],
+			'supported_until' => $license['supported_until'],
+		], 201);
+	}
+
+	/**
+	 * GET /api/v1/admin/licenses/{id} — Full license detail with uncensored code.
+	 */
+	public function getLicense(Request $request, Response $response, array $args): Response {
+		$id = (int) ($args['id'] ?? 0);
+
+		$stmt = $this->pdo->prepare("
+			SELECT l.*, p.slug as product, p.name as product_name
+			FROM licenses l
+			JOIN products p ON l.product_id = p.id
+			WHERE l.id = :id
+		");
+		$stmt->execute(['id' => $id]);
+		$license = $stmt->fetch();
+
+		if (!$license) {
+			return $this->json($response, ['error' => 'License not found.'], 404);
+		}
+
+		// Get activations for this license.
+		$act_stmt = $this->pdo->prepare("
+			SELECT id, domain, ip_address, wp_version, theme_version, php_version,
+			       is_local, is_active, activated_at, last_verified_at, deactivated_at
+			FROM activations
+			WHERE license_id = :lid
+			ORDER BY activated_at DESC
+		");
+		$act_stmt->execute(['lid' => $license['id']]);
+		$license['activations'] = $act_stmt->fetchAll();
+
+		return $this->json($response, ['license' => $license]);
 	}
 
 	/**
@@ -169,6 +253,10 @@ class AdminController {
 		// Downloads last 30 days.
 		$stmt = $this->pdo->query("SELECT COUNT(*) FROM download_logs WHERE downloaded_at >= DATE_SUB(NOW(), INTERVAL 30 DAY)");
 		$stats['downloads_30d'] = (int) $stmt->fetchColumn();
+
+		// Licenses by source.
+		$stmt = $this->pdo->query("SELECT source, COUNT(*) as count FROM licenses GROUP BY source");
+		$stats['licenses_by_source'] = $stmt->fetchAll();
 
 		// Per-product breakdown.
 		$stmt = $this->pdo->query("

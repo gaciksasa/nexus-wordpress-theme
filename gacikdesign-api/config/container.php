@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use GacikDesign\Api\Services\EnvatoApiService;
+use GacikDesign\Api\Services\LicenseKeyGenerator;
 use GacikDesign\Api\Services\LicenseService;
 use GacikDesign\Api\Services\DomainNormalizer;
 use GacikDesign\Api\Services\SignatureService;
@@ -26,7 +27,15 @@ return [
 	},
 
 	EnvatoApiService::class => function () {
-		return new EnvatoApiService($_ENV['ENVATO_PERSONAL_TOKEN']);
+		$token = $_ENV['ENVATO_PERSONAL_TOKEN'] ?? '';
+		if ($token === '') {
+			return null;
+		}
+		return new EnvatoApiService($token);
+	},
+
+	LicenseKeyGenerator::class => function () {
+		return new LicenseKeyGenerator();
 	},
 
 	DomainNormalizer::class => function () {
@@ -41,6 +50,7 @@ return [
 		return new LicenseService(
 			$container->get(PDO::class),
 			$container->get(EnvatoApiService::class),
+			$container->get(LicenseKeyGenerator::class),
 			$container->get(DomainNormalizer::class),
 			$container->get(SignatureService::class),
 			$container->get(LoggerInterface::class)
